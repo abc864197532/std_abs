@@ -1,5 +1,4 @@
 int sa[N], tmp[2][N], c[N], rk[N], lcp[N];
-
 void buildSA(string s) {
     int *x = tmp[0], *y = tmp[1], m = 256, n = s.length();
     for (int i = 0; i < m; ++i) c[i] = 0;
@@ -24,7 +23,6 @@ void buildSA(string s) {
         swap(x, y), m = p + 1;
     }
 }
-
 void buildLCP(string s) {
     // lcp[i] = LCP(sa[i - 1], sa[i])
     // lcp(i, j) = min(lcp[rk[i] + 1], lcp[rk[i] + 2], ..., lcp[rk[j]])
