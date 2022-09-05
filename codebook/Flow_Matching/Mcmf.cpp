@@ -1,52 +1,68 @@
 struct MCMF {
     const int INF = 1 << 30;
-    struct Edge {
-        int v, id, revid, f, c;
-        Edge (int _v, int _f, int _c, int _id, int _revid) : v(_v), f(_f), c(_c), id(_id), revid(_revid) {}
+    struct edge {
+        int v, f, c;
+        edge (int _v, int _f, int _c) : v(_v), f(_f), c(_c) {}
     };
-    vector <vector <Edge>> adj;
-    vector <pair <int, int>> rt;
-    vector <int> dis;
+    vector <edge> E;
+    vector <vector <int>> adj;
+    vector <int> dis, pot, rt;
     int n, s, t;
-    MCMF () = default;
     MCMF (int _n, int _s, int _t) : n(_n), s(_s), t(_t) {
         adj.resize(n);
     }
     void add_edge(int u, int v, int f, int c) {
-        adj[u].push_back(Edge(v, f, c, adj[u].size(), adj[v].size()));
-        adj[v].push_back(Edge(u, 0, -c, adj[v].size(), adj[u].size() - 1));
+        adj[u].pb(E.size()), E.pb(edge(v, f, c));
+        adj[v].pb(E.size()), E.pb(edge(u, 0, -c));
     }
     bool SPFA() {
-        rt.assign(n, make_pair(-1, -1));
-        dis.assign(n, INF);
+        rt.assign(n, -1), dis.assign(n, INF);
         vector <bool> vis(n, false);
         queue <int> q;
         q.push(s), dis[s] = 0, vis[s] = true;
         while (!q.empty()) {
             int v = q.front(); q.pop();
             vis[v] = false;
-            for (Edge &e : adj[v]) if (e.f > 0 && dis[e.v] > dis[v] + e.c) {
-                dis[e.v] = dis[v] + e.c, rt[e.v] = make_pair(v, e.id);
-                if (!vis[e.v]) vis[e.v] = true, q.push(e.v);
+            for (int id : adj[v]) if (E[id].f > 0 && dis[E[id].v] > dis[v] + E[id].c + pot[v] - pot[E[id].v]) {
+                dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
+                if (!vis[E[id].v]) vis[E[id].v] = true, q.push(E[id].v);
             }
         }
         return dis[t] != INF;
     }
-    pair <int, int> runFlow() { // cost, flow
-        int cost = 0, flow = 0;
-        while (SPFA()) {
-            vector <pair <int, int>> E;
-            int v = t, addflow = INF;
-            while (v != s) {
-                addflow = min(addflow, adj[rt[v].first][rt[v].second].f);
-                E.push_back(rt[v]), v = rt[v].first;
+    bool dijkstra() {
+        rt.assign(n, -1), dis.assign(n, INF);
+        priority_queue <pair <int, int>, vector <pair <int, int>>, greater <pair <int, int>>> pq;
+        dis[s] = 0, pq.emplace(dis[s], s);
+        while (!pq.empty()) {
+            int d, v; tie(d, v) = pq.top(); pq.pop();
+            if (dis[v] < d) continue;
+            for (int id : adj[v]) if (E[id].f > 0 && dis[E[id].v] > dis[v] + E[id].c + pot[v] - pot[E[id].v]) {
+                dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
+                pq.emplace(dis[E[id].v], E[id].v);
             }
-            for (pair <int, int> a : E) {
-                adj[a.first][a.second].f -= addflow;
-                adj[adj[a.first][a.second].v][adj[a.first][a.second].revid].f += addflow;
-            }
-            flow += addflow, cost += addflow * dis[t];
         }
-        return make_pair(cost, flow);
+        return dis[t] != INF;
+    }
+    pair <int, int> runFlow() {
+        pot.assign(n, 0);
+        int cost = 0, flow = 0;
+        bool fr = true;
+        while ((fr ? SPFA() : dijkstra())) {
+            for (int i = 0; i < n; i++) {
+                dis[i] += pot[i] - pot[s];
+            }
+            int add = INF;
+            for (int i = t; i != s; i = E[rt[i] ^ 1].v) {
+                add = min(add, E[rt[i]].f);
+            }
+            for (int i = t; i != s; i = E[rt[i] ^ 1].v) {
+                E[rt[i]].f -= add, E[rt[i] ^ 1].f += add;
+            }
+            flow += add, cost += add * dis[t];
+            fr = false;
+            swap(dis, pot);
+        }
+        return make_pair(flow, cost);
     }
 };
