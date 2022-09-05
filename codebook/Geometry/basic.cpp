@@ -4,7 +4,7 @@ struct Pt {
 	Pt operator + (Pt o) {return Pt(x + o.x, y + o.y);}
 	Pt operator - (Pt o) {return Pt(x - o.x, y - o.y);}
 	Pt operator * (int k) {return Pt(x * k, y * k);}
-	Pt operator - (int k) {return Pt (x / k, y / k);}
+	Pt operator / (int k) {return Pt (x / k, y / k);}
 	int operator * (Pt o) {return x * o.x + y * o.y;}
 	int operator ^ (Pt o) {return x * o.y - y * o.x;}
 	double abs() {return hypot(x, y);}
