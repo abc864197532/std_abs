@@ -38,7 +38,7 @@ struct Dinic {
         if (!ans) level[v] = -1;
         return ans;
     }
-    int runFlow() {
+    int solve() {
         int ans = 0;
         while (bfs()) ans += dfs(s, INF);
         return ans;

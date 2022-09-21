@@ -1,4 +1,4 @@
-struct WeightGraph { // 1-index
+struct WeightGraph { // 1-based
   static const int inf = INT_MAX;
   static const int maxn = 514;
   struct edge {

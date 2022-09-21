@@ -1,4 +1,4 @@
-struct Matching { // 0-index
+struct Matching { // 0-based
     int fa[N], pre[N], match[N], s[N], v[N], n, tk;
     vector <int> g[N];
     queue <int> q;

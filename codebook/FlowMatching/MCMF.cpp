@@ -47,7 +47,7 @@ struct MCMF {
         }
         return dis[t] != INF;
     }
-    pair <T, T> runFlow() {
+    pair <T, T> solve() {
         pot.assign(n, 0);
         T cost = 0, flow = 0;
         bool fr = true;

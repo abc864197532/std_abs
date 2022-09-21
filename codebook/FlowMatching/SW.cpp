@@ -1,16 +1,17 @@
-struct SW {
-    int g[N][N], sum[N], n;
+template <typename T>
+struct SW { // 0-based
+    T g[N][N], sum[N]; int n;
     bool vis[N], dead[N];
     void init(int _n) {
         n = _n;
         for (int i = 0; i < n; ++i) fill(g[i], g[i] + n, 0);
         fill(dead, dead + n, false);
     }
-    void add_edge(int u, int v, int w) {
+    void add_edge(int u, int v, T w) {
         g[u][v] += w, g[v][u] += w;
     }
-    int run() {
-        int ans = 1 << 30;
+    T solve() {
+        T ans = 1 << 30;
         for (int round = 0; round + 1 < n; ++round) {
             fill(vis, vis + n, false), fill(sum, sum + n, 0);
             int num = 0, s = -1, t = -1;
