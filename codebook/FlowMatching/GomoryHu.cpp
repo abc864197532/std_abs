@@ -1,5 +1,6 @@
 vector <array <int, 3>> GomoryHu(vector <vector <pii>> adj, int n) {
-    Dinic flow(n); // 0-based
+    // Tree edge min -> mincut (0-based)
+    Dinic flow(n);
     for (int i = 0; i < n; ++i) for (auto [j, w] : adj[i])
         flow.add_edge(i, j, w);
     flow.record();
