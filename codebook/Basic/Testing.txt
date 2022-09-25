@@ -1,0 +1,5 @@
+0. choose editor
+1. shell script
+2. __int128, __lg, __builtin_popcount
+3. judge speed v.s.local speed
+4. CE penalty?

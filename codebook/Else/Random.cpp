@@ -11,3 +11,4 @@ struct custom_hash {
     }
 };
 unordered_map <int, int, custom_hash> m1;
+random_device rd; mt19937 rng(rd());
