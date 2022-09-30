@@ -2,6 +2,8 @@
 
 Codebook of NTU ACM ICPC team [std_abs](https://codeforces.com/team/108680)
 
+Current [Codebook](https://github.com/abc864197532/std_abs/blob/main/codebook/codebook.pdf)
+
 # Practice Result
 
 | Contest | Date | Solve/Total | Penalty | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
