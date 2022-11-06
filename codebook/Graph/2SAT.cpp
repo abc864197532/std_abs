@@ -3,10 +3,10 @@ struct SAT {
   vector<int> dep, low, scc_id;
   vector<bool> is;
   vector<int> stk;
-  int n, _id;
+  int n, _id, _t;
   SAT() {}
   void init(int _n) {
-    n = _n, _id = 0;
+    n = _n, _id = _t = 0;
     g.assign(2 * n, vector<int>());
     dep.assign(2 * n, -1), low.assign(2 * n, -1);
     scc_id.assign(2 * n, -1), is.assign(2 * n, false);
@@ -19,13 +19,13 @@ struct SAT {
     add_edge(rev(x), y);
     add_edge(rev(y), x);
   }
-  void dfs(int i, int p) {
-    dep[i] = low[i] = ~p ? dep[p] + 1 : 0;
+  void dfs(int i) {
+    dep[i] = low[i] = _t++;
     stk.push_back(i);
     for (int j : g[i])
-      if (j != p && scc_id[j] == -1) {
+      if (scc_id[j] == -1) {
         if (dep[j] == -1)
-          dfs(j, i);
+          dfs(j);
         low[i] = min(low[i], low[j]);
       }
     if (low[i] == dep[i]) {
@@ -42,7 +42,7 @@ struct SAT {
   bool solve() {
     for (int i = 0; i < 2 * n; ++i)
       if (dep[i] == -1)
-        dfs(i, -1);
+        dfs(i);
     for (int i = 0; i < n; ++i) {
       if (scc_id[i] == scc_id[i + n]) return false;
       if (scc_id[i] < scc_id[i + n])

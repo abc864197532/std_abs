@@ -17,7 +17,7 @@ void dfs_dis(int i, int p, int d) { // from i to ancestor with depth d
     dfs_dis(j, i, d);
 }
 void cd(int i, int p, int d) {
-  dfs_sz(i), i = cen(i);
+  dfs_sz(i), i = cen(i, -1, sz[i]);
   vis[i] = true, pa[i] = p;
   dfs_dis(i, -1, d);
   for (int j : g[i]) if (!vis[j])
