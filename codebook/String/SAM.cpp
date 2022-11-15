@@ -1,5 +1,6 @@
 struct SAM {
   int ch[N][26], len[N], link[N], cnt[N], sz;
+  // link -> suffix endpos
   SAM () {len[0] = 0, link[0] = -1, sz = 1;}
   void build(string s) {
     int last = 0;

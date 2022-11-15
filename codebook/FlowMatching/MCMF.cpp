@@ -7,7 +7,7 @@ struct MCMF {
     edge (int _v, T _f, T _c) : v(_v), f(_f), c(_c) {}
   };
   vector <edge> E;
-  vector <vector <int>> adja;
+  vector <vector <int>> adj;
   vector <T> dis, pot;
   vector <int> rt;
   int n, s, t;

@@ -3,7 +3,7 @@ struct NTT {
   ll w[N];
   ll mpow(ll a, ll n);
   NTT() {
-    ll dw = mpow(G, (mod - 1) / N);
+    ll dw = modpow(G, (mod - 1) / N);
     w[0] = 1;
     for (int i = 1; i < N; ++i) w[i] = w[i - 1] * dw % mod;
   }
