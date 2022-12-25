@@ -5,7 +5,7 @@ struct Simplex { // 0-based
   int n, m;
   int Left[M], Down[N];
   // Ax <= b, max c^T x
-  // result : v, xi = sol[i]. 1 based
+  // result : v, xi = sol[i]
   T a[M][N], b[M], c[N], v, sol[N];
   bool eq(T a, T b) {return fabs(a - b) < eps;}
   bool ls(T a, T b) {return a < b && !eq(a, b);}

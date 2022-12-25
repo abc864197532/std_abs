@@ -41,13 +41,10 @@ ll FindFactor(ll n) {
     }
   }
 }
-map<ll, int> PollardRho(ll n) {
-  map<ll, int> res;
-  if (n == 1) return res;
-  if (IsPrime(n)) return ++res[n], res;
+map <ll, int> res;
+void PollardRho(ll n) {
+  if (n == 1) return;
+  if (IsPrime(n)) return ++res[n], void(0);
   ll d = FindFactor(n);
-  res = PollardRho(n / d);
-  auto res2 = PollardRho(d);
-  for (auto [x, y] : res2) res[x] += y;
-  return res;
+  PollardRho(n / d), PollardRho(d);
 }
