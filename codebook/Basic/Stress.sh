@@ -16,7 +16,7 @@ for i in {1..100} ; do
   cat output1.txt
   echo Correct Output:
   cat output2.txt
-  break
+  exit 1
 done
 echo OK!
 ./stress.sh main good gen
