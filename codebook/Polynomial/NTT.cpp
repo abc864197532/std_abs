@@ -1,4 +1,4 @@
-const int N = 1 << 18, mod = 998244353, G = 3;
+// mul, add, sub, mpow
 struct NTT {
   ll w[N];
   NTT() {
@@ -6,15 +6,12 @@ struct NTT {
     w[0] = 1;
     for (int i = 1; i < N; ++i) w[i] = w[i - 1] * dw % mod;
   }
-  void bitrev(vector<ll>& a, int n) {
-    int i = 0;
+  void operator()(vector<ll>& a, bool inv = false) { //0 <= a[i] < P
+    int x = 0, n = a.size();
     for (int j = 1; j < n - 1; ++j) {
-      for (int k = n >> 1; (i ^= k) < k; k >>= 1);
-      if (j < i) swap(a[i], a[j]);
+      for (int k = n >> 1; (x ^= k) < k; k >>= 1);
+      if (j < x) swap(a[x], a[j]);
     }
-  }
-  void operator()(vector<ll>& a, int n, bool inv = false) { //0 <= a[i] < P
-    bitrev(a, n);
     for (int L = 2; L <= n; L <<= 1) {
       int dx = N / L, dl = L >> 1;
       for (int i = 0; i < n; i += L) {
@@ -31,14 +28,4 @@ struct NTT {
       for (int i = 0; i < n; ++i) a[i] = mul(a[i], invn);
     }
   }
-};
-vector<ll> mul(vector<ll> a, vector<ll> b, int M = N / 2){
-  int m = a.size() + b.size() - 1, n = 1;
-  while(n < m) n <<= 1;
-  a.resize(n), b.resize(n);
-  ntt(a, n), ntt(b, n);
-  for(int i = 0; i < n; ++i) a[i] = mul(a[i], b[i]);
-  ntt(a, n, 1);
-  a.resize(min(m, M));
-  return a;
-}
+} ntt;
