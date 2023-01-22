@@ -3,9 +3,10 @@ vector <ll> Mul(vector <ll> a, vector <ll> b, int bound = N) {
   while (n < m) n <<= 1;
   a.resize(n), b.resize(n);
   ntt(a), ntt(b);
-  for (int i = 0; i < n; ++i) a[i] = mul(a[i], b[i]);
-  ntt(a, true), a.resize(min(m, bound));
-  return a;
+  vector <ll> out(n);
+  for (int i = 0; i < n; ++i) out[i] = mul(a[i], b[i]);
+  ntt(out, true), out.resize(min(m, bound));
+  return out;
 }
 vector <ll> Inverse(vector <ll> a) {
   // O(NlogN), a[0] != 0
@@ -18,10 +19,9 @@ vector <ll> Inverse(vector <ll> a) {
     ntt(v1), ntt(v2);
     for (int i = 0; i < m * 4; ++i) v1[i] = mul(mul(v1[i], v2[i]), v2[i]);
     ntt(v1, true);
-    vector <ll> nres(m * 2);
-    for (int i = 0; i < m; ++i) nres[i] = add(res[i], res[i]);
-    for (int i = 0; i < m * 2; ++i) nres[i] = sub(nres[i], v1[i]);
-    res = nres;
+    res.resize(m * 2);
+    for (int i = 0; i < m; ++i) res[i] = add(res[i], res[i]);
+    for (int i = 0; i < m * 2; ++i) res[i] = sub(res[i], v1[i]);
   }
   res.resize(n);
   return res;
@@ -29,15 +29,13 @@ vector <ll> Inverse(vector <ll> a) {
 pair <vector <ll>, vector <ll>> Divide(vector <ll> a, vector <ll> b) {
   // a = bQ + R, O(NlogN), b.back() != 0
   int n = a.size(), m = b.size(), k = n - m + 1;
-  if (n < m) {
-    a.resize(m - 1);
-    return {{0}, a};
-  }
-  vector <ll> tmp = b;
-  reverse(all(a)), reverse(all(b)), b.resize(k);
-  vector <ll> Q = Mul(a, Inverse(b));
-  Q.resize(k), reverse(all(Q)), reverse(all(a));
-  vector <ll> res = Mul(tmp, Q), R(m - 1);
+  if (n < m) return {{0}, a};
+  vector <ll> ra = a, rb = b;
+  reverse(all(ra)), ra.resize(k);
+  reverse(all(rb)), rb.resize(k);
+  vector <ll> Q = Mul(ra, Inverse(rb), k);
+  reverse(all(Q));
+  vector <ll> res = Mul(b, Q), R(m - 1);
   for (int i = 0; i < m - 1; ++i) R[i] = sub(a[i], res[i]);
   return {Q, R};
 }
@@ -46,19 +44,14 @@ vector <ll> SqrtImpl(vector <ll> a) {
   int z = QuadraticResidue(a[0], mod), n = a.size();
   if (z == -1) return {-1};
   vector <ll> q(1, z);
+  const int inv2 = (mod + 1) / 2;
   for (int m = 1; m < n; m <<= 1) {
     if (n < m * 2) a.resize(m * 2);
-    vector <ll> fq(all(q));
-    fq.resize(m * 2);
-    vector <ll> f2 = Mul(fq, fq, m * 2);
-    for (int i = 0; i < m * 2; ++i) {
-      f2[i] = sub(f2[i], a[i]);
-    }
-    f2 = Mul(f2, Inverse(fq), m * 2);
-    for (int i = 0; i < m * 2; ++i) {
-      fq[i] = sub(fq[i], mul(f2[i], (mod + 1) / 2));
-    }
-    q = fq;
+    q.resize(m * 2);
+    vector <ll> f2 = Mul(q, q, m * 2);
+    for (int i = 0; i < m * 2; ++i) f2[i] = sub(f2[i], a[i]);
+    f2 = Mul(f2, Inverse(q), m * 2);
+    for (int i = 0; i < m * 2; ++i) q[i] = sub(q[i], mul(f2[i], inv2));
   }
   q.resize(n);
   return q;
@@ -114,25 +107,37 @@ vector <ll> Exp(vector <ll> a) {
   q.resize(n);
   return q;
 }
-ll FastLinearRecursion(vector <ll> a, vector <ll> c, ll k) {
-  // a_n = sigma c_j * a_{n - j - 1}
-  // O(NlogNlogK), |a| = |c|, 0-based
-  int n = a.size();
-  if (k < n) return a[k];
-  vector <ll> base(n + 1, 1);
-  for (int i = 0; i < n; ++i) base[i] = sub(0, c[i]);
-  vector <ll> poly(n);
-  (n == 1 ? poly[0] = c[0] : poly[1] = 1);
-  auto calc = [&](vector <ll> p1, vector <ll> p2) {
-    return Divide(Mul(p1, p2), base).second;
-  };
-  vector <ll> res(n, 0); res[0] = 1;
-  for (; k; k >>= 1, poly = calc(poly, poly)) {
-    if (k & 1) res = calc(res, poly);
-  }
-  ll ans = 0;
+vector <ll> Evaluate(vector <ll> a, vector <ll> x) {
+  if (x.empty()) return {};
+  int n = x.size();
+  vector <vector <ll>> up(n * 2);
+  for (int i = 0; i < n; ++i) up[i + n] = {sub(0, x[i]), 1};
+  for (int i = n - 1; i > 0; --i) up[i] = Mul(up[i * 2], up[i * 2 + 1]);
+  vector <vector <ll>> down(n * 2);
+  down[1] = Divide(a, up[1]).second;
+  for (int i = 2; i < n * 2; ++i) down[i] = Divide(down[i >> 1], up[i]).second;
+  vector <ll> y(n);
+  for (int i = 0; i < n; ++i) y[i] = down[i + n][0];
+  return y;
+}
+vector <ll> Interpolate(vector <ll> x, vector <ll> y) {
+  int n = x.size();
+  vector <vector <ll>> up(n * 2);
+  for (int i = 0; i < n; ++i) up[i + n] = {sub(0, x[i]), 1};
+  for (int i = n - 1; i > 0; --i) up[i] = Mul(up[i * 2], up[i * 2 + 1]);
+  vector <ll> a = Evaluate(Derivative(up[1]), x);
   for (int i = 0; i < n; ++i) {
-    (ans += res[i] * a[i]) %= mod;
+    a[i] = mul(y[i], mpow(a[i], mod - 2));
   }
-  return ans;
+  vector <vector <ll>> down(n * 2);
+  for (int i = 0; i < n; ++i) down[i + n] = {a[i]};
+  for (int i = n - 1; i > 0; --i) {
+    vector <ll> lhs = Mul(down[i * 2], up[i * 2 + 1]);
+    vector <ll> rhs = Mul(down[i * 2 + 1], up[i * 2]);
+    down[i].resize(lhs.size());
+    for (int j = 0; j < lhs.size(); ++j) {
+      down[i][j] = add(lhs[j], rhs[j]);
+    }
+  }
+  return down[1];
 }

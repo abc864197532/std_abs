@@ -1,4 +1,5 @@
 // mul, add, sub, mpow
+// ll -> int if too slow
 struct NTT {
   ll w[N];
   NTT() {
