@@ -107,6 +107,22 @@ vector <ll> Exp(vector <ll> a) {
   q.resize(n);
   return q;
 }
+vector <ll> Pow(vector <ll> a, ll k) {
+  int n = a.size(), m = 0;
+  vector <ll> ans(n, 0);
+  while (m < n && a[m] == 0) m++;
+  if (k && m && (k >= n || k * m >= n)) return ans;
+  if (m == n) return ans[0] = 1, ans;
+  ll lead = m * k;
+  vector <ll> b(a.begin() + m, a.end());
+  ll base = mpow(b[0], k), inv = mpow(b[0], mod - 2);
+  for (int i = 0; i < n - m; ++i) b[i] = mul(b[i], inv);
+  b = Ln(b);
+  for (int i = 0; i < n - m; ++i) b[i] = mul(b[i], k % mod);
+  b = Exp(b);
+  for (int i = lead; i < n; ++i) ans[i] = mul(b[i - lead], base);
+  return ans;
+}
 vector <ll> Evaluate(vector <ll> a, vector <ll> x) {
   if (x.empty()) return {};
   int n = x.size();
