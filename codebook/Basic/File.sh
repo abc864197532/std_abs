@@ -1,4 +1,1 @@
-for i in {A..M}
-do
-  cp tem.cpp "$i".cpp
-done
+for i in {A..J}; do cp tem.cpp $i.cpp; done;
