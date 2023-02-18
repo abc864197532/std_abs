@@ -59,8 +59,8 @@ void insert(node *&o, int k) {
   o = merge(a, merge(new node(k), b));
 }
 void interval(node *&o, int l, int r) {
-  node *a, *b, *c;
-  split2(o, a, b, l - 1), split2(b, b, c, r);
+  node *a, *b, *c; // [l, r)
+  split2(o, a, b, l), split2(b, b, c, r - l);
   // operate
   o = merge(a, merge(b, c));
 }
