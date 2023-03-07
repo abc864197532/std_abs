@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 g++ $1.cpp -o $1
 g++ $2.cpp -o $2
 g++ $3.cpp -o $3

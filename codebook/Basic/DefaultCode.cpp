@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
+typedef long long ll;
 #define pb push_back
-#define all(x) x.begin(), x.end()
 #define pii pair<int, int>
-#define pi pii
+#define all(a) a.begin(), a.end()
+#define sz(a) ((int)a.size())

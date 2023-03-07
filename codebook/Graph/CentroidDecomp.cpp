@@ -1,4 +1,4 @@
-vector<vector<int>> dis;
+vector<vector<int>> dis; // dis[n][logn]
 vector<int> pa, sz, dep;
 vector<bool> vis;
 void dfs_sz(int i, int p) {
@@ -17,7 +17,7 @@ void dfs_dis(int i, int p, int d) { // from i to ancestor with depth d
     dfs_dis(j, i, d);
 }
 void cd(int i, int p, int d) {
-  dfs_sz(i), i = cen(i, -1, sz[i]);
+  dfs_sz(i, -1), i = cen(i, -1, sz[i]);
   vis[i] = true, pa[i] = p, dep[i] = d;
   dfs_dis(i, -1, d);
   for (int j : g[i]) if (!vis[j])
