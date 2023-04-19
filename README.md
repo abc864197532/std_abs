@@ -18,7 +18,7 @@ Current [Codebook](https://github.com/abc864197532/std_abs/blob/main/codebook/co
 (Rankings are calculated based on the performance of onsite contestants)
 
 | Contest | Date | Rank | Solve/Total | Penalty | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
-| - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
+| - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
 | [2021 Jiangsu CPC](https://codeforces.com/gym/103495) | 2022/08/20 | 1 | 11/12 | 1474 | 0/5 | 1/87 | 1/27 | 3/146 | 2/- | 0/229 | 0/281 | 2/218	| 0/14 | 0/50 | 0/33 | 2/204 |  |  |  |
 | [NEERC 2013](https://codeforces.com/gym/100257) | 2022/08/27 | 1 | 9/12 | 1231 | 1/58 | 3/56 | 4/135 | -/- | -/- | 1/77 | 1/230 | 1/8 | 2/21 | -/- | 1/51 | 11/275 |  |  |  |
 | [CCPC 2021 Finals](https://codeforces.com/gym/103860) | 2022/08/28 | 10 | 8/12 | 1000 | 1/12 | -/- | 1/54 | 2/- | 2/152 | 1/5 | 1/82 | -/- | -/- | 9/258 | 1/189 | 2/48 |  |  |  |
