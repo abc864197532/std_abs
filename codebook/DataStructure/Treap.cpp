@@ -55,12 +55,14 @@ bool erase(node *&o, int k) {
 }
 void insert(node *&o, int k) {
   node *a, *b;
-  split(o, a, b, k),
+  o->down(), split(o, a, b, k),
   o = merge(a, merge(new node(k), b));
+  o->up();
 }
 void interval(node *&o, int l, int r) {
   node *a, *b, *c; // [l, r)
+  o->down();
   split2(o, a, b, l), split2(b, b, c, r - l);
   // operate
-  o = merge(a, merge(b, c));
+  o = merge(a, merge(b, c)), o->up();
 }
