@@ -18,20 +18,20 @@ template <typename T> struct DMST { // 1-based
     while (true) {
       for (int i = 1; i <= n; ++i) fw[i] = inf, fr[i] = i;
       for (int i = 1; i <= n; ++i) if (!inc[i]) {
-          for (int j = 1; j <= n; ++j) {
-            if (!inc[j] && i != j && g[j][i] < fw[i]) {
-              fw[i] = g[j][i];
-              fr[i] = j;
-            }
+        for (int j = 1; j <= n; ++j) {
+          if (!inc[j] && i != j && g[j][i] < fw[i]) {
+            fw[i] = g[j][i];
+            fr[i] = j;
           }
         }
+      }
       int x = -1;
       for (int i = 1; i <= n; ++i) if (i != root && !inc[i]) {
-          int j = i, c = 0;
-          while (j != root && fr[j] != i && c <= n) ++c, j = fr[j];
-          if (j == root || c > n) continue;
-          else { x = i; break; }
-        }
+        int j = i, c = 0;
+        while (j != root && fr[j] != i && c <= n) ++c, j = fr[j];
+        if (j == root || c > n) continue;
+        else { x = i; break; }
+      }
       if (!~x) {
         for (int i = 1; i <= n; ++i) if (i != root && !inc[i]) ans += fw[i];
         return ans;
@@ -41,11 +41,11 @@ template <typename T> struct DMST { // 1-based
       do { ans += fw[y]; y = fr[y]; vis[y] = inc[y] = true; } while (y != x);
       inc[x] = false;
       for (int k = 1; k <= n; ++k) if (vis[k]) {
-          for (int j = 1; j <= n; ++j) if (!vis[j]) {
-              if (g[x][j] > g[k][j]) g[x][j] = g[k][j];
-              if (g[j][k] < inf && g[j][k] - fw[k] < g[j][x]) g[j][x] = g[j][k] - fw[k];
-            }
-        }
+        for (int j = 1; j <= n; ++j) if (!vis[j]) {
+            if (g[x][j] > g[k][j]) g[x][j] = g[k][j];
+            if (g[j][k] < inf && g[j][k] - fw[k] < g[j][x]) g[j][x] = g[j][k] - fw[k];
+          }
+      }
     }
     return ans;
   }

@@ -17,22 +17,22 @@ struct AC {
   void build_fail() {
     queue <int> q;
     for (int i = 0; i < 26; ++i) if (ch[0][i]) {
-        q.push(ch[0][i]);
-        g[0].push_back(ch[0][i]);
-      }
+      q.push(ch[0][i]);
+      g[0].push_back(ch[0][i]);
+    }
     while (!q.empty()) {
       int v = q.front(); q.pop();
       for (int j = 0; j < 26; ++j) {
         to[v][j] = ch[v][j] ? v : to[fail[v]][j];
       }
       for (int i = 0; i < 26; ++i) if (ch[v][i]) {
-          int u = ch[v][i], k = fail[v];
-          while (k && !ch[k][i]) k = fail[k];
-          if (ch[k][i]) k = ch[k][i];
-          fail[u] = k;
-          cnt[u] += cnt[k], g[k].push_back(u);
-          q.push(u);
-        }
+        int u = ch[v][i], k = fail[v];
+        while (k && !ch[k][i]) k = fail[k];
+        if (ch[k][i]) k = ch[k][i];
+        fail[u] = k;
+        cnt[u] += cnt[k], g[k].push_back(u);
+        q.push(u);
+      }
     }
   }
   int match(string &s) {
