@@ -1,6 +1,5 @@
 template <typename T1, typename T2>
-struct MCMF {
-  // T1 -> flow, T2 -> cost
+struct MCMF { // T1 -> flow, T2 -> cost, 0-based
   const T1 INF1 = 1 << 30;
   const T2 INF2 = 1 << 30;
   struct edge {
