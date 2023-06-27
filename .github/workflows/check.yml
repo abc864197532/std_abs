@@ -25,6 +25,7 @@ jobs:
       - name: Commit
         run: |
           apt install git -y
+          ls -l
           git config user.name abc864197532
           git config user.email kimi930130@gmail.com
           git add .
