@@ -23,7 +23,9 @@ jobs:
       - name: Copy PDF
         run: cp /root/codebook.pdf .
       - name: Set safe directory
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+        run: |
+          sudo apt install git -y
+          git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
