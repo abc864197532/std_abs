@@ -8,11 +8,13 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Install git
+        run: |
+          apt install git -y
       - name: Checkout
         uses: actions/checkout@v3
       - name: Compile
         run: |
-          ls -la
           cd codebook
           xelatex codebook.tex
           xelatex codebook.tex
@@ -23,12 +25,12 @@ jobs:
           ref: build
       - name: Copy PDF
         run: cp /root/codebook.pdf codebook.pdf
-      - name: Commit
+      - name: Set safe directory
         run: |
-          apt install git -y
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           ls -la
-          git config user.name abc864197532
-          git config user.email kimi930130@gmail.com
-          git add .
-          git commit -m "test"
-          git push
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: build from ${{ github.ref_name }} - ${{ github.sha }}
+          file_pattern: codebook.pdf
