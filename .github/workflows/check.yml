@@ -21,7 +21,7 @@ jobs:
         with:
           ref: build
       - name: Copy PDF
-        run: cp /root/codebook.pdf .
+        run: cp /root/codebook.pdf codebook.pdf
       - name: Set safe directory
         run: |
           apt install git -y
