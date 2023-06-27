@@ -2,5 +2,8 @@ codebook.aux
 codebook.txt
 codebook.toc
 codebook.log
+codebook.fls
+codebook.xdv
+codebook.fdb_latexmk
 todo.txt
 water.cpp
