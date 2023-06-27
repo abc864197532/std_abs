@@ -13,14 +13,20 @@ jobs:
       - name: Compile
         run: |
           cd codebook
-          texfot latexmk -xelatex codebook/codebook.tex
+          texfot latexmk -xelatex codebook.tex
           cp codebook.pdf /root/codebook.pdf
+          cd ..
+      - name: Check PDF Page
+        run: |
+          chmod +x scripts/check_pdf_page.sh
+          ./scripts/check_pdf_page.sh
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: build
       - name: Copy PDF
-        run: cp /root/codebook.pdf codebook.pdf
+        run: |
+          cp /root/codebook.pdf codebook.pdf
       - name: Set safe directory
         run: |
           git config --global --add safe.directory $GITHUB_WORKSPACE
