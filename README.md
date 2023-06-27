@@ -2,7 +2,7 @@
 
 Codebook of NTU ACM ICPC team [std_abs](https://codeforces.com/team/108680)
 
-Current [Codebook](https://github.com/abc864197532/std_abs/blob/main/codebook/codebook.pdf)
+Current [Codebook](https://github.com/abc864197532/std_abs/blob/build/codebook.pdf)
 
 # Contest Result
 
