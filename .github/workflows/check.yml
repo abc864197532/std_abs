@@ -4,20 +4,16 @@ on: [push]
 jobs:
   compile:
     runs-on: ubuntu-latest
-    container: ghcr.io/abc864197532/codebook:1
+    container: ghcr.io/abc864197532/codebook:latest
     permissions:
       contents: write
     steps:
-      - name: Install git
-        run: |
-          apt install git -y
       - name: Checkout
         uses: actions/checkout@v3
       - name: Compile
         run: |
           cd codebook
-          xelatex codebook.tex
-          xelatex codebook.tex
+          texfot latexmk -xelatex codebook.tex
           cp codebook.pdf /root/codebook.pdf
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,7 +24,6 @@ jobs:
       - name: Set safe directory
         run: |
           git config --global --add safe.directory $GITHUB_WORKSPACE
-          ls -la
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
