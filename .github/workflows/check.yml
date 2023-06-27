@@ -16,6 +16,7 @@ jobs:
           xelatex codebook.tex
           xelatex codebook.tex
           cp codebook.pdf /root/codebook.pdf
+          cd ..
       - name: Checkout
         uses: actions/checkout@v3
         with:

@@ -1,7 +1,0 @@
-0. choose editor
-1. shell script
-2. __int128, __lg, __builtin_popcount
-3. judge speed v.s.local speed
-3.1 bitset, +, ^, segment tree
-4. pragma CE?
-5. CE penalty?
