@@ -24,7 +24,7 @@ jobs:
         run: cp /root/codebook.pdf codebook.pdf
       - name: Commit
         run: |
-          apt install git
+          apt install git -y
           git config user.name abc864197532
           git config user.email kimi930130@gmail.com
           git add .
