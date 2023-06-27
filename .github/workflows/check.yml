@@ -13,7 +13,7 @@ jobs:
       - name: Compile
         run: |
           cd codebook
-          texfot latexmk -xelatex codebook.tex
+          texfot latexmk -xelatex codebook/codebook.tex
           cp codebook.pdf /root/codebook.pdf
       - name: Checkout
         uses: actions/checkout@v3
