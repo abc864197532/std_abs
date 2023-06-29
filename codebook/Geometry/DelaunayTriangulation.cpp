@@ -10,7 +10,7 @@ each points are u.p[(i+1)%3], u.p[(i+2)%3]
 Voronoi diagram: for each triangle in triangulation, 
 the bisector of all its edges will split the region.
 nearest point will belong to the triangle containing it
- */
+*/
 const ll inf = MAXC * MAXC * 100; // lower_bound unknown
 struct Tri;
 struct Edge {

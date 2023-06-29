@@ -8,6 +8,6 @@ typedef long long ll;
 const int mod = 998244353, N = 100000;
 
 int main() {
-	ios::sync_with_stdio(false), cin.tie(0);
-	
+    ios::sync_with_stdio(false), cin.tie(0);
+    
 }
