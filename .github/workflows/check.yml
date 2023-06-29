@@ -10,6 +10,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Check indentation
+        run: |
+          chmod +x scripts/check_indent.sh
+          ./scripts/check_pdf_indent.sh
       - name: Compile
         run: |
           cd codebook
