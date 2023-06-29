@@ -4,7 +4,6 @@ Pt LinesInter(Line a, Line b) {
   if (sign(abc - abd) == 0) return b.b;// no inter
   return (b.b * abc - b.a * abd) / (abc - abd);
 }
-
 vector<Pt> SegsInter(Line a, Line b) {
   if (btw(a.a, a.b, b.a)) return {b.a};
   if (btw(a.a, a.b, b.b)) return {b.b};

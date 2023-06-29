@@ -1,6 +1,5 @@
 #pragma GCC optimize("Ofast,inline,unroll-loops")
 #pragma GCC target("bmi,bmi2,lzcnt,popcnt,avx2")
-
 #include<unistd.h>
 char OB[65536]; int OP;
 inline char RC() {

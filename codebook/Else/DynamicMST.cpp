@@ -3,7 +3,6 @@ pair<int, int> qr[maxn];
 // qr[i].first = id of edge to be changed, qr[i].second = weight after operation
 // cnt[i] = number of operation on edge i
 // call solve(0, q - 1, v, 0), where v contains edges i such that cnt[i] == 0
-
 void contract(int l, int r, vector<int> v, vector<int> &x, vector<int> &y) {
   sort(v.begin(), v.end(), [&](int i, int j) {
       if (cost[i] == cost[j]) return i < j;
@@ -28,7 +27,6 @@ void contract(int l, int r, vector<int> v, vector<int> &x, vector<int> &y) {
   }
   djs.undo();
 }
-
 void solve(int l, int r, vector<int> v, long long c) {
   if (l == r) {
     cost[qr[l].first] = qr[l].second;
