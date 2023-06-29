@@ -9,6 +9,9 @@ f = open(filename, "r")
 for line in f:
     length = 0
     linenumber += 1
+    totlength = len(line)
+    if line[-1] == '\n':
+        totlength -= 1
     for i in range(len(line)):
         if line[i] == '\t':
             print("%s line %d: tab found!" % (filename, linenumber))
@@ -16,11 +19,11 @@ for line in f:
         if line[i] != ' ':
             break
         length += 1
-    if length == 0:
-        continue
-    if length == range(len(line)):
+    if length == totlength:
         print("%s line %d: empty line!" % (filename, linenumber))
         exitcode = 1
+    if length == 0:
+        continue
     if minlength == 0 or length < minlength:
         minlength = length
     if length % 2 == 1:
