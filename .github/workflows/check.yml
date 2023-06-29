@@ -13,7 +13,7 @@ jobs:
       - name: Check indentation
         run: |
           chmod +x scripts/check_indent.sh
-          ./scripts/check_pdf_indent.sh
+          ./scripts/check_indent.sh
       - name: Compile
         run: |
           cd codebook
