@@ -18,6 +18,9 @@ for line in f:
         length += 1
     if length == 0:
         continue
+    if length == range(len(line)):
+        print("%s line %d: empty line!" % (filename, linenumber))
+        exitcode = 1
     if minlength == 0 or length < minlength:
         minlength = length
     if length % 2 == 1:
