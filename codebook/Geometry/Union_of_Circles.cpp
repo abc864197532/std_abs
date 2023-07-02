@@ -5,7 +5,7 @@ vector<pair<double, double>> CoverSegment(Cir a, Cir b) {
   else if (d <= abs(a.r - b.r) + eps) {
     if (a.r < b.r) res.emplace_back(0, 2 * pi);
   } else if (d < abs(a.r + b.r) - eps) {
-    double o = acos((sqrt(a.r) + sqrt(d) - sqrt(b.r)) / (2 * a.r * d)), z = atan2((b.o - a.o).y, (b.o - a.o).x);
+    double o = acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d)), z = atan2((b.o - a.o).y, (b.o - a.o).x);
     if (z < 0) z += 2 * pi;
     double l = z - o, r = z + o;
     if (l < 0) l += 2 * pi;
