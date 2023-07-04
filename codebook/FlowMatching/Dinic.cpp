@@ -1,3 +1,4 @@
+const int INF = 1 << 30;
 struct Dinic { // 0-base
   struct edge {
     int to, cap, flow, rev;
