@@ -1,5 +1,10 @@
-const double eps = 1e-8, pi = acos(-1);
+const double eps = 1e-8, PI = acos(-1);
 int sign(double x) {return abs(x) <= eps ? 0 : (x > 0 ? 1 : -1);}
+double norm(double x) {
+  while (x < -eps) x += PI * 2;
+  while (x > PI * 2 + eps) x -= PI * 2;
+  return x;
+}
 struct Pt {
   double x, y;
   Pt (double _x, double _y) : x(_x), y(_y) {}
@@ -23,13 +28,15 @@ bool btw(Pt a, Pt b, Pt c) { // c on segment ab?
   return ori(a, b, c) == 0 && sign((c - a) * (c - b)) <= 0;
 }
 double area(Pt a, Pt b, Pt c) {return abs((a - b) ^ (a - c)) / 2;}
+double angle(Pt a, Pt b) {return norm(atan2(b.y - a.y, b.x - a.x));}
 Pt unit(Pt o) {return o / abs(o);}
 Pt rot(Pt a, double o) { // CCW
   double c = cos(o), s = sin(o);
   return Pt(c * a.x - s * a.y, s * a.x + c * a.y);
 }
+Pt perp(Pt a) {return Pt(-a.y, a.x);}
 Pt proj_vector(Pt a, Pt b, Pt c) { // vector ac proj to ab
-  return (b - a) * ((c - a) * (b - a)) / ((b - a) * (b - a));
+  return (b - a) * ((c - a) * (b - a)) / (abs2(b - a));
 }
 Pt proj_pt(Pt a, Pt b, Pt c) { // point c proj to ab
   return proj_vector(a, b, c) + a;

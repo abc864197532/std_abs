@@ -1,21 +1,20 @@
-vector<Line> tangent(Cir a, Cir b) {
-#define Pij \
-  Pt i = unit(b.o - a.o) * a.r, j = Pt(i.y, -i.x);\
-  z.push_back({a.o + i, a.o + i + j});
-#define deo(I,J) \
-  double d = abs(a.o - b.o), e = a.r I b.r, o = acos(e / d);\
-  Pt i = unit(b.o - a.o), j = rot(i, o), k = rot(i, -o);\
-  z.push_back({a.o + j * a.r, b.o J j * b.r});\
-  z.push_back({a.o + k * a.r, b.o J k * b.r});
-  if (a.r < b.r) swap(a, b);
-  vector<Line> z;
-  if (abs(a.o - b.o) + b.r < a.r) return z;
-  else if (sign(abs(a.o - b.o) + b.r - a.r) == 0) { Pij; } 
-  else {
-    deo(-,+); // inter
-    // outer
-    if (sign(d - a.r - b.r) == 0) { Pij; } 
-    else if (d > a.r + b.r) { deo(+,-); }
+vector <Line> tangent(Cir c1, Cir c2, int sign1) {
+  // sign1 = 1 for outer tang, -1 for inter tang
+  vector <Line> ret;
+  double d_sq = abs2(c1.o - c2.o);
+  if (sign(d_sq) == 0) return ret;
+  double d = sqrt(d_sq);
+  Pt v = (c2.o - c1.o) / d;
+  double c = (c1.r - sign1 * c2.r) / d;
+  if (c * c > 1) return ret;
+  double h = sqrt(max(0.0, 1.0 - c * c));
+  for (int sign2 = 1; sign2 >= -1; sign2 -= 2) {
+    Pt n = Pt(v.x * c - sign2 * h * v.y, v.y * c + sign2 * h * v.x);
+    Pt p1 = c1.o + n * c1.r;
+    Pt p2 = c2.o + n * (c2.r * sign1);
+    if (sign(p1.x - p2.x) == 0 && sign(p1.y - p2.y) == 0)
+      p2 = p1 + perp(c2.o - c1.o);
+    ret.pb({p1, p2});
   }
-  return z;
+  return ret;
 }
