@@ -17,9 +17,9 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
       int v = q.front(); q.pop();
       vis[v] = false;
       for (int id : adj[v]) if (E[id].f > 0 && dis[E[id].v] > dis[v] + E[id].c + pot[v] - pot[E[id].v]) {
-          dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
-          if (!vis[E[id].v]) vis[E[id].v] = true, q.push(E[id].v);
-        }
+        dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
+        if (!vis[E[id].v]) vis[E[id].v] = true, q.push(E[id].v);
+      }
     }
     return dis[t] != INF2;
   }
@@ -31,9 +31,9 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
       auto [d, v] = pq.top(); pq.pop();
       if (dis[v] < d) continue;
       for (int id : adj[v]) if (E[id].f > 0 && dis[E[id].v] > dis[v] + E[id].c + pot[v] - pot[E[id].v]) {
-          dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
-          pq.emplace(dis[E[id].v], E[id].v);
-        }
+        dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
+        pq.emplace(dis[E[id].v], E[id].v);
+      }
     }
     return dis[t] != INF2;
   }
