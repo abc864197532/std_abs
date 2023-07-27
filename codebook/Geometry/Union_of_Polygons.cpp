@@ -10,8 +10,7 @@ double polyUnion(vector <vector <Pt>> poly) {
       for (int j = 0; j < sz; ++j) {
         Pt c = poly[i][(j + st) % sz], d = poly[i][(j + st + 1) % sz];
         if (sign((a - b) ^ (c - d)) != 0) {
-          int ok1 = ori(c, a, b) == 1;
-          int ok2 = ori(d, a, b) == 1;
+          int ok1 = ori(c, a, b) == 1, ok2 = ori(d, a, b) == 1;
           if (ok1 ^ ok2) event.emplace_back(LinesInter({a, b}, {c, d}), ok1 ? 1 : -1);
         } else if (ori(c, a, b) == 0 && sign((a - b) * (c - d)) > 0 && i <= cid) {
           event.emplace_back(c, -1);
@@ -30,8 +29,7 @@ double polyUnion(vector <vector <Pt>> poly) {
     }
   };
   for (int i = 0; i < n; ++i) for (int j = 0; j < poly[i].size(); ++j) {
-    Pt a = poly[i][j], b = poly[i][(j + 1) % int(poly[i].size())];
-    solve(a, b, i);
+    solve(poly[i][j], poly[i][(j + 1) % int(poly[i].size())], i);
   }
   return ans / 2;
 }
