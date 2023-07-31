@@ -1,21 +1,21 @@
 void RotatingSweepLine(vector <Pt> &pt) {
   int n = pt.size();
-  vector <int> id(n), pos(n);
-  vector <pair <int, int>> line;
-  for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j) if (i ^ j) line.emplace_back(i, j);
-  sort(line.begin(), line.end(), [&](pair <int, int> i, pair <int, int> j) {
+  vector <int> ord(n), pos(n);
+  vector <pii> line;
+  for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j) if (i ^ j)
+    line.emplace_back(i, j);
+  auto in = [&](Pt a) {return sign(a.y) == 0 ? sign(a.x) < 0 : sign(a.y) > 0;};
+  sort(all(line), [&](pii i, pii j) {
     Pt a = pt[i.second] - pt[i.first], b = pt[j.second] - pt[j.first];
-    return (a.pos() == b.pos() ? sign(a ^ b) > 0 : a.pos() < b.pos());
+    return (in(a) == in(b) ? sign(a ^ b) > 0 : in(a) < in(b));
   });
-  iota(id.begin(), id.end(), 0);
-  sort(id.begin(), id.end(), [&](int i, int j) {
+  iota(all(ord), 0);
+  sort(all(ord), [&](int i, int j) {
     return (sign(pt[i].y - pt[j].y) == 0 ? pt[i].x < pt[j].x : pt[i].y < pt[j].y);
   });
-  for (int i = 0; i < n; ++i)
-    pos[id[i]] = i;
+  for (int i = 0; i < n; ++i) pos[ord[i]] = i;
   for (auto [i, j] : line) {
     // point sort by the distance to line(i, j)
-    // do something.
-    tie(pos[i], pos[j], id[pos[i]], id[pos[j]]) = make_tuple(pos[j], pos[i], j, i);
+    tie(pos[i], pos[j], ord[pos[i]], ord[pos[j]]) = make_tuple(pos[j], pos[i], j, i);
   }
 }
