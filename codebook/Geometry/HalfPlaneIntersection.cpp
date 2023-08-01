@@ -2,11 +2,11 @@ vector<Pt> HalfPlaneInter(vector<Line> vec) {
   //           x
   // line.a -------> line.b
   int n = vec.size();
-  auto pos = [&](Pt a) {return sign(a.y) == 0 ?  sign(a.x) < 0 : sign(a.y) > 0;};
+  auto pos = [&](Pt a) {return sign(a.y) == 0 ? sign(a.x) < 0 : sign(a.y) > 0;};
   sort(all(vec), [&](Line a, Line b) {
     Pt A = a.b - a.a, B = b.b - b.a;
     if (pos(A) == pos(B)) {
-      if (sign(A ^ B) == 0) return sign((b.a - a.a) * (b.b - a.a)) > 0;
+      if (sign(A ^ B) == 0) return sign((b.a - a.a) ^ (b.b - a.a)) < 0;
       return sign(A ^ B) > 0;
     }
     return pos(A) < pos(B);
