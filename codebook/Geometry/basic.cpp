@@ -27,6 +27,7 @@ int ori(Pt o, Pt a, Pt b) {return sign((o - a) ^ (o - b));}
 bool btw(Pt a, Pt b, Pt c) { // c on segment ab?
   return ori(a, b, c) == 0 && sign((c - a) * (c - b)) <= 0;
 }
+int pos(Pt a) {return sign(a.y) == 0 ? sign(a.x) < 0 : a.y < 0;}
 double area(Pt a, Pt b, Pt c) {return abs((a - b) ^ (a - c)) / 2;}
 double angle(Pt a, Pt b) {return norm(atan2(b.y - a.y, b.x - a.x));}
 Pt unit(Pt o) {return o / abs(o);}

@@ -4,7 +4,6 @@ void RotatingSweepLine(vector <Pt> &pt) {
   vector <pii> line;
   for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j) if (i ^ j)
     line.emplace_back(i, j);
-  auto pos = [&](Pt a) {return sign(a.y) == 0 ? sign(a.x) < 0 : sign(a.y) > 0;};
   sort(all(line), [&](pii i, pii j) {
     Pt a = pt[i.second] - pt[i.first], b = pt[j.second] - pt[j.first];
     return (pos(a) == pos(b) ? sign(a ^ b) > 0 : pos(a) < pos(b));
