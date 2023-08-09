@@ -1,16 +1,18 @@
-const int INF = 1 << 30;
+const ll INF = 1ll << 60;
+template <typename T>
 struct Dinic { // 0-base
   struct edge {
-    int to, cap, flow, rev;
+    int to, rev;
+    T cap, flow;
   };
   vector<edge> adj[N];
   int s, t, dis[N], cur[N], n;
-  int dfs(int u, int cap) {
+  T dfs(int u, T cap) {
     if (u == t || !cap) return cap;
     for (int &i = cur[u]; i < (int)adj[u].size(); ++i) {
       edge &e = adj[u][i];
       if (dis[e.to] == dis[u] + 1 && e.flow != e.cap) {
-        int df = dfs(e.to, min(e.cap - e.flow, cap));
+        T df = dfs(e.to, min(e.cap - e.flow, cap));
         if (df) {
           e.flow += df;
           adj[e.to][e.rev].flow -= df;
@@ -36,9 +38,9 @@ struct Dinic { // 0-base
     }
     return dis[t] != -1;
   }
-  int maxflow(int _s, int _t) {
+  T solve(int _s, int _t) {
     s = _s, t = _t;
-    int flow = 0, df;
+    T flow = 0, df;
     while (bfs()) {
       fill_n(cur, n, 0);
       while ((df = dfs(s, INF))) flow += df;
@@ -53,8 +55,8 @@ struct Dinic { // 0-base
     for (int i = 0; i < n; ++i)
       for (auto &j : adj[i]) j.flow = 0;
   }
-  void add_edge(int u, int v, int cap) {
-    adj[u].pb(edge{v, cap, 0, (int)adj[v].size()});
-    adj[v].pb(edge{u, 0, 0, (int)adj[u].size() - 1});
+  void add_edge(int u, int v, T cap) {
+    adj[u].pb(edge{v, (int)adj[v].size(), cap, 0});
+    adj[v].pb(edge{u, (int)adj[u].size() - 1, 0, 0});
   }
 };
