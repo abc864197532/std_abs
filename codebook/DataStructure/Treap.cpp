@@ -9,6 +9,7 @@ struct node {
   }
   void down() {}
 };
+// delete default code sz
 int sz(node *a) { return a ? a->sz : 0; }
 node *merge(node *a, node *b) {
   if (!a || !b) return a ? a : b;
