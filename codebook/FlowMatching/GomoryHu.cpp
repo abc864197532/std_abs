@@ -1,4 +1,4 @@
-vector <array <int, 3>> GomoryHu(Dinic <int> flow) { // 0-based
+vector <array <int, 3>> GomoryHu(Dinic <int> flow) {
   // Tree edge min = mincut (0-based)
   // Complexity: run flow n times
   int n = flow.n;
