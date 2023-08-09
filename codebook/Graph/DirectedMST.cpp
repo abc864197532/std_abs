@@ -1,58 +1,56 @@
-template <typename T> struct DMST { // 1-based
-  T g[maxn][maxn], fw[maxn];
-  int n, fr[maxn];
-  bool vis[maxn], inc[maxn];
-  void clear() {
-    for (int i = 0; i < maxn; ++i) {
-      for (int j = 0; j < maxn; ++j) g[i][j] = inf;
-      vis[i] = inc[i] = false;
-    }
-  }
-  void addedge(int u, int v, T w) {
-    g[u][v] = min(g[u][v], w);
-  }
-  T query(int root, int _n) {
-    n = _n;
-    if (dfs(root) != n) return -1;
-    T ans = 0;
-    while (true) {
-      for (int i = 1; i <= n; ++i) fw[i] = inf, fr[i] = i;
-      for (int i = 1; i <= n; ++i) if (!inc[i]) {
-        for (int j = 1; j <= n; ++j) {
-          if (!inc[j] && i != j && g[j][i] < fw[i]) {
-            fw[i] = g[j][i];
-            fr[i] = j;
-          }
-        }
-      }
-      int x = -1;
-      for (int i = 1; i <= n; ++i) if (i != root && !inc[i]) {
-        int j = i, c = 0;
-        while (j != root && fr[j] != i && c <= n) ++c, j = fr[j];
-        if (j == root || c > n) continue;
-        else { x = i; break; }
-      }
-      if (!~x) {
-        for (int i = 1; i <= n; ++i) if (i != root && !inc[i]) ans += fw[i];
-        return ans;
-      }
-      int y = x;
-      for (int i = 1; i <= n; ++i) vis[i] = false;
-      do { ans += fw[y]; y = fr[y]; vis[y] = inc[y] = true; } while (y != x);
-      inc[x] = false;
-      for (int k = 1; k <= n; ++k) if (vis[k]) {
-        for (int j = 1; j <= n; ++j) if (!vis[j]) {
-            if (g[x][j] > g[k][j]) g[x][j] = g[k][j];
-            if (g[j][k] < inf && g[j][k] - fw[k] < g[j][x]) g[j][x] = g[j][k] - fw[k];
-          }
-      }
-    }
-    return ans;
-  }
-  int dfs(int now) {
-    int r = 1;
-    vis[now] = true;
-    for (int i = 1; i <= n; ++i) if (g[now][i] < inf && !vis[i]) r += dfs(i);
-    return r;
-  }
+using D = int;
+struct edge {
+  int u, v;
+  D w;
 };
+// 0-based, return index of edges
+vector<int> dmst(vector<edge> &e, int n, int root) {
+  using T = pair <D, int>;
+  using PQ = pair <priority_queue <T, vector <T>, greater <T>>, D>;
+  auto push = [](PQ &pq, T v) {
+    pq.first.emplace(v.first - pq.second, v.second);
+  };
+  auto top = [](const PQ &pq) -> T {
+    auto r = pq.first.top();
+    return {r.first + pq.second, r.second};
+  };
+  auto join = [&push, &top](PQ &a, PQ &b) {
+    if (a.first.size() < b.first.size()) swap(a, b);
+    while (!b.first.empty())
+      push(a, top(b)), b.first.pop();
+  };
+  vector<PQ> h(n * 2);
+  for (int i = 0; i < e.size(); ++i)
+    push(h[e[i].v], {e[i].w, i});
+  vector<int> a(n * 2), v(n * 2, -1), pa(n * 2, -1), r(n * 2);
+  iota(all(a), 0);
+  auto o = [&](int x) { int y;
+    for (y = x; a[y] != y; y = a[y]);
+    for (int ox = x; x != y; ox = x)
+      x = a[x], a[ox] = y;
+    return y;
+  };
+  v[root] = n + 1;
+  int pc = n;
+  for (int i = 0; i < n; ++i) if (v[i] == -1) {
+    for (int p = i; v[p] == -1 || v[p] == i; p = o(e[r[p]].u)) {
+      if (v[p] == i) {
+        int q = p; p = pc++;
+        do {
+          h[q].second = -h[q].first.top().first;
+          join(h[pa[q] = a[q] = p], h[q]);
+        } while ((q = o(e[r[q]].u)) != p);
+      }
+      v[p] = i;
+      while (!h[p].first.empty() && o(e[top(h[p]).second].u) == p)
+        h[p].first.pop();
+      r[p] = top(h[p]).second;
+    }
+  }
+  vector<int> ans;
+  for (int i = pc - 1; i >= 0; i--) if (i != root && v[i] != n) {
+    for (int f = e[r[i]].v; f != -1 && v[f] != n; f = pa[f]) v[f] = n;
+    ans.pb(r[i]);
+  }
+  return ans;
+}
