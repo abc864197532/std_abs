@@ -2,9 +2,9 @@ struct PAM {
   int ch[N][26], cnt[N], fail[N], len[N], sz;
   string s;
   // 0 -> even root, 1 -> odd root
-  PAM (string _s) : s(_s) {
-    sz = 0;
-    extend(), extend();
+  PAM () {}
+  void init(string s) {
+    sz = 0, extend(), extend();
     len[0] = 0, fail[0] = 1, len[1] = -1;
     int lst = 1;
     for (int i = 0; i < s.length(); ++i) {

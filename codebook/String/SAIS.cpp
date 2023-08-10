@@ -1,6 +1,7 @@
+int sa[N * 2], rk[N], lcp[N];
+// string ASCII value need > 0
 namespace sfx {
 bool _t[N * 2];
-int SA[N * 2], H[N], RA[N];
 int _s[N * 2], _c[N * 2], x[N], _p[N], _q[N * 2];
 void pre(int *sa, int *c, int n, int z) {
   fill_n(sa, n, 0), copy_n(c, z, x);
@@ -39,12 +40,11 @@ void sais(int *s, int *sa, int *p, int *q, bool *t, int *c, int n, int z) {
     sa[--x[s[p[nsa[i]]]]] = p[nsa[i]];
   induce(sa, c, s, t, n, z);
 }
-vector<int> build(int *s, int n) {
-  copy_n(s, n, _s), _s[n] = 0;
-  sais(_s, SA, _p, _q, _t, _c, n + 1, 256);
-  vector <int> sa(n);
-  for (int i = 0; i < n; ++i)
-    sa[i] = SA[i + 1];
-  return sa;
-}
+void buildSA(string s) {
+  int n = s.length();
+  for (int i = 0; i < n; ++i) _s[i] = s[i];
+  _s[n] = 0;
+  sais(_s, sa, _p, _q, _t, _c, n + 1, 256);
+  for (int i = 1; i <= n; ++i) sa[i - 1] = sa[i];
+} // buildLCP()...
 }

@@ -3,8 +3,8 @@ string rotate(const string &s) {
   string t = s + s;
   int i = 0, j = 1;
   while (i < n && j < n) {
-  int k = 0;
-  while (k < n && t[i + k] == t[j + k]) ++k;
+    int k = 0;
+    while (k < n && t[i + k] == t[j + k]) ++k;
     if (t[i + k] <= t[j + k]) j += k + 1;
     else i += k + 1;
     if (i == j) ++j;

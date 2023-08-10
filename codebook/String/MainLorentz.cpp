@@ -1,6 +1,6 @@
 int to_left[N], to_right[N];
 vector <array <int, 3>> rep; // l, r, len.
-// substr(l ~ r, len * 2) are tandem
+// substr( [l, r], len * 2) are tandem
 void findRep(string &s, int l, int r) {
   if (r - l == 1) return;
   int m = l + r >> 1;

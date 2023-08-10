@@ -25,7 +25,7 @@ void buildSA(string s) {
 }
 void buildLCP(string s) {
   // lcp[i] = LCP(sa[i - 1], sa[i])
-  // lcp(i, j) = min(lcp[rk[i] + 1], lcp[rk[i] + 2], ..., lcp[rk[j]])
+  // lcp(i, j) = query_lcp_min [rk[i] + 1, rk[j] + 1)
   int n = s.length(), val = 0;
   for (int i = 0; i < n; ++i) rk[sa[i]] = i;
   for (int i = 0; i < n; ++i) {
