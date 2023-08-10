@@ -11,8 +11,8 @@ double _area(Pt pa, Pt pb, double r){
     if (h < r && B < pi / 2) S -= (acos(h / r) * r * r - h * sqrt(r * r - h * h));
   } else if (b > r) {
     theta = pi - B - asin(sin(B) / r * a);
-    S = .5 * a * r * sin(theta) + (C - theta) / 2 * r * r;
-  } else S = .5 * sin(C) * a * b;
+    S = 0.5 * a * r * sin(theta) + (C - theta) / 2 * r * r;
+  } else S = 0.5 * sin(C) * a * b;
   return S;
 }
 double area_poly_circle(vector<Pt> poly, Pt O, double r) {

@@ -5,11 +5,9 @@ vector<pair<double, double>> CoverSegment(Cir a, Cir b) {
   else if (d <= abs(a.r - b.r) + eps) {
     if (a.r < b.r) res.emplace_back(0, 2 * pi);
   } else if (d < abs(a.r + b.r) - eps) {
-    double o = acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d)), z = atan2((b.o - a.o).y, (b.o - a.o).x);
-    if (z < 0) z += 2 * pi;
-    double l = z - o, r = z + o;
-    if (l < 0) l += 2 * pi;
-    if (r > 2 * pi) r -= 2 * pi;
+    double o = acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));
+    double z = norm(atan2((b.o - a.o).y, (b.o - a.o).x));
+    double l = norm(z - o), r = norm(z + o);
     if (l > r) res.emplace_back(l, 2 * pi), res.emplace_back(0, r);
     else res.emplace_back(l, r);
   }

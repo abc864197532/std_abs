@@ -1,5 +1,5 @@
 Cir min_enclosing(vector<Pt> &p) {
-  random_shuffle(p.begin(), p.end());
+  random_shuffle(all(p));
   double r = 0.0;
   Pt cent = p[0];
   for (int i = 1; i < p.size(); ++i) {
