@@ -8,6 +8,7 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
   vector <int> adj[N];
   T2 dis[N], pot[N];
   int rt[N], vis[N], n, m, s, t;
+  // bool DAG()...
   bool SPFA() {
     fill_n(rt, n, -1), fill_n(dis, n, INF2);
     fill_n(vis, n, false);
@@ -16,9 +17,13 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     while (!q.empty()) {
       int v = q.front(); q.pop();
       vis[v] = false;
-      for (int id : adj[v]) if (E[id].f > 0 && dis[E[id].v] > dis[v] + E[id].c + pot[v] - pot[E[id].v]) {
-        dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
-        if (!vis[E[id].v]) vis[E[id].v] = true, q.push(E[id].v);
+      for (int id : adj[v]) {
+        auto [u, f, c] = E[id];
+        T2 ndis = dis[v] + c + pot[v] - pot[u];
+        if (f > 0 && dis[u] > ndis) {
+          dis[u] = ndis, rt[u] = id;
+          if (!vis[u]) vis[u] = true, q.push(u);
+        }
       }
     }
     return dis[t] != INF2;
@@ -30,30 +35,29 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     while (!pq.empty()) {
       auto [d, v] = pq.top(); pq.pop();
       if (dis[v] < d) continue;
-      for (int id : adj[v]) if (E[id].f > 0 && dis[E[id].v] > dis[v] + E[id].c + pot[v] - pot[E[id].v]) {
-        dis[E[id].v] = dis[v] + E[id].c + pot[v] - pot[E[id].v], rt[E[id].v] = id;
-        pq.emplace(dis[E[id].v], E[id].v);
+      for (int id : adj[v]) {
+        auto [u, f, c] = E[id];
+        T2 ndis = dis[v] + c + pot[v] - pot[u];
+        if (f > 0 && dis[u] > ndis) {
+          dis[u] = ndis, rt[u] = id;
+          pq.emplace(ndis, u);
+        }
       }
     }
     return dis[t] != INF2;
   }
   pair <T1, T2> solve(int _s, int _t) {
     s = _s, t = _t, fill_n(pot, n, 0);
-    T1 flow = 0; T2 cost = 0;
-    bool fr = true;
+    T1 flow = 0; T2 cost = 0; bool fr = true;
     while ((fr ? SPFA() : dijkstra())) {
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < n; i++)
         dis[i] += pot[i] - pot[s];
-      }
       T1 add = INF1;
-      for (int i = t; i != s; i = E[rt[i] ^ 1].v) {
+      for (int i = t; i != s; i = E[rt[i] ^ 1].v)
         add = min(add, E[rt[i]].f);
-      }
-      for (int i = t; i != s; i = E[rt[i] ^ 1].v) {
+      for (int i = t; i != s; i = E[rt[i] ^ 1].v)
         E[rt[i]].f -= add, E[rt[i] ^ 1].f += add;
-      }
-      flow += add, cost += add * dis[t];
-      fr = false;
+      flow += add, cost += add * dis[t], fr = false;
       for (int i = 0; i < n; ++i) swap(dis[i], pot[i]);
     }
     return make_pair(flow, cost);

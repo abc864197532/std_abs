@@ -5,7 +5,8 @@ struct NTT {
   NTT() {
     ll dw = mpow(G, (mod - 1) / N);
     w[0] = 1;
-    for (int i = 1; i < N; ++i) w[i] = mul(w[i - 1], dw);
+    for (int i = 1; i < N; ++i)
+      w[i] = mul(w[i - 1], dw);
   }
   void operator()(vector<ll>& a, bool inv = false) { //0 <= a[i] < P
     int x = 0, n = a.size();
@@ -26,7 +27,8 @@ struct NTT {
     if (inv) {
       reverse(a.begin() + 1, a.end());
       ll invn = mpow(n, mod - 2);
-      for (int i = 0; i < n; ++i) a[i] = mul(a[i], invn);
+      for (int i = 0; i < n; ++i)
+        a[i] = mul(a[i], invn);
     }
   }
 } ntt;

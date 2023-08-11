@@ -21,7 +21,8 @@ vector<int> subs_conv(vector<int> a, vector<int> b) {
     ha[__builtin_popcount(i)][i] = a[i];
     hb[__builtin_popcount(i)][i] = b[i];
   }
-  for (int i = 0; i <= n; ++i) or_fwt(ha[i]), or_fwt(hb[i]);
+  for (int i = 0; i <= n; ++i)
+    or_fwt(ha[i]), or_fwt(hb[i]);
   for (int i = 0; i <= n; ++i)
     for (int j = 0; i + j <= n; ++j)
       for (int k = 0; k < 1 << n; ++k)

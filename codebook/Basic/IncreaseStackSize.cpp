@@ -1,6 +1,6 @@
 const int size = 256 << 20;
 register long rsp asm("rsp");
-char *p = (char*)malloc(size) + size, *bak = (char*)rsp;
+char *p = (char*)malloc(size) + size, *bk = (char*)rsp;
 __asm__("movq %0, %%rsp\n"::"r"(p));
 // main
-__asm__("movq %0, %%rsp\n"::"r"(bak));
+__asm__("movq %0, %%rsp\n"::"r"(bk));

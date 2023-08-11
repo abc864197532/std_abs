@@ -15,18 +15,21 @@ struct SAM {
       int cur = sz++;
       len[cur] = len[last] + 1, pos[cur] = i + 1;
       int p = last;
-      while (~p && !ch[p][c - 'a']) ch[p][c - 'a'] = cur, p = link[p];
-      if (p == -1) {
-        link[cur] = 0;
-      } else {
+      while (~p && !ch[p][c - 'a'])
+        ch[p][c - 'a'] = cur, p = link[p];
+      if (p == -1) link[cur] = 0;
+      else {
         int q = ch[p][c - 'a'];
         if (len[p] + 1 == len[q]) {
           link[cur] = q;
         } else {
           int nxt = sz++;
-          len[nxt] = len[p] + 1, link[nxt] = link[q], pos[nxt] = 0;
-          for (int j = 0; j < 26; ++j) ch[nxt][j] = ch[q][j];
-          while (~p && ch[p][c - 'a'] == q) ch[p][c - 'a'] = nxt, p = link[p];
+          len[nxt] = len[p] + 1, link[nxt] = link[q];
+          pos[nxt] = 0;
+          for (int j = 0; j < 26; ++j)
+            ch[nxt][j] = ch[q][j];
+          while (~p && ch[p][c - 'a'] == q)
+            ch[p][c - 'a'] = nxt, p = link[p];
           link[q] = link[cur] = nxt;
         }
       }
@@ -35,7 +38,9 @@ struct SAM {
     }
     vector <int> p(sz);
     iota(all(p), 0);
-    sort(all(p), [&](int i, int j) {return len[i] > len[j];});
-    for (int i = 0; i < sz; ++i) cnt[link[p[i]]] += cnt[p[i]];
+    sort(all(p),
+      [&](int i, int j) {return len[i] > len[j];});
+    for (int i = 0; i < sz; ++i)
+      cnt[link[p[i]]] += cnt[p[i]];
   }
 } sam;

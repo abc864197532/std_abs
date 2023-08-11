@@ -11,7 +11,8 @@ node *merge(node *a, node *b) {
   if (a->data < b->data) swap(a, b);
   a->r = merge(a->r, b);
   if (rk(a->r) > rk(a->l)) swap(a->r, a->l);
-  a->rk = rk(a->r) + 1, a->sz = sz(a->l) + sz(a->r) + 1;
+  a->rk = rk(a->r) + 1;
+  a->sz = sz(a->l) + sz(a->r) + 1;
   a->sum = sum(a->l) + sum(a->r) + a->data;
   return a;
 }

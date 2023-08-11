@@ -11,7 +11,8 @@ struct Simplex { // 0-based
   bool ls(T a, T b) {return a < b && !eq(a, b);}
   void init(int _n, int _m) {
     n = _n, m = _m, v = 0;
-    for (int i = 0; i < m; ++i) for (int j = 0; j < n; ++j) a[i][j] = 0;
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j) a[i][j] = 0;
     for (int i = 0; i < m; ++i) b[i] = 0;
     for (int i = 0; i < n; ++i) c[i] = sol[i] = 0;
   }
@@ -38,7 +39,7 @@ struct Simplex { // 0-based
   int solve() {
     for (int i = 0; i < n; ++i) Down[i] = i;
     for (int i = 0; i < m; ++i) Left[i] = n + i;
-    while (1) {
+    while (true) {
       int x = -1, y = -1;
       for (int i = 0; i < m; ++i) if (ls(b[i], 0) && (x == -1 || b[i] < b[x])) x = i;
       if (x == -1) break;
@@ -46,15 +47,17 @@ struct Simplex { // 0-based
       if (y == -1) return 1;
       pivot(x, y);
     }
-    while (1) {
+    while (true) {
       int x = -1, y = -1;
       for (int i = 0; i < n; ++i) if (ls(0, c[i]) && (y == -1 || c[i] > c[y])) y = i;
       if (y == -1) break;
-      for (int i = 0; i < m; ++i) if (ls(0, a[i][y]) && (x == -1 || b[i] / a[i][y] < b[x] / a[x][y])) x = i;
+      for (int i = 0; i < m; ++i)
+        if (ls(0, a[i][y]) && (x == -1 || b[i] / a[i][y] < b[x] / a[x][y])) x = i;
       if (x == -1) return 2;
       pivot(x, y);
     }
-    for (int i = 0; i < m; ++i) if (Left[i] < n) sol[Left[i]] = b[i];
+    for (int i = 0; i < m; ++i) if (Left[i] < n)
+      sol[Left[i]] = b[i];
     return 0;
   }
 };

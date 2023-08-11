@@ -7,8 +7,9 @@ void dfs_sz(int i, int p) {
     dfs_sz(j, i), sz[i] += sz[j];
 }
 int cen(int i, int p, int _n) {
-  for (int j : g[i]) if (j != p && !vis[j] && sz[j] > _n / 2)
-    return cen(j, i, _n);
+  for (int j : g[i])
+    if (j != p && !vis[j] && sz[j] > _n / 2)
+      return cen(j, i, _n);
   return i;
 }
 void dfs_dis(int i, int p, int d) {

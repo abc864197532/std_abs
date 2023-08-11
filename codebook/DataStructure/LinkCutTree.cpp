@@ -1,6 +1,7 @@
 // weighted subtree size, weighted path max
 struct LCT {
-  int ch[N][2], pa[N], v[N], sz[N], sz2[N], w[N], mx[N], _id;
+  int ch[N][2], pa[N], v[N], sz[N];
+  int sz2[N], w[N], mx[N], _id;
   // sz := sum of v in splay, sz2 := sum of v in virtual subtree
   // mx := max w in splay
   bool rev[N];
@@ -17,10 +18,14 @@ struct LCT {
   void pull(int i) {
     sz[i] = v[i] + sz2[i];
     mx[i] = w[i];
-    if (ch[i][0])
-      sz[i] += sz[ch[i][0]], mx[i] = max(mx[i], mx[ch[i][0]]);
-    if (ch[i][1])
-      sz[i] += sz[ch[i][1]], mx[i] = max(mx[i], mx[ch[i][1]]);
+    if (ch[i][0]) {
+      sz[i] += sz[ch[i][0]];
+      mx[i] = max(mx[i], mx[ch[i][0]]);
+    }
+    if (ch[i][1]) {
+      sz[i] += sz[ch[i][1]];
+      mx[i] = max(mx[i], mx[ch[i][1]]);
+    }
   }
   void push(int i) {
     if (rev[i]) reverse(ch[i][0]), reverse(ch[i][1]), rev[i] = false;
@@ -35,7 +40,8 @@ struct LCT {
     return ch[pa[i]][0] != i && ch[pa[i]][1] != i;
   }
   void rotate(int i) {
-    int p = pa[i], x = ch[p][1] == i, c = ch[i][!x], gp = pa[p];
+    int p = pa[i], x = ch[p][1] == i;
+    int c = ch[i][!x], gp = pa[p];
     if (ch[gp][0] == p) ch[gp][0] = i;
     else if (ch[gp][1] == p) ch[gp][1] = i;
     pa[i] = gp, ch[i][!x] = p, pa[p] = i;
@@ -45,8 +51,10 @@ struct LCT {
   void splay(int i) {
     vector<int> anc;
     anc.push_back(i);
-    while (!isrt(anc.back())) anc.push_back(pa[anc.back()]);
-    while (!anc.empty()) push(anc.back()), anc.pop_back();
+    while (!isrt(anc.back()))
+      anc.push_back(pa[anc.back()]);
+    while (!anc.empty())
+      push(anc.back()), anc.pop_back();
     while (!isrt(i)) {
       int p = pa[i];
       if (!isrt(p)) rotate(ch[p][1] == i ^ ch[pa[p]][1] == p ? i : p);

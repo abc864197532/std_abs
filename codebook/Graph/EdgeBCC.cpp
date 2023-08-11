@@ -9,8 +9,7 @@ void dfs(int i, int p = -1) {
   for (int j : g[i]) if (j != p) {
     if (!vis[j])
       dfs(j, i), low[i] = min(low[i], low[j]);
-    else
-      low[i] = min(low[i], dep[j]);
+    else low[i] = min(low[i], dep[j]);
   }
   if (low[i] == dep[i]) {
     if (~p) is_bridge[i] = true; // (i, pa[i])

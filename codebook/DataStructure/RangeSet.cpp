@@ -31,6 +31,7 @@ struct RangeSet { // [l, r)
   }
   bool count(int x) {
     auto it = S.lower_bound({x + 1, -1});
-    return it != S.begin() && prev(it)->first <= x && x < prev(it)->second;
+    return it != S.begin() && prev(it)->first <= x
+            && x < prev(it)->second;
   }
 };

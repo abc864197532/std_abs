@@ -7,7 +7,7 @@ vector <Pt> ConvexHull(vector <Pt> pt) {
     for (int i = 1; i < n; ++i) {
       while (ans.size() > m && ori(ans[ans.size() - 2], ans.back(), pt[i]) <= 0)
         ans.pop_back();
-      ans.push_back(pt[i]);
+      ans.pb(pt[i]);
     }
     reverse(all(pt));
   }

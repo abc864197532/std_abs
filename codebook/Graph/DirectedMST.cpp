@@ -1,7 +1,6 @@
 using D = int;
 struct edge {
-  int u, v;
-  D w;
+  int u, v; D w;
 };
 // 0-based, return index of edges
 vector<int> dmst(vector<edge> &e, int n, int root) {
@@ -48,9 +47,10 @@ vector<int> dmst(vector<edge> &e, int n, int root) {
     }
   }
   vector<int> ans;
-  for (int i = pc - 1; i >= 0; i--) if (i != root && v[i] != n) {
-    for (int f = e[r[i]].v; f != -1 && v[f] != n; f = pa[f]) v[f] = n;
-    ans.pb(r[i]);
-  }
+  for (int i = pc - 1; i >= 0; i--)
+    if (i != root && v[i] != n) {
+      for (int f = e[r[i]].v; f != -1 && v[f] != n; f = pa[f]) v[f] = n;
+      ans.pb(r[i]);
+    }
   return ans;
 }

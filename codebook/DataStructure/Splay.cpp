@@ -13,7 +13,8 @@ struct Splay {
     return id;
   }
   void rotate(int i) {
-    int p = pa[i], x = ch[p][1] == i, gp = pa[p], c = ch[i][!x];
+    int p = pa[i], x = ch[p][1] == i;
+    int gp = pa[p], c = ch[i][!x];
     sz[p] -= sz[i], sz[i] += sz[p];
     if (~c) sz[p] += sz[c], pa[c] = p;
     ch[p][x] = c, pa[p] = i;

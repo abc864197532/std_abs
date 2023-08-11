@@ -1,4 +1,5 @@
-ll topos(ll x, ll m) {x %= m; if (x < 0) x += m; return x;}
+ll topos(ll x, ll m)
+{ x %= m; if (x < 0) x += m; return x; }
 //min value of ax + b (mod m) for x \in [0, n - 1]. O(log m)
 ll min_rem(ll n, ll m, ll a, ll b) {
   a = topos(a, m), b = topos(b, m);

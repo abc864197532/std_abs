@@ -10,13 +10,12 @@ struct SAT {
       g[i].clear(), dep[i] = scc_id[i] = -1;
     stk.clear();
   }
-  void add_edge(int x, int y) {g[x].push_back(y);}
-  int rev(int i) {return i < n ? i + n : i - n;}
-  void add_ifthen(int x, int y) {add_clause(rev(x), y);}
-  void add_clause(int x, int y) {
-    add_edge(rev(x), y);
-    add_edge(rev(y), x);
-  }
+  void add_edge(int x, int y) { g[x].push_back(y); }
+  int rev(int i) { return i < n ? i + n : i - n; }
+  void add_ifthen(int x, int y)
+  { add_clause(rev(x), y); }
+  void add_clause(int x, int y)
+  { add_edge(rev(x), y), add_edge(rev(y), x); }
   void dfs(int i) {
     dep[i] = low[i] = _t++, stk.pb(i);
     for (int j : g[i]) if (scc_id[j] == -1) {
@@ -26,8 +25,7 @@ struct SAT {
     if (low[i] == dep[i]) {
       int id = _id++, x;
       do {
-        x = stk.back(), stk.pop_back();
-        scc_id[x] = id;
+        x = stk.back(), stk.pop_back(), scc_id[x] = id;
       } while (x != i);
     }
   }

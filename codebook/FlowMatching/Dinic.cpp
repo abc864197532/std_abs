@@ -1,6 +1,6 @@
-const ll INF = 1ll << 60;
 template <typename T>
 struct Dinic { // 0-base
+  const T INF = 1 << 30;
   struct edge {
     int to, rev;
     T cap, flow;
@@ -9,7 +9,7 @@ struct Dinic { // 0-base
   int s, t, dis[N], cur[N], n;
   T dfs(int u, T cap) {
     if (u == t || !cap) return cap;
-    for (int &i = cur[u]; i < (int)adj[u].size(); ++i) {
+    for (int &i = cur[u]; i < adj[u].size(); ++i) {
       edge &e = adj[u][i];
       if (dis[e.to] == dis[u] + 1 && e.flow != e.cap) {
         T df = dfs(e.to, min(e.cap - e.flow, cap));

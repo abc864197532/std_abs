@@ -13,7 +13,8 @@ ll Det(vector <vector <ll>> a) {
     }
     det = det * a[i][i] % mod;
     ll mul = mpow(a[i][i], mod - 2);
-    for (int j = 0; j < n; ++j) a[i][j] = a[i][j] * mul % mod;
+    for (int j = 0; j < n; ++j)
+      a[i][j] = a[i][j] * mul % mod;
     for (int j = 0; j < n; ++j) if (i ^ j) {
       ll mul = a[j][i];
       for (int k = 0; k < n; ++k) {

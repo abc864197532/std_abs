@@ -1,6 +1,11 @@
-ll mul(ll x, ll y, ll p) {return (x * y - (ll)((long double)x / p * y) * p + p) % p;}
+ll mul(ll x, ll y, ll p) {return (x * y - (ll)((long double)x / p * y) * p + p) % p;} // __int128
 vector<ll> chk = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
-ll Pow(ll a, ll b, ll n) {ll res = 1; for (; b; b >>= 1, a = mul(a, a, n)) if (b & 1) res = mul(res, a, n); return res;}
+ll Pow(ll a, ll b, ll n) {
+  ll res = 1;
+  for (; b; b >>= 1, a = mul(a, a, n))
+    if (b & 1) res = mul(res, a, n);
+  return res;
+}
 bool check(ll a, ll d, int s, ll n) {
   a = Pow(a, d, n);
   if (a <= 1) return 1;

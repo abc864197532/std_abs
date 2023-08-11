@@ -1,6 +1,6 @@
 int sa[N], tmp[2][N], c[N], rk[N], lcp[N];
 void buildSA(string s) {
-  int *x = tmp[0], *y = tmp[1], m = 256, n = s.length();
+  int *x = tmp[0], *y = tmp[1], m = 256, n = s.size();
   for (int i = 0; i < m; ++i) c[i] = 0;
   for (int i = 0; i < n; ++i) c[x[i] = s[i]]++;
   for (int i = 1; i < m; ++i) c[i] += c[i - 1];
@@ -11,8 +11,10 @@ void buildSA(string s) {
     for (int i = 1; i < m; ++i) c[i] += c[i - 1];
     int p = 0;
     for (int i = n - k; i < n; ++i) y[p++] = i;
-    for (int i = 0; i < n; ++i) if (sa[i] >= k) y[p++] = sa[i] - k;
-    for (int i = n - 1; ~i; --i) sa[--c[x[y[i]]]] = y[i];
+    for (int i = 0; i < n; ++i) if (sa[i] >= k)
+      y[p++] = sa[i] - k;
+    for (int i = n - 1; ~i; --i)
+      sa[--c[x[y[i]]]] = y[i];
     y[sa[0]] = p = 0;
     for (int i = 1; i < n; ++i) {
       int a = sa[i], b = sa[i - 1];
