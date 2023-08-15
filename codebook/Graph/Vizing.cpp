@@ -1,4 +1,4 @@
-struct vizing { // 1-based
+struct Vizing { // 1-based
   // returns edge coloring in adjacent matrix G
   int C[N][N], G[N][N], X[N], vst[N], n;
   void init(int _n) {
@@ -22,7 +22,7 @@ struct vizing { // 1-based
     auto flip = [&](int u, int c1, int c2) {
       int p = C[u][c1];
       swap(C[u][c1], C[u][c2]);
-      if (p) G[u][p] = Guntitled[p][u] = c2;
+      if (p) G[u][p] = G[p][u] = c2;
       if (!C[u][c1]) X[u] = c1;
       if (!C[u][c2]) X[u] = c2;
       return p;
@@ -35,9 +35,13 @@ struct vizing { // 1-based
       fill_n(vst + 1, n, 0);
       while (!G[u][v0]) {
         L.emplace_back(v, d = X[v]);
-        if (!C[v][c]) for (int a = sz(L) - 1; a >= 0; --a) c = color(u, L[a].first, c);
-        else if (!C[u][d]) for (int a = sz(L) - 1; a >= 0; --a) color(u, L[a].first, L[a].second);
-        else if (vst[d]) break;
+        if (!C[v][c]) {
+          for (int a = sz(L) - 1; a >= 0; --a) 
+            c = color(u, L[a].first, c);
+        } else if (!C[u][d]) {
+          for (int a = sz(L) - 1; a >= 0; --a) 
+            color(u, L[a].first, L[a].second);
+        } else if (vst[d]) break;
         else vst[d] = 1, v = C[u][d];
       }
       if (!G[u][v0]) {
