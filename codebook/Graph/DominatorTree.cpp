@@ -6,6 +6,8 @@ struct Dominator_tree {
   Dominator_tree () {}
   void init(int _n) {
     n = _n, id = 0;
+    for (int i = 0; i < n; ++i)
+      adj[i].clear(), radj[i].clear(), bucket[i].clear();
     fill_n(dom, n, -1), fill_n(vis, n, -1);
   }
   void add_edge(int u, int v) {adj[u].pb(v);}
