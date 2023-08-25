@@ -4,14 +4,14 @@
   \item Time complexity: $O(\log{n})$
 \end{itemize}
 
-$$ \begin{aligned}
-  f(a, b, c, n) &= \sum_{i = 0}^{n}\lfloor\frac{ai + b}{c}\rfloor \\
-  &= \begin{cases} 
-    \lfloor\frac{a}{c}\rfloor \cdot \frac{n(n + 1)}{2} + \lfloor\frac{b}{c}\rfloor \cdot (n + 1) \\ + f(a\text{ mod } c, b\text{ mod } c, c, n), & a \geq c \lor b \geq c \\ 
-    0, & n < 0 \lor a = 0 \\
-    nm - f(c, c - b - 1, a, m - 1), & \text{otherwise} 
-  \end{cases} 
-\end{aligned} $$
+% $$ \begin{aligned}
+%   f(a, b, c, n) &= \sum_{i = 0}^{n}\lfloor\frac{ai + b}{c}\rfloor \\
+%   &= \begin{cases} 
+%     \lfloor\frac{a}{c}\rfloor \cdot \frac{n(n + 1)}{2} + \lfloor\frac{b}{c}\rfloor \cdot (n + 1) \\ + f(a\text{ mod } c, b\text{ mod } c, c, n), & a \geq c \lor b \geq c \\ 
+%     0, & n < 0 \lor a = 0 \\
+%     nm - f(c, c - b - 1, a, m - 1), & \text{otherwise} 
+%   \end{cases} 
+% \end{aligned} $$
 $$ \begin{aligned}
   g(a, b, c, n) &= \sum_{i = 0}^{n}i\lfloor\frac{ai + b}{c}\rfloor \\
   &= \begin{cases}
