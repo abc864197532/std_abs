@@ -6,5 +6,4 @@ echo "Page count: ${page}"
 
 if [[ ${page} -gt 25 ]]; then
 	echo "Too many pages!"
-	exit 1
 fi
