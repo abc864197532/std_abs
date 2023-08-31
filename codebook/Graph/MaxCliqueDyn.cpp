@@ -7,8 +7,8 @@ struct MaxClique { // Maximum Clique
   }
   void add_edge(int u, int v) { a[u][v] = a[v][u] = 1; }
   void csort(vector<int> &r, vector<int> &c) {
-    int mx = 1, km = max(ans - q + 1, 1), t = 0,
-        m = r.size();
+    int mx = 1, km = max(ans - q + 1, 1), t = 0;
+    int m = r.size();
     cs[1].reset(), cs[2].reset();
     for (int i = 0; i < m; i++) {
       int p = r[i], k = 1;
@@ -21,7 +21,7 @@ struct MaxClique { // Maximum Clique
     if (t) c[t - 1] = 0;
     for (int k = km; k <= mx; k++)
       for (int p = cs[k]._Find_first(); p < N;
-           p = cs[k]._Find_next(p))
+              p = cs[k]._Find_next(p))
         r[t] = p, c[t] = k, t++;
   }
   void dfs(vector<int> &r, vector<int> &c, int l,
@@ -60,4 +60,4 @@ struct MaxClique { // Maximum Clique
     csort(r, c), dfs(r, c, 1, mask);
     return ans; // sol[0 ~ ans-1]
   }
-} solver;
+};
