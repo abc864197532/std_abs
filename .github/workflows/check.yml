@@ -35,6 +35,8 @@ jobs:
         with:
           commit_message: build from ${{ github.ref_name }} - ${{ github.sha }}
           file_pattern: codebook.pdf
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Check PDF Page
         run: |
           chmod +x scripts/check_pdf_page.sh
