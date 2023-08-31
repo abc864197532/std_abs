@@ -20,10 +20,6 @@ jobs:
           texfot latexmk -xelatex codebook.tex
           cp codebook.pdf /root/codebook.pdf
           cd ..
-      - name: Check PDF Page
-        run: |
-          chmod +x scripts/check_pdf_page.sh
-          ./scripts/check_pdf_page.sh
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -39,3 +35,7 @@ jobs:
         with:
           commit_message: build from ${{ github.ref_name }} - ${{ github.sha }}
           file_pattern: codebook.pdf
+      - name: Check PDF Page
+        run: |
+          chmod +x scripts/check_pdf_page.sh
+          ./scripts/check_pdf_page.sh

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-page=$(exiftool "codebook/codebook.pdf" | awk -F": " '/Page Count/{print $2}')
+page=$(exiftool "codebook.pdf" | awk -F": " '/Page Count/{print $2}')
 
 echo "Page count: ${page}"
 
