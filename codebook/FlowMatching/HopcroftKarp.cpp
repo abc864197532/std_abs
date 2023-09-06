@@ -1,4 +1,4 @@
-struct HopcroftKarp {
+struct HopcroftKarp { // 0-based
   const int INF = 1 << 30;
   vector<int> adj[N];
   int match[N], dis[N], v, n, m;
