@@ -11,7 +11,7 @@ Voronoi diagram: for each triangle in triangulation,
 the bisector of all its edges will split the region.
 nearest point will belong to the triangle containing it
 */
-const ll inf = MAXC * MAXC * 100; // lower_bound unknown
+const ll inf = MAXC * MAXC * 100;// lower_bound unknown
 struct Tri;
 struct Edge {
   Tri* tri; int side;
@@ -19,11 +19,11 @@ struct Edge {
   Edge(Tri* _tri, int _side): tri(_tri), side(_side){}
 };
 struct Tri {
-  pll p[3];
+  Pt p[3];
   Edge edge[3];
   Tri* chd[3];
   Tri() {}
-  Tri(const pll& p0, const pll& p1, const pll& p2) {
+  Tri(const Pt &p0, const Pt &p1, const Pt &p2) {
     p[0] = p0; p[1] = p1; p[2] = p2;
     chd[0] = chd[1] = chd[2] = 0;
   }
@@ -31,7 +31,7 @@ struct Tri {
   int num_chd() const {
     return !!chd[0] + !!chd[1] + !!chd[2];
   }
-  bool contains(pll const& q) const {
+  bool contains(const Pt &q) const {
     for (int i = 0; i < 3; ++i)
       if (ori(p[i], p[(i + 1) % 3], q) < 0)
         return 0;
@@ -45,12 +45,12 @@ void edge(Edge a, Edge b) {
 struct Trig { // Triangulation
   Trig() {
     the_root = // Tri should at least contain all points
-      new(tris++) Tri(pll(-inf, -inf), pll(inf + inf, -inf), pll(-inf, inf + inf));
+      new(tris++) Tri(Pt(-inf, -inf), Pt(inf + inf, -inf), Pt(-inf, inf + inf));
   }
-  Tri* find(pll p) { return find(the_root, p); }
-  void add_point(const pll &p) { add_point(find(the_root, p), p); }
+  Tri* find(Pt p) { return find(the_root, p); }
+  void add_point(const Pt &p) { add_point(find(the_root, p), p); }
   Tri* the_root;
-  static Tri* find(Tri* root, const pll &p) {
+  static Tri* find(Tri* root, const Pt &p) {
     while (1) {
       if (!root->has_chd())
         return root;
@@ -62,7 +62,7 @@ struct Trig { // Triangulation
     }
     assert(0); // "point not found"
   }
-  void add_point(Tri* root, pll const& p) {
+  void add_point(Tri* root, Pt const& p) {
     Tri* t[3];
     /* split it into three triangles */
     for (int i = 0; i < 3; ++i)
@@ -106,11 +106,12 @@ void go(Tri* now) { // store all tri into triang
   for (int i = 0; i < now->num_chd(); ++i)
     go(now->chd[i]);
 }
-void build(int n, pll* ps) { // build triangulation
+void build(vector <Pt> &arr) { // build triangulation
+  int n = arr.size();
   tris = pool; triang.clear(); vst.clear();
-  random_shuffle(ps, ps + n);
+  random_shuffle(all(arr));
   Trig tri; // the triangulation structure
   for (int i = 0; i < n; ++i)
-    tri.add_point(ps[i]);
+    tri.add_point(arr[i]);
   go(tri.the_root);
 }
