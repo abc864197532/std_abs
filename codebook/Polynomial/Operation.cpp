@@ -169,3 +169,42 @@ vector <ll> Interpolate(vector <ll> x, vector <ll> y) {
   }
   return down[1];
 }
+vector <ll> TaylorShift(vector <ll> a, ll c) {
+  // return sum a_i(x + c)^i;
+  // fac[i] = i!, facp[i] = inv(i!)
+  int n = a.size();
+  for (int i = 0; i < n; ++i) a[i] = mul(a[i], fac[i]);
+  reverse(all(a));
+  vector <ll> b(n);
+  ll w = 1;
+  for (int i = 0; i < n; ++i)
+    b[i] = mul(facp[i], w), w = mul(w, c);
+  a = Mul(a, b, n), reverse(all(a));
+  for (int i = 0; i < n; ++i) a[i] = mul(a[i],facp[i]);
+  return a;
+}
+vector <ll> SamplingShift(vector <ll> a, ll c, int m) {
+  // given f(0), f(1), ..., f(n - 1)
+  // return f(c), f(c + 1), ..., f(c + m - 1)
+  int n = a.size();
+  for (int i = 0; i < n; ++i) a[i] = mul(a[i],facp[i]);
+  vector <ll> b(n);
+  for (int i = 0; i < n; ++i) {
+    b[i] = facp[i];
+    if (i & 1) b[i] = sub(0, b[i]);
+  }
+  a = Mul(a, b, n);
+  for (int i = 0; i < n; ++i) a[i] = mul(a[i], fac[i]);
+  reverse(all(a));
+  ll w = 1;
+  for (int i = 0; i < n; ++i)
+    b[i] = mul(facp[i], w), w = mul(w, sub(c, i));
+  a = Mul(a, b, n);
+  reverse(all(a));
+  for (int i = 0; i < n; ++i) a[i] = mul(a[i],facp[i]);
+  a.resize(m), b.resize(m);
+  for (int i = 0; i < m; ++i) b[i] = facp[i];
+  a = Mul(a, b, m);
+  for (int i = 0; i < m; ++i) a[i] = mul(a[i], fac[i]);
+  return a;
+}
