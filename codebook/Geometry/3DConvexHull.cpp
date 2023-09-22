@@ -1,9 +1,9 @@
 struct CH3D {
   struct face{int a, b, c; bool ok;} F[8 * N];
-  double dblcmp(Point &p,face &f)
-  {return dot(cross3(P[f.a], P[f.b], P[f.c]), p - P[f.a]);}
+  double dblcmp(Pt &p,face &f)
+  {return cross3(P[f.a], P[f.b], P[f.c]) * (p - P[f.a]);}
   int g[N][N], num, n;
-  Point P[N];
+  Pt P[N];
   void deal(int p,int a,int b) {
     int f = g[a][b];
     face add;
@@ -18,9 +18,9 @@ struct CH3D {
     deal(p, F[now].b, F[now].a), deal(p, F[now].c, F[now].b), deal(p, F[now].a, F[now].c);
   }
   bool same(int s,int t){
-    Point &a = P[F[s].a];
-    Point &b = P[F[s].b];
-    Point &c = P[F[s].c];
+    Pt &a = P[F[s].a];
+    Pt &b = P[F[s].b];
+    Pt &c = P[F[s].c];
     return fabs(volume(a, b, c, P[F[t].a])) < eps && fabs(volume(a, b, c, P[F[t].b])) < eps && fabs(volume(a, b, c, P[F[t].c])) < eps;
   }
   void init(int _n){n = _n, num = 0;}
@@ -40,7 +40,7 @@ struct CH3D {
         return 1;
         }() || [&](){
         for (int i = 3; i < n; ++i)
-        if (fabs(dot(cross(P[0] - P[1], P[1] - P[2]), P[0] - P[i])) > eps)
+        if (fabs(((P[0] - P[1]) ^ (P[1] - P[2])) * (P[0] - P[i])) > eps)
         return swap(P[3], P[i]), 0;
         return 1;
         }())return;
@@ -70,7 +70,7 @@ struct CH3D {
   double get_volume() {
     double res = 0.0;
     for (int i = 0; i < num; ++i)
-      res += volume(Point(0, 0, 0), P[F[i].a], P[F[i].b], P[F[i].c]);
+      res += volume(Pt(0, 0, 0), P[F[i].a], P[F[i].b], P[F[i].c]);
     return fabs(res / 6.0);
   } 
   int triangle() {return num;}
@@ -81,12 +81,12 @@ struct CH3D {
         flag &= !same(i,j);
     return res;
   }
-  Point getcent(){
-    Point ans(0, 0, 0), temp = P[F[0].a]; 
+  Pt getcent(){
+    Pt ans(0, 0, 0), temp = P[F[0].a]; 
     double v = 0.0, t2; 
     for (int i = 0; i < num; ++i)
       if (F[i].ok == true) {
-        Point p1 = P[F[i].a], p2 = P[F[i].b], p3 = P[F[i].c]; 
+        Pt p1 = P[F[i].a], p2 = P[F[i].b], p3 = P[F[i].c]; 
         t2 = volume(temp, p1, p2, p3) / 6.0;
         if (t2>0)
           ans.x += (p1.x + p2.x + p3.x + temp.x) * t2, ans.y += (p1.y + p2.y + p3.y + temp.y) * t2, ans.z += (p1.z + p2.z + p3.z + temp.z) * t2, v += t2; 
@@ -94,11 +94,11 @@ struct CH3D {
     ans.x /= (4 * v), ans.y /= (4 * v), ans.z /= (4 * v); 
     return ans; 
   } 
-  double pointmindis(Point p) {            
+  double pointmindis(Pt p) {            
     double rt = 99999999; 
     for(int i = 0; i < num; ++i)
       if(F[i].ok == true) { 
-        Point p1 = P[F[i].a], p2 = P[F[i].b], p3 = P[F[i].c];                    
+        Pt p1 = P[F[i].a], p2 = P[F[i].b], p3 = P[F[i].c];                    
         double a = (p2.y - p1.y) * (p3.z - p1.z) - (p2.z - p1.z) * (p3.y - p1.y); 
         double b = (p2.z - p1.z) * (p3.x - p1.x) - (p2.x - p1.x) * (p3.z - p1.z); 
         double c = (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x); 

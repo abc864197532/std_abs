@@ -2,13 +2,6 @@ struct Matching { // 0-based
   int fa[N], pre[N], match[N], s[N], v[N], n, tk;
   vector <int> g[N];
   queue <int> q;
-  Matching (int _n) : n(_n), tk(0) {
-    for (int i = 0; i <= n; ++i) match[i] = pre[i] = n;
-    for (int i = 0; i < n; ++i) g[i].clear();
-  }
-  void add_edge(int u, int v) {
-    g[u].push_back(v), g[v].push_back(u);
-  }
   int Find(int u) {
     return u == fa[u] ? u : fa[u] = Find(fa[u]);
   }
@@ -64,5 +57,13 @@ struct Matching { // 0-based
       if (match[x] == n) res += bfs(x);
     }
     return res;
+  }
+  void init(int _n) {
+    n = _n, tk = 0;
+    for (int i = 0; i <= n; ++i) match[i] = pre[i] = n;
+    for (int i = 0; i < n; ++i) g[i].clear(), v[i] = 0;
+  }
+  void add_edge(int u, int v) {
+    g[u].push_back(v), g[v].push_back(u);
   }
 };
