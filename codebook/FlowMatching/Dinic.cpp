@@ -28,12 +28,11 @@ struct Dinic { // 0-base
     queue<int> q;
     q.push(s), dis[s] = 0;
     while (!q.empty()) {
-      int tmp = q.front();
-      q.pop();
-      for (auto &u : adj[tmp])
+      int v = q.front(); q.pop();
+      for (auto &u : adj[v])
         if (!~dis[u.to] && u.flow != u.cap) {
           q.push(u.to);
-          dis[u.to] = dis[tmp] + 1;
+          dis[u.to] = dis[v] + 1;
         }
     }
     return dis[t] != -1;

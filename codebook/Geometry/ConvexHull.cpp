@@ -11,6 +11,6 @@ vector <Pt> ConvexHull(vector <Pt> pt) {
     }
     reverse(all(pt));
   }
-  ans.pop_back();
+  if (ans.size() > 1) ans.pop_back();
   return ans;
 }
