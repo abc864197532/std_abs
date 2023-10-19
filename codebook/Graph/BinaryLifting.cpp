@@ -6,6 +6,6 @@ int lift(int x, int k) {
   return x;
 }
 void add(int p, int v) {
-  dep[v] = dep[p] + 1, par[v] = p;
+  dep[v] = dep[p] + 1, pa[v] = p;
   to[v] = dep[p] - dep[to[p]] == dep[to[p]] - dep[to[to[p]]] ? to[to[p]] : p;
 }
