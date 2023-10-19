@@ -15,5 +15,9 @@ if not (a, b) in S:
 # dict
 D = dict() D[(a, b)] = 1 del D[(a, b)]
 for (a, b) in D.items():
+# random
+arr = [randint(1, C) for i in range(N)]
+choice([8, 6, 4, 1]) # random pick one
+shuffle(arr) #shuffle a list
 # print array
-print(*[randint(1, C) for i in range(0, N)], sep=' ')
+print(*arr, sep=' ')
