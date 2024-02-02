@@ -6,7 +6,6 @@ struct Dinic { // 0-base
     T cap, flow;
   };
   vector<edge> adj[N];
-  bool isS[N];
   int s, t, dis[N], cur[N], n;
   T dfs(int u, T cap) {
     if (u == s || !cap) return cap;
