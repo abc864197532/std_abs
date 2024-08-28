@@ -1,24 +1,26 @@
 template <typename T1, typename T2>
-struct MCMF { // T1 -> flow, T2 -> cost, 0-based
-  const T1 INF1 = 1 << 30;
-  const T2 INF2 = 1 << 30;
+struct MCMF { // T1 -> flow, T2 -> cost, 0-based, init!
+  const T1 INF1 = numeric_limits<T1>::max() / 2;
+  const T2 INF2 = numeric_limits<T2>::max() / 2;
   struct edge {
     int v; T1 f; T2 c;
-  } E[M << 1];
-  vector <int> adj[N];
-  T2 dis[N], pot[N];
-  int rt[N], vis[N], n, m, s, t;
+  };
+  vector <vector <int>> g;
+  vector <edge> e;
+  vector <T2> dis, pot;
+  vector <int> rt, vis;
+  int n, s, t;
   // bool DAG()...
   bool SPFA() {
-    fill_n(rt, n, -1), fill_n(dis, n, INF2);
-    fill_n(vis, n, false);
+    fill(all(rt), -1), fill(all(dis), INF2);
+    fill(all(vis), false);
     queue <int> q;
     q.push(s), dis[s] = 0, vis[s] = true;
     while (!q.empty()) {
       int v = q.front(); q.pop();
       vis[v] = false;
-      for (int id : adj[v]) {
-        auto [u, f, c] = E[id];
+      for (int id : g[v]) {
+        auto [u, f, c] = e[id];
         T2 ndis = dis[v] + c + pot[v] - pot[u];
         if (f > 0 && dis[u] > ndis) {
           dis[u] = ndis, rt[u] = id;
@@ -29,14 +31,14 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     return dis[t] != INF2;
   }
   bool dijkstra() {
-    fill_n(rt, n, -1), fill_n(dis, n, INF2);
+    fill(all(rt), -1), fill(all(dis), INF2);
     priority_queue <pair <T2, int>, vector <pair <T2, int>>, greater <pair <T2, int>>> pq;
     dis[s] = 0, pq.emplace(dis[s], s);
     while (!pq.empty()) {
       auto [d, v] = pq.top(); pq.pop();
       if (dis[v] < d) continue;
-      for (int id : adj[v]) {
-        auto [u, f, c] = E[id];
+      for (int id : g[v]) {
+        auto [u, f, c] = e[id];
         T2 ndis = dis[v] + c + pot[v] - pot[u];
         if (f > 0 && dis[u] > ndis) {
           dis[u] = ndis, rt[u] = id;
@@ -46,31 +48,33 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     }
     return dis[t] != INF2;
   }
-  pair <T1, T2> solve(int _s, int _t) {
-    s = _s, t = _t, fill_n(pot, n, 0);
-    T1 flow = 0; T2 cost = 0; bool fr = true;
+  vector <pair <T1, T2>> solve(int _s, int _t) {
+    s = _s, t = _t, fill(all(pot), 0);
+    vector <pair <T1, T2>> ans; bool fr = true;
     while ((fr ? SPFA() : dijkstra())) {
       for (int i = 0; i < n; i++)
         dis[i] += pot[i] - pot[s];
       T1 add = INF1;
-      for (int i = t; i != s; i = E[rt[i] ^ 1].v)
-        add = min(add, E[rt[i]].f);
-      for (int i = t; i != s; i = E[rt[i] ^ 1].v)
-        E[rt[i]].f -= add, E[rt[i] ^ 1].f += add;
-      flow += add, cost += add * dis[t], fr = false;
+      for (int i = t; i != s; i = e[rt[i] ^ 1].v)
+        add = min(add, e[rt[i]].f);
+      for (int i = t; i != s; i = e[rt[i] ^ 1].v)
+        e[rt[i]].f -= add, e[rt[i] ^ 1].f += add;
+      ans.emplace_back(add, dis[t]), fr = false;
       for (int i = 0; i < n; ++i) swap(dis[i], pot[i]);
     }
-    return make_pair(flow, cost);
+    return ans;
   }
   void init(int _n) {
-    n = _n, m = 0;
-    for (int i = 0; i < n; ++i) adj[i].clear();
+    n = _n;
+    g.assign(n, vector <int>()), e.clear();
+    dis.resize(n), pot.resize(n);
+    rt.resize(n), vis.resize(n);
   }
   void reset() {
-    for (int i = 0; i < m; ++i) E[i].f = 0;
+    for (int i = 0; i < (int)e.size(); ++i) e[i].f = 0;
   }
   void add_edge(int u, int v, T1 f, T2 c) {
-    adj[u].pb(m), E[m++] = {v, f, c};
-    adj[v].pb(m), E[m++] = {u, 0, -c};
+    g[u].pb((int)e.size()), e.pb({v, f, c});
+    g[v].pb((int)e.size()), e.pb({u, 0, -c});
   }
 };

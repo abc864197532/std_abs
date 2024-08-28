@@ -1,22 +1,16 @@
 template <typename T>
-struct SW { // 0-based
-  const T INF = 1 << 30;
-  T g[N][N], sum[N]; int n;
-  bool vis[N], dead[N];
-  void init(int _n) {
-    n = _n;
-    for (int i = 0; i < n; ++i) fill_n(g[i], n, 0);
-    fill(dead, dead + n, false);
-  }
-  void add_edge(int u, int v, T w) {
-    g[u][v] += w, g[v][u] += w;
-  }
+struct SW { // 0-based, remember to init
+  const T INF = numeric_limits<T>::max() / 2;
+  vector <vector <T>> g;
+  vector <T> sum;
+  vector <bool> vis, dead;
+  int n;
   T solve() {
     T ans = INF;
-    for (int round = 0; round + 1 < n; ++round) {
-      fill(vis, vis + n, false), fill(sum, sum + n, 0);
+    for (int r = 0; r + 1 < n; ++r) {
+      fill(all(vis), 0), fill(all(sum), 0);
       int num = 0, s = -1, t = -1;
-      while (num < n - round) {
+      while (num < n - r) {
         int now = -1;
         for (int i = 0; i < n; ++i)
           if (!vis[i] && !dead[i] && 
@@ -33,4 +27,11 @@ struct SW { // 0-based
     }
     return ans;
   }
+  void init(int _n) {
+    n = _n;
+    g.assign(n, vector <T>(n, 0));
+    vis.resize(n), sum.resize(n), dead.assign(n, 0);
+  }
+  void add_edge(int u, int v, T w) {
+    g[u][v] += w, g[v][u] += w; }
 };

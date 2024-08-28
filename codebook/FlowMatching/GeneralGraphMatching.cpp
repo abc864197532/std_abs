@@ -1,6 +1,7 @@
-struct Matching { // 0-based
-  int fa[N], pre[N], match[N], s[N], v[N], n, tk;
-  vector <int> g[N];
+struct Matching { // 0-based, remember to init
+  vector <vector <int>> g;
+  vector <int> fa, pre, match, s, t;
+  int n, tk;
   queue <int> q;
   int Find(int u) {
     return u == fa[u] ? u : fa[u] = Find(fa[u]);
@@ -10,8 +11,8 @@ struct Matching { // 0-based
     x = Find(x), y = Find(y);
     for (; ; swap(x, y)) {
       if (x != n) {
-        if (v[x] == tk) return x;
-        v[x] = tk;
+        if (t[x] == tk) return x;
+        t[x] = tk;
         x = Find(pre[match[x]]);
       }
     }
@@ -26,7 +27,7 @@ struct Matching { // 0-based
     }
   }
   bool bfs(int r) {
-    for (int i = 0; i <= n; ++i) fa[i] = i, s[i] = -1;
+    iota(all(fa), 0), fill(all(s), -1);
     while (!q.empty()) q.pop();
     q.push(r);
     s[r] = 0;
@@ -60,8 +61,9 @@ struct Matching { // 0-based
   }
   void init(int _n) {
     n = _n, tk = 0;
-    for (int i = 0; i <= n; ++i) match[i] = pre[i] = n;
-    for (int i = 0; i < n; ++i) g[i].clear(), v[i] = 0;
+    match.assign(n + 1, n), pre.assign(n + 1, n);
+    g.assign(n, vector <int>()), t.assign(n, 0);
+    fa.resize(n + 1), s.resize(n + 1);
   }
   void add_edge(int u, int v) {
     g[u].push_back(v), g[v].push_back(u);

@@ -1,11 +1,11 @@
-struct HopcroftKarp { // 0-based
+struct HopcroftKarp { // 0-based, remember to init
   const int INF = 1 << 30;
-  vector<int> adj[N];
-  int match[N], dis[N], v, n, m;
-  bool matched[N], vis[N];
+  vector <vector <int>> g;
+  vector <int> match, dis, matched, vis;
+  int n, m;
   bool dfs(int x) {
     vis[x] = true;
-    for (int y : adj[x])
+    for (int y : g[x])
       if (match[y] == -1 || (dis[match[y]] == dis[x] + 1 && !vis[match[y]] && dfs(match[y]))) {
         match[y] = x, matched[x] = true;
         return true;
@@ -13,14 +13,14 @@ struct HopcroftKarp { // 0-based
     return false;
   }
   bool bfs() {
-    memset(dis, -1, sizeof(int) * n);
-    queue<int> q;
+    fill(all(dis), -1);
+    queue <int> q;
     for (int x = 0; x < n; ++x) if (!matched[x])
       dis[x] = 0, q.push(x);
     int mx = INF;
     while (!q.empty()) {
       int x = q.front(); q.pop();
-      for (int y : adj[x]) {
+      for (int y : g[x]) {
         if (match[y] == -1) {
           mx = dis[x];
           break;
@@ -32,10 +32,10 @@ struct HopcroftKarp { // 0-based
   }
   int solve() {
     int res = 0;
-    memset(match, -1, sizeof(int) * m);
-    memset(matched, 0, sizeof(bool) * n);
+    fill(all(match), -1);
+    fill(all(matched), 0);
     while (bfs()) {
-      memset(vis, 0, sizeof(bool) * n);
+      fill(all(vis), 0);
       for (int x = 0; x < n; ++x) if (!matched[x])
         res += dfs(x);
     }
@@ -43,9 +43,9 @@ struct HopcroftKarp { // 0-based
   }
   void init(int _n, int _m) {
     n = _n, m = _m;
-    for (int i = 0; i < n; ++i) adj[i].clear();
+    g.assign(n, vector <int>());
+    match.resize(m), dis.resize(n);
+    matched.resize(n), vis.resize(n);
   }
-  void add_edge(int x, int y) {
-    adj[x].pb(y);
-  }
+  void add_edge(int x, int y) { g[x].pb(y); }
 };
