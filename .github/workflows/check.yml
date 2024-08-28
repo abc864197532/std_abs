@@ -17,7 +17,7 @@ jobs:
       - name: Compile
         run: |
           cd codebook
-          texfot latexmk -xelatex codebook.tex
+          texfot latexmk -xelatex --shell-escape codebook.tex
           cp codebook.pdf /root/codebook.pdf
           cd ..
       - name: Check PDF Page
