@@ -18,6 +18,7 @@
 \usepackage{amsmath}
 % \usepackage[CheckSingle, CJKmath]{xeCJK}
 % \usepackage{CJKulem}
+\usepackage{multicol}
 
 %\usepackage[T1]{fontenc}
 \usepackage{amsmath, courier, listings, fancyhdr, graphicx}
@@ -34,7 +35,9 @@
 \evensidemargin=0pt
 \hoffset=-42pt
 
-\titlespacing\subsection{0pt}{5pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\section{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
+\titlespacing\subsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
+\titlespacing\subsubsection{0pt}{-2pt plus 0pt minus 2pt}{-1pt plus 0pt minus 2pt}
 
 
 %\renewcommand\listfigurename{圖目錄}
@@ -82,6 +85,36 @@ stringstyle=\itshape\color{Green4},
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\ExplSyntaxOn
+\NewDocumentCommand{\captureshell}{som}
+ {
+  \sdaau_captureshell:Ne \l__sdaau_captureshell_out_tl { #3 }
+  \IfBooleanT { #1 }
+   {% we may need to stringify the result
+    \tl_set:Nx \l__sdaau_captureshell_out_tl
+     { \tl_to_str:N \l__sdaau_captureshell_out_tl }
+   }
+  \IfNoValueTF { #2 }
+   {
+    \tl_use:N \l__sdaau_captureshell_out_tl
+   }
+   {
+    \tl_set_eq:NN #2 \l__sdaau_captureshell_out_tl
+   }
+ }
+
+\tl_new:N \l__sdaau_captureshell_out_tl
+
+\cs_new_protected:Nn \sdaau_captureshell:Nn
+ {
+  \sys_get_shell:nnN { #2 } { } #1
+  \tl_trim_spaces:N #1 % remove leading and trailing spaces
+ }
+\cs_generate_variant:Nn \sdaau_captureshell:Nn { Ne }
+\ExplSyntaxOff
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
 \pagestyle{fancy}
 \fancyfoot{}
@@ -90,9 +123,23 @@ stringstyle=\itshape\color{Green4},
 \fancyhead[R]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\contentsname}{Contents} 
+\newcommand{\inputcode}[2]{
+	\subsection[#1]{#1 \footnotesize{[\texttt{\captureshell{cpp #2 -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6}}]}}
+    \lstinputlisting{#2}
+}
+\newcommand{\inputcodenohash}[2]{
+    \subsection[#1]{#1}
+    \lstinputlisting{#2}
+}
+\newcommand{\inputtex}[2]{
+    \subsection[#1]{#1}
+    \input{#2}
+}
 
 \scriptsize
-\tableofcontents
+\begin{multicols}{2}
+  \tableofcontents
+\end{multicols}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\newpage
