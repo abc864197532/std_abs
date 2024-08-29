@@ -1,16 +1,8 @@
-struct Dominator_tree {
-  int n, id, sdom[N], dom[N];
-  vector <int> adj[N], radj[N], bucket[N];
-  int vis[N], rev[N], pa[N], rt[N], mn[N], res[N];
+struct DominatorTree {
+  int n, id;
+  vector <vector <int>> g, rg, bucket;
+  vector <int> sdom, dom, vis, rev, pa, rt, mn, res;
   // dom[s] = s, dom[v] = -1 if s -> v not exists
-  Dominator_tree () {}
-  void init(int _n) {
-    n = _n, id = 0;
-    for (int i = 0; i < n; ++i)
-      adj[i].clear(), radj[i].clear(), bucket[i].clear();
-    fill_n(dom, n, -1), fill_n(vis, n, -1);
-  }
-  void add_edge(int u, int v) {adj[u].pb(v);}
   int query(int v, int x) {
     if (rt[v] == v) return x ? -1 : v;
     int p = query(rt[v], 1);
@@ -23,15 +15,15 @@ struct Dominator_tree {
   void dfs(int v) {
     vis[v] = id, rev[id] = v;
     rt[id] = mn[id] = sdom[id] = id, id++;
-    for (int u : adj[v]) {
+    for (int u : g[v]) {
       if (vis[u] == -1) dfs(u), pa[vis[u]] = vis[v];
-      radj[vis[u]].pb(vis[v]);
+      rg[vis[u]].pb(vis[v]);
     }
   }
   void build(int s) {
     dfs(s);
     for (int i = id - 1; ~i; --i) {
-      for (int u : radj[i]) {
+      for (int u : rg[i]) {
         sdom[i] = min(sdom[i], sdom[query(u, 0)]);
       }
       if (i) bucket[sdom[i]].pb(i);
@@ -41,7 +33,7 @@ struct Dominator_tree {
       }
       if (i) rt[i] = pa[i];
     }
-    fill_n(res, n, -1);
+    fill(all(res), -1);
     for (int i = 1; i < id; ++i) {
       if (dom[i] != sdom[i]) dom[i] = dom[dom[i]];
     }
@@ -50,4 +42,8 @@ struct Dominator_tree {
     res[s] = s;
     for (int i = 0; i < n; ++i) dom[i] = res[i];
   }
+  void add_edge(int u, int v) { g[u].pb(v); }
+  Dominator_tree (int _n) : n(_n), id(0), g(n), rg(n),
+    bucket(n), sdom(n), dom(n, -1), vis(n, -1),
+    rev(n), pa(n), rt(n), mn(n), res(n) {}
 };

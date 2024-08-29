@@ -1,13 +1,10 @@
 struct Vizing { // 1-based
   // returns edge coloring in adjacent matrix G
-  int C[N][N], G[N][N], X[N], vst[N], n;
-  void init(int _n) {
-    n = _n;
-    for (int i = 1; i <= n; ++i)
-      for (int j = 1; j <= n; ++j)
-        C[i][j] = G[i][j] = 0;
-  }
-  void solve(vector<pii> &E) {
+  int n;
+  vector <vector <int>> C, G;
+  vector <int> X, vst;
+  vector <pii> E;
+  void solve() {
     auto update = [&](int u)
     { for (X[u] = 1; C[u][X[u]]; ++X[u]); };
     auto color = [&](int u, int v, int c) {
@@ -27,12 +24,12 @@ struct Vizing { // 1-based
       if (!C[u][c2]) X[u] = c2;
       return p;
     };
-    fill_n(X + 1, n, 1);
-    for (int t = 0; t < E.size(); ++t) {
+    fill(1 + all(X), 1);
+    for (int t = 0; t < (int)E.size(); ++t) {
       auto [u, v0] = E[t];
       int v = v0, c0 = X[u], c = c0, d;
       vector<pii> L;
-      fill_n(vst + 1, n, 0);
+      fill(1 + all(vst), 0);
       while (!G[u][v0]) {
         L.emplace_back(v, d = X[v]);
         if (!C[v][c]) {
@@ -47,11 +44,16 @@ struct Vizing { // 1-based
       if (!G[u][v0]) {
         for (; v; v = flip(v, c, d), swap(c, d));
         if (int a; C[u][c0]) {
-          for (a = sz(L) - 2; a >= 0 && L[a].second != c; --a);
-          for (; a >= 0; --a) color(u, L[a].first, L[a].second);
+          for (a = sz(L) - 2;
+            a >= 0 && L[a].second != c; --a);
+          for (; a >= 0; --a)
+            color(u, L[a].first, L[a].second);
         }
         else --t;
       }
     }
   }
+  void add_edge(int u, int v) { E.emplace_back(u, v); }
+  Vizing(int _n) : n(_n), C(n + 1, vector<int>(n + 1)),
+  G(n + 1, vector<int>(n + 1)), X(n + 1), vst(n + 1) {}
 };

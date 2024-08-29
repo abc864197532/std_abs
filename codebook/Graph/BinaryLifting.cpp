@@ -7,5 +7,6 @@ int lift(int x, int k) {
 }
 void add(int p, int v) {
   dep[v] = dep[p] + 1, pa[v] = p;
-  to[v] = dep[p] - dep[to[p]] == dep[to[p]] - dep[to[to[p]]] ? to[to[p]] : p;
+  to[v] = dep[p] - dep[to[p]] ==
+          dep[to[p]] - dep[to[to[p]]] ? to[to[p]] : p;
 }

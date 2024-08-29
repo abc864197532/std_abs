@@ -1,7 +1,5 @@
 using D = int;
-struct edge {
-  int u, v; D w;
-};
+struct edge { int u, v; D w; };
 // 0-based, return index of edges
 vector<int> dmst(vector<edge> &e, int n, int root) {
   using T = pair <D, int>;

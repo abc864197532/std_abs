@@ -1,27 +1,34 @@
-vector <int> g[N];
-int dis[N][logN], pa[N], sz[N], dep[N];
-bool vis[N];
-void dfs_sz(int i, int p) {
-  sz[i] = 1;
-  for (int j : g[i]) if (j != p && !vis[j])
-    dfs_sz(j, i), sz[i] += sz[j];
-}
-int cen(int i, int p, int _n) {
-  for (int j : g[i])
-    if (j != p && !vis[j] && sz[j] > _n / 2)
-      return cen(j, i, _n);
-  return i;
-}
-void dfs_dis(int i, int p, int d) {
-  // from i to ancestor with depth d
-  dis[i][d] = ~p ? dis[p][d] + 1 : 0;
-  for (int j : g[i]) if (j != p && !vis[j])
-    dfs_dis(j, i, d);
-}
-void cd(int i, int p, int d) {
-  dfs_sz(i, -1), i = cen(i, -1, sz[i]);
-  vis[i] = true, pa[i] = p, dep[i] = d;
-  dfs_dis(i, -1, d);
-  for (int j : g[i]) if (!vis[j])
-    cd(j, i, d + 1);
-}
+struct CD { // 0-based, remember to build
+  int n, lg; // pa, dep are centroid tree attributes
+  vector <vector <int>> g, dis;
+  vector <int> pa, tsz, dep, vis;
+  void dfs1(int v, int p) {
+    tsz[v] = 1;
+    for (int u : g[v]) if (u != p && !vis[u])
+      dfs1(u, v), tsz[v] += tsz[u];
+  }
+  int dfs2(int v, int p, int _n) {
+    for (int u : g[v])
+      if (u != p && !vis[u] && tsz[u] > _n / 2)
+        return dfs2(u, v, _n);
+    return v;
+  }
+  void dfs3(int v, int p, int d) {
+    dis[v][d] = ~p ? dis[p][d] + 1 : 0;
+    for (int u : g[v]) if (u != p && !vis[u])
+      dfs3(u, v, d);
+  }
+  void cd(int v, int p, int d) {
+    dfs1(v, -1), v = dfs2(v, -1, tsz[v]);
+    vis[v] = true, pa[v] = p, dep[v] = d;
+    dfs3(v, -1, d);
+    for (int u : g[v]) if (!vis[u])
+      cd(u, v, d + 1);
+  }
+  void build() { cd(0, -1, 0); }
+  void add_edge(int u, int v) {
+    g[u].pb(v), g[v].pb(u); }
+  CD (int _n) : n(_n), lg(__lg(n) + 1), g(n),
+    dis(n, vector <int>(lg)), pa(n), tsz(n),
+    dep(n), vis(n) {}
+};

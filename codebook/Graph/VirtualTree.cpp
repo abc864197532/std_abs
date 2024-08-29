@@ -1,20 +1,18 @@
-// need lca
-vector <int> _g[N], stk;
-int st[N], ed[N];
-void solve(vector<int> v) {
-  auto cmp = [&](int x, int y) {return st[x] < st[y];};
+// need lca, in, out
+vector <pii> virtual_tree(vector <int> &v) {
+  auto cmp = [&](int x, int y) {return in[x] < in[y];};
   sort(all(v), cmp);
-  int sz = v.size();
-  for (int i = 0; i < sz - 1; ++i)
+  int sz = (int)v.size();
+  for (int i = 0; i + 1 < sz; ++i)
     v.pb(lca(v[i], v[i + 1]));
   sort(all(v), cmp);
   v.resize(unique(all(v)) - v.begin());
-  stk.clear(), stk.pb(v[0]);
-  for (int i = 1; i < v.size(); ++i) {
+  vector <int> stk(1, v[0]);
+  vector <pii> res;
+  for (int i = 1; i < (int)v.size(); ++i) {
     int x = v[i];
-    while (ed[stk.back()] < ed[x]) stk.pop_back();
-    _g[stk.back()].pb(x), stk.pb(x);
+    while (out[stk.back()] < out[x]) stk.pop_back();
+    res.emplace_back(stk.back(), x), stk.pb(x);
   }
-  // do something
-  for (int i : v) _g[i].clear();
+  return res;
 }
