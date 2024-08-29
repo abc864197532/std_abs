@@ -1,4 +1,4 @@
-ll DiscreteLog(ll a, ll b, ll m) {
+ll DiscreteLog(ll a, ll b, ll m) { // a^x = b (mod m)
   const int B = 35000;
   ll k = 1 % m, ans = 0, g;
   while ((g = gcd(a, m)) > 1) {
