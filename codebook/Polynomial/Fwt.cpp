@@ -1,4 +1,4 @@
-void fwt(vector <int> &a) {
+void fwt(vector <int> &a, bool inv = false) {
   // and : x += y * (1, -1)
   // or  : y += x * (1, -1)
   // xor : x = (x + y) * (1, 1/2)
@@ -14,9 +14,9 @@ void fwt(vector <int> &a) {
 vector<int> subs_conv(vector<int> a, vector<int> b) {
   // c_i = sum_{j & k = 0, j | k = i} a_j * b_k
   int n = __lg(a.size());
-  vector<vector<int>> ha(n + 1, vector<int>(1 << n));
-  vector<vector<int>> hb(n + 1, vector<int>(1 << n));
-  vector<vector<int>> c(n + 1, vector<int>(1 << n));
+  vector ha(n + 1, vector<int>(1 << n));
+  vector hb(n + 1, vector<int>(1 << n));
+  vector c(n + 1, vector<int>(1 << n));
   for (int i = 0; i < 1 << n; ++i) {
     ha[__builtin_popcount(i)][i] = a[i];
     hb[__builtin_popcount(i)][i] = b[i];
@@ -26,8 +26,8 @@ vector<int> subs_conv(vector<int> a, vector<int> b) {
   for (int i = 0; i <= n; ++i)
     for (int j = 0; i + j <= n; ++j)
       for (int k = 0; k < 1 << n; ++k)
-        // mind overflow
-        c[i + j][k] += ha[i][k] * hb[j][k]; 
+        c[i + j][k] = add(c[i + j][k],
+          mul(ha[i][k], hb[j][k]));
   for (int i = 0; i <= n; ++i) or_fwt(c[i], true);
   vector <int> ans(1 << n);
   for (int i = 0; i < 1 << n; ++i)
