@@ -18,5 +18,5 @@ struct SAT { // 0-based, need SCC
     }
     return true;
   }
-  SAT (int _n) : n(_n), is(n) {}
+  SAT (int _n) : n(_n), edge(), is(n) {}
 };
