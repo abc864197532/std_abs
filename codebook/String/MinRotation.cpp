@@ -1,7 +1,6 @@
 string rotate(const string &s) {
-  int n = s.length();
+  int n = (int)s.size(), i = 0, j = 1;
   string t = s + s;
-  int i = 0, j = 1;
   while (i < n && j < n) {
     int k = 0;
     while (k < n && t[i + k] == t[j + k]) ++k;

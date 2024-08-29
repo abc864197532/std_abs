@@ -19,11 +19,12 @@ struct AC {
     for (int i = 0; i < 26; ++i) if (ch[0][i]) {
       q.push(ch[0][i]);
       g[0].push_back(ch[0][i]);
+      to[0][i] = ch[0][i];
     }
     while (!q.empty()) {
       int v = q.front(); q.pop();
       for (int j = 0; j < 26; ++j) {
-        to[v][j] = ch[v][j] ? v : to[fail[v]][j];
+        to[v][j] = ch[v][j] ? ch[v][j] : to[fail[v]][j];
       }
       for (int i = 0; i < 26; ++i) if (ch[v][i]) {
         int u = ch[v][i], k = fail[v];
@@ -39,7 +40,6 @@ struct AC {
     int now = 0, ans = 0;
     for (char c : s) {
       now = to[now][c - 'a'];
-      if (ch[now][c - 'a']) now = ch[now][c - 'a'];
       ans += cnt[now];
     }
     return ans;
