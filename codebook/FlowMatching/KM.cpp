@@ -1,10 +1,10 @@
 template <typename T>
 struct KM { // 0-based, remember to init
   const T INF = numeric_limits<T>::max() / 2;
-  vector <vector <T>> w;
+  int n; vector <vector <T>> w;
   vector <T> hl, hr, slk;
   vector <int> fl, fr, vl, vr, pre;
-  queue <int> q; int n;
+  queue <int> q;
   bool check(int x) {
     if (vl[x] = 1, ~fl[x])
       return q.push(fl[x]), vr[fl[x]] = 1;
@@ -50,12 +50,7 @@ struct KM { // 0-based, remember to init
     for (int i = 0; i < n; ++i) res += w[i][fl[i]];
     return res;
   }
-  void init(int _n) {
-    n = _n;
-    w.assign(n, vector <T>(n, -INF));
-    hl.resize(n), hr.resize(n), slk.resize(n);
-    fl.resize(n), fr.resize(n), vl.resize(n);
-    vr.resize(n), pre.resize(n);
-  }
   void add_edge(int a, int b, T wei) { w[a][b] = wei; }
+  KM (int _n) : n(_n), w(n, vector<T>(n, -INF)), hl(n),
+    hr(n), slk(n), fl(n), fr(n), vl(n), vr(n), pre(n){}
 };

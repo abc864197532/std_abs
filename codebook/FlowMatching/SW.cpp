@@ -1,5 +1,5 @@
 template <typename T>
-struct SW { // 0-based, remember to init
+struct SW { // 0-based
   const T INF = numeric_limits<T>::max() / 2;
   vector <vector <T>> g;
   vector <T> sum;
@@ -27,11 +27,8 @@ struct SW { // 0-based, remember to init
     }
     return ans;
   }
-  void init(int _n) {
-    n = _n;
-    g.assign(n, vector <T>(n, 0));
-    vis.resize(n), sum.resize(n), dead.assign(n, 0);
-  }
   void add_edge(int u, int v, T w) {
     g[u][v] += w, g[v][u] += w; }
+  SW (int _n) : n(_n), g(n, vector <T>(n)), vis(n),
+    sum(n), dead(n) {}
 };

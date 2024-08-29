@@ -1,15 +1,15 @@
 template <typename T1, typename T2>
-struct MCMF { // T1 -> flow, T2 -> cost, 0-based, init!
+struct MCMF { // T1 -> flow, T2 -> cost, 0-based
   const T1 INF1 = numeric_limits<T1>::max() / 2;
   const T2 INF2 = numeric_limits<T2>::max() / 2;
   struct edge {
     int v; T1 f; T2 c;
   };
+  int n, s, t;
   vector <vector <int>> g;
   vector <edge> e;
   vector <T2> dis, pot;
   vector <int> rt, vis;
-  int n, s, t;
   // bool DAG()...
   bool SPFA() {
     fill(all(rt), -1), fill(all(dis), INF2);
@@ -64,12 +64,6 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based, init!
     }
     return ans;
   }
-  void init(int _n) {
-    n = _n;
-    g.assign(n, vector <int>()), e.clear();
-    dis.resize(n), pot.resize(n);
-    rt.resize(n), vis.resize(n);
-  }
   void reset() {
     for (int i = 0; i < (int)e.size(); ++i) e[i].f = 0;
   }
@@ -77,4 +71,6 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based, init!
     g[u].pb((int)e.size()), e.pb({v, f, c});
     g[v].pb((int)e.size()), e.pb({u, 0, -c});
   }
+  MCMF (int _n) : n(_n), g(n), e(), dis(n), pot(n),
+    rt(n), vis(n) {}
 };

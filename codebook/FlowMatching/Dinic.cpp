@@ -1,10 +1,10 @@
 template <typename T>
-struct Dinic { // 0-based, remember to init
+struct Dinic { // 0-based
   const T INF = numeric_limits<T>::max() / 2;
   struct edge { int to, rev; T cap, flow; };
+  int n, s, t;
   vector <vector <edge>> g;
   vector <int> dis, cur;
-  int s, t, n;
   T dfs(int u, T cap) {
     if (u == t || !cap) return cap;
     for (int &i = cur[u]; i < (int)g[u].size(); ++i) {
@@ -44,11 +44,6 @@ struct Dinic { // 0-based, remember to init
     }
     return flow;
   }
-  void init(int _n) {
-    n = _n;
-    g.assign(n, vector <edge>());
-    dis.resize(n), cur.resize(n);
-  }
   void reset() {
     for (int i = 0; i < n; ++i)
       for (auto &j : g[i]) j.flow = 0;
@@ -57,4 +52,5 @@ struct Dinic { // 0-based, remember to init
     g[u].pb(edge{v, (int)g[v].size(), cap, 0});
     g[v].pb(edge{u, (int)g[u].size() - 1, 0, 0});
   }
+  Dinic (int _n) : n(_n), g(n), dis(n), cur(n) {}
 };

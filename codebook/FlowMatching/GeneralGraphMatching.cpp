@@ -1,7 +1,7 @@
-struct Matching { // 0-based, remember to init
+struct Matching { // 0-based
+  int n, tk;
   vector <vector <int>> g;
   vector <int> fa, pre, match, s, t;
-  int n, tk;
   queue <int> q;
   int Find(int u) {
     return u == fa[u] ? u : fa[u] = Find(fa[u]);
@@ -59,13 +59,9 @@ struct Matching { // 0-based, remember to init
     }
     return res;
   }
-  void init(int _n) {
-    n = _n, tk = 0;
-    match.assign(n + 1, n), pre.assign(n + 1, n);
-    g.assign(n, vector <int>()), t.assign(n, 0);
-    fa.resize(n + 1), s.resize(n + 1);
-  }
   void add_edge(int u, int v) {
     g[u].push_back(v), g[v].push_back(u);
   }
+  Matching (int _n) : n(_n), tk(0), g(n), fa(n + 1),
+    pre(n + 1, n), match(n + 1, n), s(n + 1), t(n) {}
 };

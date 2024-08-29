@@ -1,8 +1,8 @@
-struct HopcroftKarp { // 0-based, remember to init
+struct HopcroftKarp { // 0-based
   const int INF = 1 << 30;
+  int n, m;
   vector <vector <int>> g;
   vector <int> match, dis, matched, vis;
-  int n, m;
   bool dfs(int x) {
     vis[x] = true;
     for (int y : g[x])
@@ -41,11 +41,7 @@ struct HopcroftKarp { // 0-based, remember to init
     }
     return res;
   }
-  void init(int _n, int _m) {
-    n = _n, m = _m;
-    g.assign(n, vector <int>());
-    match.resize(m), dis.resize(n);
-    matched.resize(n), vis.resize(n);
-  }
   void add_edge(int x, int y) { g[x].pb(y); }
+  HopcroftKarp (int _n, int _m) : n(_n), m(_m), g(n),
+    match(m), dis(n), matched(n), vis(n) {}
 };
