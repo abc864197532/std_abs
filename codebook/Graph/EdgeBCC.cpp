@@ -1,7 +1,6 @@
 struct EBCC { // 0-based, remember to build
   int n, m, nbcc;
   vector <vector <pii>> g;
-  vector <pii> edge;
   vector <int> pa, low, dep, bcc_id, stk, is_bridge;
   void dfs(int v, int p, int f) {
     low[v] = dep[v] = ~p ? dep[p] + 1 : 0;
@@ -27,9 +26,8 @@ struct EBCC { // 0-based, remember to build
       dfs(i, -1, -1);
   }
   void add_edge(int u, int v) {
-    g[u].emplace_back(v, m), g[v].emplace_back(u, m);
-    edge.emplace_back(u, v), m++;
+    g[u].emplace_back(v, m), g[v].emplace_back(u, m++);
   }
-  EBCC (int _n) : n(_n), m(0), nbcc(0), g(n), edge(),
-    pa(n), low(n, -1), dep(n), bcc_id(n), stk() {}
+  EBCC (int _n) : n(_n), m(0), nbcc(0), g(n), pa(n),
+    low(n, -1), dep(n), bcc_id(n), stk() {}
 };
