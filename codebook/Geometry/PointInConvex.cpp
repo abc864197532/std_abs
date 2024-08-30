@@ -1,4 +1,5 @@
 bool PointInConvex(const vector<Pt> &C, Pt p, bool strict = true) {
+  // only works when no three points are collinear
   int a = 1, b = int(C.size()) - 1, r = !strict;
   if (C.size() == 0) return false;
   if (C.size() < 3) return r && btw(C[0], C.back(), p);

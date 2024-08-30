@@ -1,5 +1,7 @@
 void reorder(vector <Pt> &P) {
-  rotate(P.begin(), min_element(all(P), [&](Pt a, Pt b) { return make_pair(a.y, a.x) < make_pair(b.y, b.x); }), P.end());
+  rotate(P.begin(), min_element(all(P), [&](Pt a, Pt b)
+    { return make_pair(a.y, a.x) < make_pair(b.y, b.x);
+  }), P.end());
 }
 vector <Pt> Minkowski(vector <Pt> P, vector <Pt> Q) {
   // P, Q: convex polygon, CCW order

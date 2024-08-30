@@ -1,21 +1,25 @@
 const double eps = 1e-8, PI = acos(-1);
 int sign(double x)
 { return fabs(x) <= eps ? 0 : (x > 0 ? 1 : -1); }
-double norm(double x) {
+double normalize(double x) {
   while (x < -eps) x += PI * 2;
   while (x > PI * 2 + eps) x -= PI * 2;
   return x;
 }
-struct Pt {
-  double x, y;
-  Pt (double _x, double _y) : x(_x), y(_y) {}
-  Pt operator + (Pt o) {return Pt(x + o.x, y + o.y);}
-  Pt operator - (Pt o) {return Pt(x - o.x, y - o.y);}
-  Pt operator * (double k) {return Pt(x * k, y * k);}
-  Pt operator / (double k) {return Pt (x / k, y / k);}
-  double operator * (Pt o) {return x * o.x + y * o.y;}
-  double operator ^ (Pt o) {return x * o.y - y * o.x;}
+template <typename T>
+struct P {
+  T x, y;
+  P<T>(T _x, T _y) : x(_x), y(_y) {}
+  P<T> operator + (P<T> o) {
+    return P<T>(x + o.x, y + o.y);}
+  P<T> operator - (P<T> o) {
+    return P<T>(x - o.x, y - o.y);}
+  P<T> operator * (T k) {return P<T>(x * k, y * k);}
+  P<T> operator / (T k) {return P<T>(x / k, y / k);}
+  T operator * (P<T> o) {return x * o.x + y * o.y;}
+  T operator ^ (P<T> o) {return x * o.y - y * o.x;}
 };
+using Pt = P<double>;
 struct Line { Pt a, b; };
 struct Cir { Pt o; double r; };
 double abs2(Pt o) { return o * o; }
@@ -23,13 +27,17 @@ double abs(Pt o) { return sqrt(abs2(o)); }
 int ori(Pt o, Pt a, Pt b)
 { return sign((o - a) ^ (o - b)); }
 bool btw(Pt a, Pt b, Pt c) // c on segment ab?
-{ return ori(a, b, c) == 0 && sign((c - a) * (c - b)) <= 0; }
+{ return ori(a, b, c) == 0 &&
+         sign((c - a) * (c - b)) <= 0; }
 int pos(Pt a)
 { return sign(a.y) == 0 ? sign(a.x) < 0 : a.y < 0; }
+int cmp(Pt a, Pt b)
+{ return pos(a) == pos(b) ? sign(a ^ b) > 0 :
+         pos(a) < pos(b); }
 double area(Pt a, Pt b, Pt c)
 { return fabs((a - b) ^ (a - c)) / 2; }
 double angle(Pt a, Pt b)
-{ return norm(atan2(b.y - a.y, b.x - a.x)); }
+{ return normalize(atan2(b.y - a.y, b.x - a.x)); }
 Pt unit(Pt o) { return o / abs(o); }
 Pt rot(Pt a, double o) { // CCW
   double c = cos(o), s = sin(o);
