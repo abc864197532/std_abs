@@ -5,6 +5,7 @@ COPY consolas.sh consolas.sh
 RUN apt update
 RUN apt install python3 fontforge wget cabextract git exiftool -y
 RUN apt install --no-install-recommends texlive-full -y
+RUN apt install g++ -y
 
 RUN chmod +x consolas.sh
 RUN ./consolas.sh
