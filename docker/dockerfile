@@ -9,3 +9,5 @@ RUN apt install g++ -y
 
 RUN chmod +x consolas.sh
 RUN ./consolas.sh
+
+fok
