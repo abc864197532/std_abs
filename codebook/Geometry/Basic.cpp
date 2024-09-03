@@ -9,7 +9,7 @@ double normalize(double x) {
 template <typename T>
 struct P {
   T x, y;
-  P<T>(T _x, T _y) : x(_x), y(_y) {}
+  P (T _x, T _y) : x(_x), y(_y) {}
   P<T> operator + (P<T> o) {
     return P<T>(x + o.x, y + o.y);}
   P<T> operator - (P<T> o) {
