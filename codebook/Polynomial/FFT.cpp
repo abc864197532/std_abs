@@ -1,6 +1,6 @@
 using T = complex <double>;
 const double PI = acos(-1);
-struct NTT {
+struct FFT {
   T w[N];
   FFT() {
     T dw = {cos(2 * PI / N), sin(2 * PI / N)};
