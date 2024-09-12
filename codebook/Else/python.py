@@ -12,5 +12,3 @@ D = dict(), D[(a, b)] = 1, del D[(a, b)] # dict
 for (a, b) in D.items():
 arr = [randint(1, C) for i in range(N)]
 choice([8, 6, 4, 1]) # random pick one
-shuffle(arr)
-print(*arr, sep=' ')
