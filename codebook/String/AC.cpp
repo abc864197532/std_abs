@@ -1,6 +1,6 @@
 struct AC {
   int ch[N][26], to[N][26], fail[N], sz;
-  vector <int> g[N];
+  // vector <int> g[N];
   int cnt[N];
   AC () {sz = 0, extend();}
   void extend() {fill(ch[sz], ch[sz] + 26, 0), sz++;}
@@ -18,7 +18,7 @@ struct AC {
     queue <int> q;
     for (int i = 0; i < 26; ++i) if (ch[0][i]) {
       q.push(ch[0][i]);
-      g[0].push_back(ch[0][i]);
+      // g[0].push_back(ch[0][i]);
       to[0][i] = ch[0][i];
     }
     while (!q.empty()) {
@@ -30,8 +30,8 @@ struct AC {
         int u = ch[v][i], k = fail[v];
         while (k && !ch[k][i]) k = fail[k];
         if (ch[k][i]) k = ch[k][i];
-        fail[u] = k;
-        cnt[u] += cnt[k], g[k].push_back(u);
+        fail[u] = k, cnt[u] += cnt[k];
+        // g[k].push_back(u);
         q.push(u);
       }
     }
