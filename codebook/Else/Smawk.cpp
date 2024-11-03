@@ -1,9 +1,9 @@
 ll f(int l, int r) { }
 bool select(int r, int u, int v) {
-  // if f(r, v) is better than f(r, v), return true
+  // if f(r, v) is better than f(r, u), return true
   return f(r, u) < f(r, v);
 }
-// For all 2x2 submatrix:
+// For all 2x2 submatrix: (x < y => y is better than x)
 // If M[1][0] < M[1][1], M[0][0] < M[0][1]
 // If M[1][0] == M[1][1], M[0][0] <= M[0][1]
 // M[i][ans_i] is the best value in the i-th row
