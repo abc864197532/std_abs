@@ -36,12 +36,12 @@ struct AC {
       }
     }
   }
-  int match(string &s) {
-    int now = 0, ans = 0;
-    for (char c : s) {
-      now = to[now][c - 'a'];
-      ans += cnt[now];
-    }
-    return ans;
-  }
+  // int match(string &s) {
+  //   int now = 0, ans = 0;
+  //   for (char c : s) {
+  //     now = to[now][c - 'a'];
+  //     ans += cnt[now];
+  //   }
+  //   return ans;
+  // }
 };

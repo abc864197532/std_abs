@@ -21,7 +21,7 @@ void RotatingSweepLine(vector <Pt> &pt) {
     sort(all(v)); v.resize(unique(all(v)) - v.begin());
     vector <pii> segs;
     for (int i = 0, j = 0; i < v.size(); i = j) {
-      for (; j < v.size() && v[j] - v[i] <= j - i; ++j);
+      for (;j < v.size() && v[j] - v[i] <= j - i; ++j);
       segs.emplace_back(v[i], v[j - 1] + 1 + 1);
     }
     return segs;

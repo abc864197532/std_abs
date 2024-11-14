@@ -36,11 +36,11 @@ struct SAM {
       cnt[cur]++;
       last = cur;
     }
-    vector <int> p(sz);
-    iota(all(p), 0);
-    sort(all(p),
-      [&](int i, int j) {return len[i] > len[j];});
-    for (int i = 0; i < sz; ++i)
-      cnt[link[p[i]]] += cnt[p[i]];
+    // vector <int> p(sz);
+    // iota(all(p), 0);
+    // sort(all(p),
+    //   [&](int i, int j) {return len[i] > len[j];});
+    // for (int i = 0; i < sz; ++i)
+    //   cnt[link[p[i]]] += cnt[p[i]];
   }
 } sam;

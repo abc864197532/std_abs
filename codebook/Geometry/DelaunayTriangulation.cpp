@@ -1,16 +1,3 @@
-/* Delaunay Triangulation:
-Given a sets of points on 2D plane, find a
-triangulation such that no points will strictly
-inside circumcircle of any triangle.
-find : return a triangle contain given point
-add_point : add a point into triangulation
-A Triangle is in triangulation iff. its has_chd is 0.
-Region of triangle u: iterate each u.edge[i].tri,
-each points are u.p[(i+1)%3], u.p[(i+2)%3] 
-Voronoi diagram: for each triangle in triangulation, 
-the bisector of all its edges will split the region.
-nearest point will belong to the triangle containing it
-*/
 const ll inf = MAXC * MAXC * 100;// lower_bound unknown
 struct Tri;
 struct Edge {

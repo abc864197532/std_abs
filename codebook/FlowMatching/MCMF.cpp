@@ -29,7 +29,7 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
       }
     }
     return dis[t] != INF2;
-  }
+  } // d9b0f8
   bool dijkstra() {
     fill(all(rt), -1), fill(all(dis), INF2);
     priority_queue <pair <T2, int>, vector <pair <T2, int>>, greater <pair <T2, int>>> pq;
@@ -72,5 +72,5 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     g[v].pb((int)e.size()), e.pb({u, 0, -c});
   }
   MCMF (int _n) : n(_n), g(n), e(), dis(n), pot(n),
-    rt(n), vis(n) {}
+    rt(n), vis(n) {} // 05becb
 };
