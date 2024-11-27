@@ -1,0 +1,10 @@
+@echo off
+g++ -std=c++17 -DABS -Wall -Wextra -Wshadow -O2 %1.cpp -o %1.exe && %1.exe
+for %i in (A B C ... L) do copy tem.cpp %i.cpp
+for /l %%i in (1,1,100) do (
+	python gen.py > in.txt
+	bad.exe < in.txt > out1.txt
+	good.exe < in.txt > out2.txt
+	fc out1.txt out2.txt || goto :end
+)
+:end
