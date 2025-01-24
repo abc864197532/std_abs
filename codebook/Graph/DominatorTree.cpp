@@ -43,7 +43,7 @@ struct DominatorTree {
     for (int i = 0; i < n; ++i) dom[i] = res[i];
   }
   void add_edge(int u, int v) { g[u].pb(v); }
-  Dominator_tree (int _n) : n(_n), id(0), g(n), rg(n),
+  DominatorTree (int _n) : n(_n), id(0), g(n), rg(n),
     bucket(n), sdom(n), dom(n, -1), vis(n, -1),
     rev(n), pa(n), rt(n), mn(n), res(n) {}
 };
