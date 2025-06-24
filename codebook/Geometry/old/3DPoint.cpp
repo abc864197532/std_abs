@@ -27,9 +27,10 @@ bool coplaner(Pt a, Pt b, Pt c, Pt d)
 Pt proj(Pt o, Pt a, Pt b, Pt c) // o proj to plane abc
 { Pt n = cross3(a, b, c);
   return o - n * ((o - a) * (n / abs2(n)));}
-Pt line_plane_intersect(Pt u, Pt v, Pt a, Pt b, Pt c) {
+Pt LinePlaneInter(Pt u, Pt v, Pt a, Pt b, Pt c) {
   // intersection of line uv and plane abc
   Pt n = cross3(a, b, c);
   double s = n * (u - v);
   if (sign(s) == 0) return {-1, -1, -1}; // not found
-  return v + (u - v) * ((n * (a - v)) / s); }
+  return v + (u - v) * ((n * (a - v)) / s);
+}

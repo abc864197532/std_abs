@@ -16,7 +16,7 @@ double _area(Pt pa, Pt pb, double r){
   return S;
 }
 double area_poly_circle(vector<Pt> poly, Pt O, double r) {
-  double S = 0; int n = sz(poly);
+  double S = 0; int n = poly.size();
   for (int i = 0; i < n; ++i)
     S += _area(poly[i] - O, poly[(i + 1) % n] - O, r) * ori(O, poly[i], poly[(i + 1) % n]);
   return fabs(S);

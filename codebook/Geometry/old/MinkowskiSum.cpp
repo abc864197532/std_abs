@@ -1,7 +1,7 @@
-vector<Pt> minkowski(vector<Pt> a, vector<Pt> b) {
-  a = convex_hull(a), b = convex_hull(b);
-  int n = sz(a), m = sz(b);
-  vector<Pt> c = {a[0] + b[0]}, s1, s2; 
+vector <Pt> Minkowski(vector <Pt> a, vector <Pt> b) {
+  a = ConvexHull(a), b = ConvexHull(b);
+  int n = a.size(), m = b.size();
+  vector <Pt> c = {a[0] + b[0]}, s1, s2; 
   for(int i = 0; i < n; ++i) 
     s1.pb(a[(i + 1) % n] - a[i]);
   for(int i = 0; i < m; i++) 
@@ -11,5 +11,5 @@ vector<Pt> minkowski(vector<Pt> a, vector<Pt> b) {
       c.pb(c.back() + s1[p1++]);
     else
       c.pb(c.back() + s2[p2++]);
-  return convex_hull(c);
+  return ConvexHull(c);
 }

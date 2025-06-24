@@ -1,33 +1,43 @@
-vector<pair<double, double>> CoverSegment(Cir a, Cir b) {
-  double d = abs(a.o - b.o);
-  vector<pair<double, double>> res;
-  if (sign(a.r + b.r - d) == 0);
-  else if (d <= abs(a.r - b.r) + eps) {
-    if (a.r < b.r) res.emplace_back(0, 2 * pi);
-  } else if (d < abs(a.r + b.r) - eps) {
-    double o = acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));
-    double z = norm(atan2((b.o - a.o).y, (b.o - a.o).x));
-    double l = norm(z - o), r = norm(z + o);
-    if (l > r) res.emplace_back(l, 2 * pi), res.emplace_back(0, r);
-    else res.emplace_back(l, r);
+// notice identical circles, compare cross -> x if the precision is bad
+vector<pair<Pt, Pt>> circles_border(vector<Cir> c, int id) {
+  vector<pair<Pt, int>> vec;
+  int base = 0;
+  for (int i = 0; i < sz(c); ++i) if (id != i) {
+    if (sign(c[id].r - c[i].r) < 0 && abs2(c[id].o - c[i].o) <= (c[id].r - c[i].r) * (c[id].r - c[i].r)) return {};
+    auto tmp = circles_intersect(c[id], c[i]);
+    if (sz(tmp) == 2) {
+      Pt l = tmp[0] - c[id].o, r = tmp[1] - c[id].o;
+      vec.emplace_back(l, 1);
+      vec.emplace_back(r, -1);
+      if (cmp(r, l)) base++;
+    }
   }
-  return res;
+  vec.emplace_back(Pt(-c[id].r, 0), 0);
+  sort(all(vec), [&](auto i, auto j) {
+    return cmp(i.first, j.first);
+  });
+  vector<pair<Pt, Pt>> seg;
+  Pt v = Pt(c[id].r, 0), old = v;
+  for (auto [t, val] : vec) {
+    if (base == 0) seg.emplace_back(old, t);
+    old = t, base += val;
+  }
+  if (base == 0) seg.emplace_back(old, v);
+  for (auto &[l, r] : seg)
+    l = l + c[id].o, r = r + c[id].o;
+  return seg;
 }
-double CircleUnionArea(vector<Cir> c) { // circle should be identical
-  int n = c.size();
-  double a = 0, w;
-  for (int i = 0; w = 0, i < n; ++i) {
-    vector<pair<double, double>> s = {{2 * pi, 9}}, z;
-    for (int j = 0; j < n; ++j) if (i != j) {
-      z = CoverSegment(c[i], c[j]);
-      for (auto &e : z) s.push_back(e);
-    }
-    sort(s.begin(), s.end());
+double circles_union_area(vector<Cir> c) {
+  int n = sz(c);
+  double res = 0;
+  for (int i = 0; i < n; ++i) {
+    auto seg = circles_border(c, i);
     auto F = [&] (double t) { return c[i].r * (c[i].r * t + c[i].o.x * sin(t) - c[i].o.y * cos(t)); };
-    for (auto &e : s) {
-      if (e.first > w) a += F(e.first) - F(w);
-      w = max(w, e.second);
+    for (auto [l, r] : seg) {
+      double tl = theta(l - c[i].o), tr = theta(r - c[i].o);
+      if (sign(tl - tr) > 0) tr += PI * 2;
+      res += F(tr) - F(tl);
     }
   }
-  return a * 0.5;
+  return res / 2;
 }

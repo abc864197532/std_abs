@@ -1,8 +1,8 @@
-Cir min_enclosing(vector<Pt> p) {
+Cir min_enclosing(vector<Pt> &p) {
   random_shuffle(all(p));
   double r = 0.0;
   Pt cent = p[0];
-  for (int i = 1; i < sz(p); ++i) {
+  for (int i = 1; i < p.size(); ++i) {
     if (abs2(cent - p[i]) <= r) continue;
     cent = p[i], r = 0.0;
     for (int j = 0; j < i; ++j) {
