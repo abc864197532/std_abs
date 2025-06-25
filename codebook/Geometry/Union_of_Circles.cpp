@@ -3,7 +3,7 @@ vector<pair<Pt, Pt>> circles_border(vector<Cir> c, int id) {
   vector<pair<Pt, int>> vec;
   int base = 0;
   for (int i = 0; i < sz(c); ++i) if (id != i) {
-    if (sign(c[id].r - c[i].r) < 0 && abs2(c[id].o - c[i].o) <= (c[id].r - c[i].r) * (c[id].r - c[i].r)) return {};
+    if (sign(c[id].r - c[i].r) < 0 && abs2(c[id].o - c[i].o) <= (c[id].r - c[i].r) * (c[id].r - c[i].r)) base++;
     auto tmp = circles_intersect(c[id], c[i]);
     if (sz(tmp) == 2) {
       Pt l = tmp[0] - c[id].o, r = tmp[1] - c[id].o;
