@@ -5,7 +5,7 @@ bool lines_intersect_check(Line l1, int m1, Line l2, int m2, int strict) {
     if (m && abs2(l.a - p) > abs2(l.b - p)) return true;
     return m == 2 || sign((p - l.a) * (p - l.b)) <= -strict;
   };
-  if (sign((l1.a - l1.b) ^ (l2.a - l2.b)) == 0) {
+  if (same_vec(l1, l2, 0)) {
     return on(l1, m1, l2.a) || on(l1, m1, l2.b) ||
            on(l2, m2, l1.a) || on(l2, m2, l1.b);
   }

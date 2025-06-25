@@ -11,9 +11,8 @@ bool isin(Line l0, Line l1, Line l2) {
 /* --^-- Line.a --^-- Line.b --^-- */
 vector<Line> halfplane_intersection(vector<Line> arr) {
   sort(all(arr), [&](Line a, Line b) {
-    Pt A = a.b - a.a, B = b.b - b.a;
-    if (same_vec(A, B)) return ori(a.a, a.b, b.b) < 0;
-    return cmp(A, B); });
+    if (same_vec(a, b, 1)) return ori(a.a, a.b, b.b) < 0;
+    return cmp(a.b - a.a, b.b - b.a); });
   deque<Line> dq(1, arr[0]);
   auto pop_back = [&](int t, Line p) {
     while (sz(dq) >= t && !isin(p, dq[sz(dq) - 2], dq.back()))
@@ -22,7 +21,7 @@ vector<Line> halfplane_intersection(vector<Line> arr) {
     while (sz(dq) >= t && !isin(p, dq[0], dq[1]))
       dq.pop_front(); };
   for (auto p : arr)
-    if (!same_vec(dq.back().b - dq.back().a, p.b - p.a))
+    if (!same_vec(dq.back(), p, 1))
       pop_back(2, p), pop_front(2, p), dq.pb(p);
   pop_back(3, dq[0]), pop_front(3, dq.back());
   return vector<Line>(all(dq));
