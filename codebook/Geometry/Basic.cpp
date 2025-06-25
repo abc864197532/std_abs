@@ -34,7 +34,7 @@ bool cmp(Pt a, Pt b)
          pos(a) < pos(b); }
 bool same_vec(Pt a, Pt b, int d) // d = 1: check dir
 { return sign(a ^ b) == 0 && sign(a * b) > d * 2 - 2; }
-bool same_vec(Line a, Line b, int d) // d = 1: check dir
+bool same_vec(Line a, Line b, int d)
 { return same_vec(a.b - a.a, b.b - b.a); }
 Pt perp(Pt a) { return Pt(-a.y, a.x); } // CCW 90 deg
 // double part
