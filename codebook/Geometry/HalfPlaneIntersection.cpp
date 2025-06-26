@@ -1,5 +1,6 @@
-pair<ll, ll> area_pair(Line a, Line b) 
-{ return {(a.b - a.a) ^ (b.a - a.a), (a.b - a.a) ^ (b.b - a.a)}; }
+auto area_pair(Line a, Line b) 
+{ return make_pair((a.b - a.a) ^ (b.a - a.a),
+                   (a.b - a.a) ^ (b.b - a.a)); }
 bool isin(Line l0, Line l1, Line l2) {
   // Check inter(l1, l2) strictly in l0
   auto [a02X, a02Y] = area_pair(l0, l2);
@@ -9,7 +10,7 @@ bool isin(Line l0, Line l1, Line l2) {
 }
 /* Having solution, check size > 2 */
 /* --^-- Line.a --^-- Line.b --^-- */
-vector<Line> halfplane_intersection(vector<Line> arr) {
+auto halfplane_intersection(vector<Line> arr) {
   sort(all(arr), [&](Line a, Line b) {
     if (same_vec(a, b, 1)) return ori(a.a, a.b, b.b) < 0;
     return cmp(a.b - a.a, b.b - b.a); });

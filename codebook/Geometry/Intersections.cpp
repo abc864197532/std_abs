@@ -23,9 +23,9 @@ bool lines_intersect_check(Line l1, int m1, Line l2, int m2, int strict) {
   return 0;
 }
 // notice two lines are parallel
-pair<Pt, ll> lines_intersect(Line a, Line b) {
-  ll abc = (a.b - a.a) ^ (b.a - a.a);
-  ll abd = (a.b - a.a) ^ (b.b - a.a);
+auto lines_intersect(Line a, Line b) {
+  auto abc = (a.b - a.a) ^ (b.a - a.a);
+  auto abd = (a.b - a.a) ^ (b.b - a.a);
   return make_pair((b.b * abc - b.a * abd), abc - abd);
 }
 // res[0] -> res[1] and l.a -> l.b: same direction

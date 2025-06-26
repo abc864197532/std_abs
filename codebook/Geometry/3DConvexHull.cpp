@@ -2,18 +2,19 @@ struct Face {
   int a, b, c;
   Face(int _a, int _b, int _c) : a(_a), b(_b), c(_c) {}
 };
-auto preprocess(vector<Pt> pt) {
+auto preprocess(auto pt) {
   auto G = pt.begin();
   vector<int> id;
+  auto fail = tuple{-1, -1, -1, id};
   int a = find_if(all(pt), [&](Pt z) {
     return z != *G; }) - G;
-  if (a == sz(pt)) return tuple{-1, -1, -1, id};
+  if (a == sz(pt)) return fail;
   int b = find_if(all(pt), [&](Pt z) {
     return cross3(*G, pt[a], z) != Pt(0, 0, 0); }) - G;
-  if (b == sz(pt)) return tuple{-1, -1, -1, id};
+  if (b == sz(pt)) return fail;
   int c = find_if(all(pt), [&](Pt z) {
     return sign(volume(*G, pt[a], pt[b], z)) != 0; }) - G;
-  if (c == sz(pt)) return tuple{-1, -1, -1, id};
+  if (c == sz(pt)) return fail;
   for (int i = 0; i < sz(pt); i++)
     if (i != a && i != b && i != c) id.pb(i);
   return tuple{a, b, c, id};

@@ -1,5 +1,5 @@
 // all coord. is even, half plane intersection
-vector<vector<Line>> build_voronoi_line(vector<Pt> arr) {
+auto build_voronoi_line(vector<Pt> arr) {
   int n = sz(arr);
   Delaunay tool(arr);
   vector<vector<Line>> vec(n);

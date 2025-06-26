@@ -1,5 +1,5 @@
 // notice identical circles, compare cross -> x if the precision is bad
-vector<pair<Pt, Pt>> circles_border(vector<Cir> c, int id) {
+auto circles_border(vector<Cir> c, int id) {
   vector<pair<Pt, int>> vec;
   int base = 0;
   for (int i = 0; i < sz(c); ++i) if (id != i) {

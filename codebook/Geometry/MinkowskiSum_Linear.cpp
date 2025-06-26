@@ -3,7 +3,7 @@ void reorder(vector<Pt> &P) {
     { return make_pair(a.y, a.x) < make_pair(b.y, b.x);
   }), P.end());
 }
-vector<Pt> minkowski(vector<Pt> P, vector<Pt> Q) {
+auto minkowski(vector<Pt> P, vector<Pt> Q) {
   // P, Q: convex polygon, CCW order
   reorder(P), reorder(Q); int n = sz(P), m = sz(Q);
   P.pb(P[0]), P.pb(P[1]), Q.pb(Q[0]), Q.pb(Q[1]);

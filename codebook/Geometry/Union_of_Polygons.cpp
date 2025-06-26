@@ -1,6 +1,6 @@
 // in CCW order, use index as tiebreaker when collinear
 auto polys_border(vector<vector<Pt>> poly, int id) {
-  auto get = [&](vector<Pt> &p, int i) {
+  auto get = [&](auto &p, int i) {
     return make_pair(p[i], p[(i + 1) % sz(p)]); };
   vector<pair<Pt, Pt>> seg;
   for (int e = 0; e < sz(poly[id]); ++e) {

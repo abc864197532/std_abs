@@ -1,6 +1,6 @@
 struct Event {
   Pt d; int u, v;
-  bool operator < (const Event &b) const {
+  bool operator < (const Event &b) {
     return sign(d ^ b.d) > 0; }
 };
 Pt ref(Pt o) {return pos(o) == 1 ? Pt(-o.x, -o.y) : o;}
@@ -17,8 +17,8 @@ void rotating_sweepline(vector<Pt> pt) {
     return (sign(pt[i].y - pt[j].y) == 0 ?
         pt[i].x < pt[j].x : pt[i].y < pt[j].y); });
   for (int i = 0; i < n; ++i) pos[ord[i]] = i;
-  auto makeReverse = [](auto &v) {
-    sort(all(v)); v.resize(unique(all(v)) - v.begin());
+  auto makeReverse = [](auto v) {
+    sort(all(v)), v.resize(unique(all(v)) - v.begin());
     vector<pii> segs;
     for (int i = 0, j = 0; i < sz(v); i = j) {
       for (;j < sz(v) && v[j] - v[i] <= j - i; ++j);

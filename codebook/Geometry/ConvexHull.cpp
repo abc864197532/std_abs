@@ -1,4 +1,4 @@
-vector<Pt> convex_hull(vector<Pt> pts) {
+auto convex_hull(vector<Pt> pts) {
   sort(all(pts), [&](Pt a, Pt b)
     {return a.x == b.x ? a.y < b.y : a.x < b.x;});
   vector<Pt> ans = {pts[0]};

@@ -1,4 +1,4 @@
-vector<Pt> minkowski(vector<Pt> a, vector<Pt> b) {
+auto minkowski(vector<Pt> a, vector<Pt> b) {
   a = convex_hull(a), b = convex_hull(b);
   int n = sz(a), m = sz(b);
   vector<Pt> c = {a[0] + b[0]}, s1, s2; 

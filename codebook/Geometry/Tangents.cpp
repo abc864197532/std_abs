@@ -1,4 +1,4 @@
-vector<Line> circle_point_tangent(Cir c, Pt p) {
+auto circle_point_tangent(Cir c, Pt p) {
   vector<Line> res;
   double d_sq = abs2(p - c.o);
   if (sign(d_sq - c.r * c.r) == 0) {
@@ -12,7 +12,7 @@ vector<Line> circle_point_tangent(Cir c, Pt p) {
   }
   return res;
 }
-vector<Line> circles_tangent(Cir c1, Cir c2, int sign1) {
+auto circles_tangent(Cir c1, Cir c2, int sign1) {
   // sign1 = 1 for outer tang, -1 for inter tang
   vector<Line> res;
   double d_sq = abs2(c1.o - c2.o);
