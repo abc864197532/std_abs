@@ -8,3 +8,4 @@ bool inside(Pt prv, Pt cur, Pt nxt, Pt p, int strict) {
     return btwangle(cur, nxt, prv, p, strict);
   return !btwangle(cur, prv, nxt, p, !strict);
 }
+// call "inside" not btwangle
