@@ -3,7 +3,6 @@ struct Event {
   bool operator < (const Event &b) {
     return sign(d ^ b.d) > 0; }
 };
-Pt ref(Pt o) {return pos(o) == 1 ? Pt(-o.x, -o.y) : o;}
 void rotating_sweepline(vector<Pt> pt) {
   int n = sz(pt);
   vector<int> ord(n), pos(n);
