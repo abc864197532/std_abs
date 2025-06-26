@@ -17,20 +17,19 @@ vector<pair<Pt, Pt>> circles_border(vector<Cir> c, int id) {
     return cmp(i.first, j.first);
   });
   vector<pair<Pt, Pt>> seg;
-  Pt v = Pt(c[id].r, 0), old = v;
-  for (auto [t, val] : vec) {
-    if (base == 0) seg.emplace_back(old, t);
-    old = t, base += val;
+  Pt v = Pt(c[id].r, 0), lst = v;
+  for (auto [cur, val] : vec) {
+    if (base == 0) seg.emplace_back(lst, cur);
+    lst = cur, base += val;
   }
-  if (base == 0) seg.emplace_back(old, v);
+  if (base == 0) seg.emplace_back(lst, v);
   for (auto &[l, r] : seg)
     l = l + c[id].o, r = r + c[id].o;
   return seg;
 }
 double circles_union_area(vector<Cir> c) {
-  int n = sz(c);
   double res = 0;
-  for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < sz(c); ++i) {
     auto seg = circles_border(c, i);
     auto F = [&] (double t) { return c[i].r * (c[i].r * t + c[i].o.x * sin(t) - c[i].o.y * cos(t)); };
     for (auto [l, r] : seg) {
