@@ -28,14 +28,8 @@ auto polys_border(vector<vector<Pt>> poly, int id) {
         }
       }
     }
-    Pt v = s - t;
     sort(all(vec), [&](auto i, auto j) {
-      if (i.first == j.first) return i.second > j.second;
-      if (v.x > 0) return i.first.x > j.first.x;
-      else if (v.x < 0) return i.first.x < j.first.x;
-      else if (v.y > 0) return i.first.y > j.first.y;
-      else return i.first.y < j.first.y;
-    });
+      return cmp_line(i.first, j.first, s, t); });
     int base = 1 << 30; Pt lst(0, 0);
     for (auto [cur, val] : vec) {
       if (!base) seg.emplace_back(lst, cur);
