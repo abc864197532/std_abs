@@ -16,6 +16,10 @@ template <typename T> struct P {
   P<T> operator / (T k) {return P<T>(x / k, y / k);}
   T operator * (P<T> o) {return x * o.x + y * o.y;}
   T operator ^ (P<T> o) {return x * o.y - y * o.x;}
+  friend ostream& operator << (ostream &o, P<T> a) {
+    return o << "(" << a.x << ", " << a.y << ")"; }
+  bool operator == (P<T> o) {
+    return sign(x - o.x) == 0 && sign(y - o.y) == 0;}
 };
 using Pt = P<ll>;
 struct Line { Pt a, b; };
