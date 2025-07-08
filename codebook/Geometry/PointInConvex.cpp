@@ -1,3 +1,5 @@
+// get edge index: check (0, a), (0, b) first
+// then after binary search, check (a, b)
 bool point_in_convex(vector<Pt> &C, Pt p, bool strict = true) {
   // only works when no three points are collinear
   int a = 1, b = sz(C) - 1, r = !strict;

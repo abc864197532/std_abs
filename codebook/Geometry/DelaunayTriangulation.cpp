@@ -45,9 +45,9 @@ struct Delaunay { // 0-base
       Pt pt[2] = {p[nw[0]], p[nw[1]]};
       int ch = -1, sd = 0;
       for (int t = 0; t < 2; ++t)
-          for (auto it : head[nw[t]])
-              if (ori(pt[0], pt[1], p[it.id]) > 0 && (ch == -1 || in_cc({pt[0], pt[1], p[ch]}, p[it.id])))
-                  ch = it.id, sd = t;
+        for (auto it : head[nw[t]])
+          if (ori(pt[0], pt[1], p[it.id]) > 0 && (ch == -1 || point_in_cc({pt[0], pt[1], p[ch]}, p[it.id])))
+            ch = it.id, sd = t;
       if (ch == -1) break; // upper common tangent
       for (auto it = head[nw[sd]].begin(); it != head[nw[sd]].end(); )
         if (lines_intersect_check({pt[sd], p[it->id]}, 0, {pt[sd ^ 1], p[ch]}, 0, 1))
