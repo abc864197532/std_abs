@@ -31,10 +31,10 @@ struct Delaunay { // 0-base
     int mid = (l + r) >> 1, nw[2] = {l, r};
     divide(l, mid), divide(mid + 1, r);
     auto gao = [&](int t) {
-      Pt pt[2] = {p[nw[0]], p[nw[1]]};
+      Pt pts[2] = {p[nw[0]], p[nw[1]]};
       for (auto it : head[nw[t]]) {
-        int v = ori(pt[1], pt[0], p[it.id]);
-        if (v > 0 || (v == 0 && abs2(pt[t ^ 1] - p[it.id]) < abs2(pt[1] - pt[0])))
+        int v = ori(pts[1], pts[0], p[it.id]);
+        if (v > 0 || (v == 0 && abs2(pts[t ^ 1] - p[it.id]) < abs2(pts[1] - pts[0])))
           return nw[t] = it.id, true;
       }
       return false;
@@ -42,15 +42,15 @@ struct Delaunay { // 0-base
     while (gao(0) || gao(1));
     add_edge(nw[0], nw[1]); // add tangent
     while (true) {
-      Pt pt[2] = {p[nw[0]], p[nw[1]]};
+      Pt pts[2] = {p[nw[0]], p[nw[1]]};
       int ch = -1, sd = 0;
       for (int t = 0; t < 2; ++t)
         for (auto it : head[nw[t]])
-          if (ori(pt[0], pt[1], p[it.id]) > 0 && (ch == -1 || point_in_cc({pt[0], pt[1], p[ch]}, p[it.id])))
+          if (ori(pts[0], pts[1], p[it.id]) > 0 && (ch == -1 || point_in_cc({pts[0], pts[1], p[ch]}, p[it.id])))
             ch = it.id, sd = t;
       if (ch == -1) break; // upper common tangent
       for (auto it = head[nw[sd]].begin(); it != head[nw[sd]].end(); )
-        if (lines_intersect_check({pt[sd], p[it->id]}, 0, {pt[sd ^ 1], p[ch]}, 0, 1))
+        if (lines_intersect_check({pts[sd], p[it->id]}, 0, {pts[sd ^ 1], p[ch]}, 0, 1))
           head[it->id].erase(it->twin), head[nw[sd]].erase(it++);
         else ++it;
       nw[sd] = ch, add_edge(nw[0], nw[1]);

@@ -3,18 +3,18 @@ struct Event {
   bool operator < (const Event &b) {
     return sign(d ^ b.d) > 0; }
 };
-void rotating_sweepline(vector<Pt> pt) {
-  int n = sz(pt);
+void rotating_sweepline(vector<Pt> pts) {
+  int n = sz(pts);
   vector<int> ord(n), pos(n);
   vector<Event> e;
   for (int i = 0; i < n; ++i) 
     for (int j = i + 1; j < n; ++j) if (i ^ j)
-      e.pb({ref(pt[i] - pt[j]), i, j});
+      e.pb({ref(pts[i] - pts[j]), i, j});
   sort(all(e));
   iota(all(ord), 0);
   sort(all(ord), [&](int i, int j) {
-    return (sign(pt[i].y - pt[j].y) == 0 ?
-        pt[i].x < pt[j].x : pt[i].y < pt[j].y); });
+    return (sign(pts[i].y - pts[j].y) == 0 ?
+        pts[i].x < pts[j].x : pts[i].y < pts[j].y); });
   for (int i = 0; i < n; ++i) pos[ord[i]] = i;
   auto makeReverse = [](auto v) {
     sort(all(v)), v.resize(unique(all(v)) - v.begin());
