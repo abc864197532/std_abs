@@ -1,4 +1,4 @@
-auto circle_point_tangent(Cir c, Pt p) {
+auto circle_point_tangent(Cir c, Pt p) { // 6af9a8
   vector<Line> res;
   double d_sq = abs2(p - c.o);
   if (sign(d_sq - c.r * c.r) == 0) {
@@ -12,7 +12,7 @@ auto circle_point_tangent(Cir c, Pt p) {
   }
   return res;
 }
-auto circles_tangent(Cir c1, Cir c2, int sign1) {
+auto circles_tangent(Cir c1, Cir c2, int sign1) { // b8d41e
   // sign1 = 1 for outer tang, -1 for inter tang
   vector<Line> res;
   double d_sq = abs2(c1.o - c2.o);
@@ -34,7 +34,7 @@ auto circles_tangent(Cir c1, Cir c2, int sign1) {
 }
 /* The point should be strictly out of hull
   return arbitrary point on the tangent line */
-pii point_convex_tengent(vector<Pt> &C, Pt p) {
+pii point_convex_tengent(vector<Pt> &C, Pt p) {//63a82a
   auto gao = [&](int s) {
     return cyc_tsearch(sz(C), [&](int x, int y)
     { return ori(p, C[x], C[y]) == s; });
