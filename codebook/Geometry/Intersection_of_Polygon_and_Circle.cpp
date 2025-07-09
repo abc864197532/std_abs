@@ -8,9 +8,9 @@ double _area(Pt pa, Pt pb, double r){
   if (a > r) {
     S = (C / 2) * r * r;
     h = a * b * sin(C) / c;
-    if (h < r && B < pi / 2) S -= (acos(h / r) * r * r - h * sqrt(r * r - h * h));
+    if (h < r && B < PI / 2) S -= (acos(h / r) * r * r - h * sqrt(r * r - h * h));
   } else if (b > r) {
-    theta = pi - B - asin(sin(B) / r * a);
+    theta = PI - B - asin(sin(B) / r * a);
     S = 0.5 * a * r * sin(theta) + (C - theta) / 2 * r * r;
   } else S = 0.5 * sin(C) * a * b;
   return S;

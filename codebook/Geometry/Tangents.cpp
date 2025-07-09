@@ -21,7 +21,7 @@ auto circles_tangent(Cir c1, Cir c2, int sign1) { // b8d41e
   Pt v = (c2.o - c1.o) / d;
   double c = (c1.r - sign1 * c2.r) / d;
   if (c * c > 1) return res;
-  double h = sqrt(max(0.0, 1.0 - c * c));
+  double h = sqrt(max((double)0.0, 1.0 - c * c));
   for (int sign2 = 1; sign2 >= -1; sign2 -= 2) {
     Pt n = Pt(v.x * c - sign2 * h * v.y, v.y * c + sign2 * h * v.x);
     Pt p1 = c1.o + n * c1.r;
