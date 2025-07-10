@@ -1,14 +1,14 @@
 struct Event {
   Pt d; int u, v;
-  bool operator < (const Event &b) {
-    return sign(d ^ b.d) > 0; }
+  bool operator < (const Event &o) {
+    return sign(d ^ o.d) > 0; }
 };
 void rotating_sweepline(vector<Pt> pts) {
   int n = sz(pts);
   vector<int> ord(n), pos(n);
   vector<Event> e;
   for (int i = 0; i < n; ++i) 
-    for (int j = i + 1; j < n; ++j) if (i ^ j)
+    for (int j = i + 1; j < n; ++j)
       e.pb({ref(pts[i] - pts[j]), i, j});
   sort(all(e));
   iota(all(ord), 0);
