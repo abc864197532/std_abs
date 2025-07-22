@@ -7,7 +7,7 @@ struct Dinic { // 0-based
   vector <int> dis, cur;
   T dfs(int u, T cap) {
     if (u == t || !cap) return cap;
-    for (int &i = cur[u]; i < (int)g[u].size(); ++i) {
+    for (int &i = cur[u]; i < sz(g[u]); ++i) {
       edge &e = g[u][i];
       if (dis[e.to] == dis[u] + 1 && e.flow != e.cap) {
         T df = dfs(e.to, min(e.cap - e.flow, cap));
@@ -22,13 +22,13 @@ struct Dinic { // 0-based
     return 0;
   }
   bool bfs() {
-    fill(all(dis), -1);
+    dis.assign(n, -1);
     queue<int> q;
     q.push(s), dis[s] = 0;
     while (!q.empty()) {
       int v = q.front(); q.pop();
       for (auto &u : g[v])
-        if (!~dis[u.to] && u.flow != u.cap) {
+        if (dis[u.to] == -1 && u.flow != u.cap) {
           q.push(u.to);
           dis[u.to] = dis[v] + 1;
         }
@@ -39,18 +39,18 @@ struct Dinic { // 0-based
     s = _s, t = _t;
     T flow = 0, df;
     while (bfs()) {
-      fill(all(cur), 0);
+      cur.assign(n, 0);
       while ((df = dfs(s, INF))) flow += df;
     }
     return flow;
   }
-  void reset() {
-    for (int i = 0; i < n; ++i)
-      for (auto &j : g[i]) j.flow = 0;
-  }
   void add_edge(int u, int v, T cap) {
-    g[u].pb(edge{v, (int)g[v].size(), cap, 0});
-    g[v].pb(edge{u, (int)g[u].size() - 1, 0, 0});
+    g[u].pb(edge{v, sz(g[v]), cap, 0});
+    g[v].pb(edge{u, sz(g[u]) - 1, 0, 0});
   }
-  Dinic (int _n) : n(_n), g(n), dis(n), cur(n) {}
+  Dinic (int _n) : n(_n), g(n) {}
+//void reset() {
+//  for (int i = 0; i < n; ++i)
+//    for (auto &j : g[i]) j.flow = 0;
+//}
 };

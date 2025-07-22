@@ -1,5 +1,5 @@
-template <typename T>
-struct KM { // 0-based, remember to init
+template <typename T> // maximum perfect matching
+struct KM { // 0-based, remember to init edge weight
   const T INF = numeric_limits<T>::max() / 2;
   int n; vector <vector <T>> w;
   vector <T> hl, hr, slk;
@@ -12,8 +12,8 @@ struct KM { // 0-based, remember to init
     return 0;
   }
   void bfs(int s) {
-    fill(all(slk), INF), fill(all(vl), 0);
-    fill(all(vr), 0);
+    vl.assign(n, 0), vr.assign(n, 0);
+    slk.assign(n, INF), pre.assign(n, 0);
     while (!q.empty()) q.pop();
     q.push(s), vr[s] = 1;
     while (true) {
@@ -41,8 +41,8 @@ struct KM { // 0-based, remember to init
     }
   }
   T solve() {
-    fill(all(fl), -1), fill(all(fr), -1);
-    fill(all(hr), 0);
+    fl.assign(n, -1), fr.assign(n, -1);
+    hl.assign(n, 0), hr.assign(n, 0);
     for (int i = 0; i < n; ++i)
       hl[i] = *max_element(all(w[i]));
     for (int i = 0; i < n; ++i) bfs(i);
@@ -51,6 +51,5 @@ struct KM { // 0-based, remember to init
     return res;
   }
   void add_edge(int a, int b, T wei) { w[a][b] = wei; }
-  KM (int _n) : n(_n), w(n, vector<T>(n, -INF)), hl(n),
-    hr(n), slk(n), fl(n), fr(n), vl(n), vr(n), pre(n){}
+  KM (int _n) : n(_n), w(n, vector<T>(n, -INF)) {}
 };

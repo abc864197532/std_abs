@@ -8,7 +8,7 @@ struct SW { // 0-based
   T solve() {
     T ans = INF;
     for (int r = 0; r + 1 < n; ++r) {
-      fill(all(vis), 0), fill(all(sum), 0);
+      vis.assign(n, 0), sum.assign(n, 0);
       int num = 0, s = -1, t = -1;
       while (num < n - r) {
         int now = -1;
@@ -29,6 +29,5 @@ struct SW { // 0-based
   }
   void add_edge(int u, int v, T w) {
     g[u][v] += w, g[v][u] += w; }
-  SW (int _n) : n(_n), g(n, vector <T>(n)), vis(n),
-    sum(n), dead(n) {}
+  SW (int _n) : n(_n), g(n, vector <T>(n)), dead(n) {}
 };

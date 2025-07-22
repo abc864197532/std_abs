@@ -2,9 +2,7 @@ template <typename T1, typename T2>
 struct MCMF { // T1 -> flow, T2 -> cost, 0-based
   const T1 INF1 = numeric_limits<T1>::max() / 2;
   const T2 INF2 = numeric_limits<T2>::max() / 2;
-  struct edge {
-    int v; T1 f; T2 c;
-  };
+  struct edge { int v; T1 f; T2 c; };
   int n, s, t;
   vector <vector <int>> g;
   vector <edge> e;
@@ -12,8 +10,8 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
   vector <int> rt, vis;
   // bool DAG()...
   bool SPFA() {
-    fill(all(rt), -1), fill(all(dis), INF2);
-    fill(all(vis), false);
+    rt.assign(n, -1), dis.assign(n, INF2);
+    vis.assign(n, false);
     queue <int> q;
     q.push(s), dis[s] = 0, vis[s] = true;
     while (!q.empty()) {
@@ -29,9 +27,9 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
       }
     }
     return dis[t] != INF2;
-  } // d9b0f8
+  } // a5dc32
   bool dijkstra() {
-    fill(all(rt), -1), fill(all(dis), INF2);
+    rt.assign(n, -1), dis.assign(n, INF2);
     priority_queue <pair <T2, int>, vector <pair <T2, int>>, greater <pair <T2, int>>> pq;
     dis[s] = 0, pq.emplace(dis[s], s);
     while (!pq.empty()) {
@@ -47,11 +45,11 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
       }
     }
     return dis[t] != INF2;
-  }
+  } // d46baf
   vector <pair <T1, T2>> solve(int _s, int _t) {
-    s = _s, t = _t, fill(all(pot), 0);
+    s = _s, t = _t, pot.assign(n, 0);
     vector <pair <T1, T2>> ans; bool fr = true;
-    while ((fr ? SPFA() : dijkstra())) {
+    while ((fr ? SPFA() : SPFA())) {
       for (int i = 0; i < n; i++)
         dis[i] += pot[i] - pot[s];
       T1 add = INF1;
@@ -64,13 +62,12 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     }
     return ans;
   }
-  void reset() {
-    for (int i = 0; i < (int)e.size(); ++i) e[i].f = 0;
-  }
   void add_edge(int u, int v, T1 f, T2 c) {
-    g[u].pb((int)e.size()), e.pb({v, f, c});
-    g[v].pb((int)e.size()), e.pb({u, 0, -c});
+    g[u].pb(sz(e)), e.pb({v, f, c});
+    g[v].pb(sz(e)), e.pb({u, 0, -c});
   }
-  MCMF (int _n) : n(_n), g(n), e(), dis(n), pot(n),
-    rt(n), vis(n) {} // 05becb
+  MCMF (int _n) : n(_n), g(n), e() {} // 337601
+//void reset() {
+//  for (int i = 0; i < sz(e); ++i) e[i].f = 0;
+//}
 };

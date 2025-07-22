@@ -1,47 +1,36 @@
 struct HopcroftKarp { // 0-based
-  const int INF = 1 << 30;
   int n, m;
   vector <vector <int>> g;
-  vector <int> match, dis, matched, vis;
+  vector <int> l, r, d;
   bool dfs(int x) {
-    vis[x] = true;
-    for (int y : g[x])
-      if (match[y] == -1 || (dis[match[y]] == dis[x] + 1 && !vis[match[y]] && dfs(match[y]))) {
-        match[y] = x, matched[x] = true;
-        return true;
-      }
-    return false;
+    for (int y : g[x]) if (r[y] == -1 ||
+      (d[r[y]] == d[x] + 1 && dfs(r[y])))
+      return l[x] = y, r[y] = x, d[x] = -1, true;
+    return d[x] = -1, false;
   }
   bool bfs() {
-    fill(all(dis), -1);
+    d.assign(n, -1);
     queue <int> q;
-    for (int x = 0; x < n; ++x) if (!matched[x])
-      dis[x] = 0, q.push(x);
-    int mx = INF;
+    for (int x = 0; x < n; ++x) if (l[x] == -1)
+      d[x] = 0, q.push(x);
+    bool good = false;
     while (!q.empty()) {
       int x = q.front(); q.pop();
-      for (int y : g[x]) {
-        if (match[y] == -1) {
-          mx = dis[x];
-          break;
-        } else if (dis[match[y]] == -1)
-          dis[match[y]] = dis[x] + 1, q.push(match[y]);
-      }
+      for (int y : g[x])
+        if (r[y] == -1) good = true;
+        else if (d[r[y]] == -1) 
+          d[r[y]] = d[x] + 1, q.push(r[y]);
     }
-    return mx < INF;
+    return good;
   }
   int solve() {
     int res = 0;
-    fill(all(match), -1);
-    fill(all(matched), 0);
-    while (bfs()) {
-      fill(all(vis), 0);
-      for (int x = 0; x < n; ++x) if (!matched[x])
+    l.assign(n, -1), r.assign(m, -1);
+    while (bfs())
+      for (int x = 0; x < n; ++x) if (l[x] == -1)
         res += dfs(x);
-    }
     return res;
   }
   void add_edge(int x, int y) { g[x].pb(y); }
-  HopcroftKarp (int _n, int _m) : n(_n), m(_m), g(n),
-    match(m), dis(n), matched(n), vis(n) {}
+  HopcroftKarp (int _n, int _m) : n(_n), m(_m), g(n) {}
 };

@@ -4,33 +4,26 @@ struct Matching { // 0-based
   vector <int> fa, pre, match, s, t;
   queue <int> q;
   int Find(int u) {
-    return u == fa[u] ? u : fa[u] = Find(fa[u]);
-  }
+    return u == fa[u] ? u : fa[u] = Find(fa[u]); }
   int lca(int x, int y) {
-    tk++;
-    x = Find(x), y = Find(y);
-    for (; ; swap(x, y)) {
-      if (x != n) {
-        if (t[x] == tk) return x;
-        t[x] = tk;
-        x = Find(pre[match[x]]);
-      }
+    tk++, x = Find(x), y = Find(y);
+    for (; ; swap(x, y)) if (x != n) {
+      if (t[x] == tk) return x;
+      t[x] = tk;
+      x = Find(pre[match[x]]);
     }
   }
   void blossom(int x, int y, int l) {
-    while (Find(x) != l) {
+    for (; Find(x) != l; x = pre[y]) {
       pre[x] = y, y = match[x];
       if (s[y] == 1) q.push(y), s[y] = 0;
-      if (fa[x] == x) fa[x] = l;
-      if (fa[y] == y) fa[y] = l;
-      x = pre[y];
+      for (int z : {x, y}) if (fa[z] == z) fa[z] = l;
     }
   }
   bool bfs(int r) {
     iota(all(fa), 0), fill(all(s), -1);
     while (!q.empty()) q.pop();
-    q.push(r);
-    s[r] = 0;
+    q.push(r), s[r] = 0;
     while (!q.empty()) {
       int x = q.front(); q.pop();
       for (int u : g[x]) {
@@ -45,8 +38,7 @@ struct Matching { // 0-based
           s[match[u]] = 0;
         } else if (!s[u] && Find(u) != Find(x)) {
           int l = lca(u, x);
-          blossom(x, u, l);
-          blossom(u, x, l);
+          blossom(x, u, l), blossom(u, x, l);
         }
       }
     }
@@ -54,14 +46,12 @@ struct Matching { // 0-based
   }
   int solve() {
     int res = 0;
-    for (int x = 0; x < n; ++x) {
-      if (match[x] == n) res += bfs(x);
-    }
+    for (int x = 0; x < n; ++x) if (match[x] == n)
+      res += bfs(x);
     return res;
   }
   void add_edge(int u, int v) {
-    g[u].push_back(v), g[v].push_back(u);
-  }
+    g[u].push_back(v), g[v].push_back(u); }
   Matching (int _n) : n(_n), tk(0), g(n), fa(n + 1),
     pre(n + 1, n), match(n + 1, n), s(n + 1), t(n) {}
 };
