@@ -1,16 +1,16 @@
 struct node {
-  int data, sz;
+  int data, size;
   node *l, *r;
-  node(int k) : data(k), sz(1), l(0), r(0) {}
+  node(int k) : data(k), size(1), l(0), r(0) {}
   void up() {
-    sz = 1;
-    if (l) sz += l->sz;
-    if (r) sz += r->sz;
+    size = 1;
+    if (l) size += l->size;
+    if (r) size += r->size;
   }
   void down() {}
 };
-// delete default code sz
-int sz(node *a) { return a ? a->sz : 0; }
+#undef sz
+int sz(node *a) { return a ? a->size : 0; }
 node *merge(node *a, node *b) {
   if (!a || !b) return a ? a : b;
   if (rand() % (sz(a) + sz(b)) < sz(a))

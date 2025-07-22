@@ -1,8 +1,8 @@
-using u64=uint64_t;
+using u64 = uint64_t;
 constexpr int lsb(u64 x)
-{ return x?__builtin_ctzll(x):1<<30; }
+{ return x ? __builtin_ctzll(x) : 1 << 30; }
 constexpr int msb(u64 x)
-{ return x?63-__builtin_clzll(x):-1; }
+{ return x ? 63-__builtin_clzll(x) : -1; }
 template<int N, class T=void>
 struct veb{
   static const int M=N>>1;
