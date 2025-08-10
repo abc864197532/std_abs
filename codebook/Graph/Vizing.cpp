@@ -25,7 +25,7 @@ struct Vizing { // 1-based
       return p;
     };
     fill(1 + all(X), 1);
-    for (int t = 0; t < (int)E.size(); ++t) {
+    for (int t = 0; t < sz(E); ++t) {
       auto [u, v0] = E[t];
       int v = v0, c0 = X[u], c = c0, d;
       vector<pii> L;

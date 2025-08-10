@@ -7,8 +7,7 @@ struct MaxClique { // Maximum Clique
   }
   void add_edge(int u, int v) { a[u][v] = a[v][u] = 1; }
   void csort(vector<int> &r, vector<int> &c) {
-    int mx = 1, km = max(ans - q + 1, 1), t = 0;
-    int m = r.size();
+    int mx = 1, km = max(ans - q + 1, 1), t = 0, m = sz(r);
     cs[1].reset(), cs[2].reset();
     for (int i = 0; i < m; i++) {
       int p = r[i], k = 1;

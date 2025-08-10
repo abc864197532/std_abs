@@ -19,7 +19,7 @@ struct BCC { // 0-based, remember to build
       } else low[v] = min(low[v], dep[u]);
     }
   }
-  bool is_cut(int x) { return (int)_g[x].size() != 1; }
+  bool is_cut(int x) { return sz(_g[x]) != 1; }
   vector <int> bcc(int id) { return _g[id + n]; }
   int bcc_id(int u, int v) {
     return pa2[dep2[u] < dep2[v] ? v : u] - n; }
