@@ -1,17 +1,19 @@
 struct PAM {
-  int ch[N][26], cnt[N], fail[N], len[N], sz;
-  string s;
+  int ch[N][C], cnt[N], fail[N], len[N], _id;
   // 0 -> even root, 1 -> odd root
-  PAM () {}
-  void init(string s) {
-    sz = 0, extend(), extend();
-    len[0] = 0, fail[0] = 1, len[1] = -1;
+  PAM () { reset(); }
+  int newnode() {
+    fill_n(ch[_id], C, 0);
+    cnt[_id] = fail[_id] = len[_id] = 0;
+    return _id++;
+  }
+  void build(string s) {
     int lst = 1;
-    for (int i = 0; i < s.length(); ++i) {
+    for (int i = 0; i < sz(s); ++i) {
       while (s[i - len[lst] - 1] != s[i])
         lst = fail[lst];
       if (!ch[lst][s[i] - 'a'])  {
-        int idx = extend();
+        int idx = newnode();
         len[idx] = len[lst] + 2;
         int now = fail[lst];
         while (s[i - len[now] - 1] != s[i])
@@ -23,11 +25,9 @@ struct PAM {
     }
   }
   void build_count() {
-    for (int i = sz - 1; i > 1; --i)
+    for (int i = _id - 1; i > 1; --i)
       cnt[fail[i]] += cnt[i];
   }
-  int extend() {
-    fill(ch[sz], ch[sz] + 26, 0), sz++;
-    return sz - 1;
-  }
-};
+  void reset() { _id = 0, newnode(), newnode(), 
+    len[0] = 0, fail[0] = 1, len[1] = -1; }
+} pam;

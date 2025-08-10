@@ -1,38 +1,35 @@
-struct AC {
-  int ch[N][26], to[N][26], fail[N], sz;
-  // vector <int> g[N];
-  int cnt[N];
-  AC () {sz = 0, extend();}
-  void extend() {fill(ch[sz], ch[sz] + 26, 0), sz++;}
-  int nxt(int u, int v) {
-    if (!ch[u][v]) ch[u][v] = sz, extend();
-    return ch[u][v];
+struct AC { // remember to build_fail!!!
+  int ch[N][C], to[N][C], fail[N], cnt[N], _id;
+  // fail link tree: fail[i] -> i
+  AC () { reset(); }
+  int newnode() {
+    fill_n(ch[_id], C, 0); return _id++;
   }
   int insert(string s) {
     int now = 0;
-    for (char c : s) now = nxt(now, c - 'a');
-    cnt[now]++;
-    return now;
+    for (char c : s) {
+      if (!ch[now][c - 'a'])
+        ch[now][c - 'a'] = newnode();
+      now = ch[now][c - 'a'];
+    }
+    cnt[now]++; return now;
   }
   void build_fail() {
     queue <int> q;
-    for (int i = 0; i < 26; ++i) if (ch[0][i]) {
-      q.push(ch[0][i]);
-      // g[0].push_back(ch[0][i]);
-      to[0][i] = ch[0][i];
+    for (int i = 0; i < C; ++i) if (ch[0][i]) {
+      q.push(ch[0][i]), to[0][i] = ch[0][i];
     }
     while (!q.empty()) {
       int v = q.front(); q.pop();
-      for (int j = 0; j < 26; ++j) {
-        to[v][j] = ch[v][j] ? ch[v][j] : to[fail[v]][j];
-      }
-      for (int i = 0; i < 26; ++i) if (ch[v][i]) {
-        int u = ch[v][i], k = fail[v];
-        while (k && !ch[k][i]) k = fail[k];
-        if (ch[k][i]) k = ch[k][i];
-        fail[u] = k, cnt[u] += cnt[k];
-        // g[k].push_back(u);
-        q.push(u);
+      for (int i = 0; i < C; ++i) {
+        if (!ch[v][i]) to[v][i] = to[fail[v]][i];
+        else {
+          int u = ch[v][i], k = fail[v];
+          while (k && !ch[k][i]) k = fail[k];
+          if (ch[k][i]) k = ch[k][i];
+          fail[u] = k, cnt[u] += cnt[k], to[v][i] = u;
+          q.push(u);
+        }
       }
     }
   }
@@ -44,4 +41,5 @@ struct AC {
   //   }
   //   return ans;
   // }
-};
+  void reset() { _id = 0, newnode(); }
+} ac;
