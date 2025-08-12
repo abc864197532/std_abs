@@ -46,7 +46,7 @@ struct SAM {
   //   iota(all(p), 0);
   //   sort(all(p),
   //     [&](int i, int j) {return len[i] > len[j];});
-  //   for (int i = 0; i < _id; ++i)
+  //   for (int i = 1; i < _id; ++i)
   //     cnt[link[p[i]]] += cnt[p[i]];
   // }
   void reset() { _id = 0, newnode(), link[0] = -1; }
