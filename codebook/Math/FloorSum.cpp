@@ -1,4 +1,5 @@
 // sum^{n-1}_0 floor((a * i + b) / m) in log(n + m + a + b)
+// only works for a, b >= 0!!!
 ll floor_sum(ll n, ll m, ll a, ll b) {
   ll ans = 0;
   if (a >= m) ans += (n - 1) * n * (a / m) / 2, a %= m;
