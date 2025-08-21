@@ -1,4 +1,4 @@
-using T = complex <double>;
+using T = complex<double>;
 const double PI = acos(-1);
 struct FFT {
   T w[N];
@@ -10,7 +10,7 @@ struct FFT {
   void operator()(vector<T>& a, bool inv = false) {
     // see NTT, replace ll with T
     if (inv) {
-      reverse(a.begin() + 1, a.end());
+      reverse(1 + all(a));
       T invn = 1.0 / n;
       for (int i = 0; i < n; ++i) a[i] = a[i] * invn;
     }

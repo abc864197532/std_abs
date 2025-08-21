@@ -6,10 +6,10 @@ struct NTT {
     w[0] = 1;
     for (int i = 1; i < N; ++i)
       w[i] = mul(w[i - 1], dw);
-  }
-  void operator()(vector<int>& a, bool inv = false) { //0 <= a[i] < P
-    int x = 0, n = a.size();
-    for (int j = 1; j < n - 1; ++j) {
+  } // 0 <= a[i] < P
+  void operator()(vector<int>& a, bool inv = false) {
+    int n = sz(a);
+    for (int j = 1, x = 0; j < n - 1; ++j) {
       for (int k = n >> 1; (x ^= k) < k; k >>= 1);
       if (j < x) swap(a[x], a[j]);
     }
@@ -24,7 +24,7 @@ struct NTT {
       }
     }
     if (inv) {
-      reverse(a.begin() + 1, a.end());
+      reverse(1 + all(a));
       int invn = Pow(n, mod - 2);
       for (int i = 0; i < n; ++i)
         a[i] = mul(a[i], invn);

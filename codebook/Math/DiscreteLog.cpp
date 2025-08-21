@@ -13,6 +13,7 @@ ll DiscreteLog(ll a, ll b, ll m) { // a^x = b (mod m)
     m1[tot * b % m] = i, tot = tot * a % m;
   ll cur = k * tot % m;
   for (int i = 1; i <= B; ++i, cur = cur * tot % m)
-    if (m1.count(cur)) return i * B - m1[cur] + ans;
+    if (m1.count(cur))
+      return 1ll * i * B - m1[cur] + ans;
   return -1;
 }

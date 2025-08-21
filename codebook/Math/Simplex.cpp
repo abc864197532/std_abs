@@ -22,7 +22,7 @@ struct Simplex { // 0-based
     vector <int> nz;
     for (int i = 0; i < n; ++i) {
       a[x][i] /= k;
-      if (!eq(a[x][i], 0)) nz.push_back(i);
+      if (!eq(a[x][i], 0)) nz.pb(i);
     }
     b[x] /= k;
     for (int i = 0; i < m; ++i) {

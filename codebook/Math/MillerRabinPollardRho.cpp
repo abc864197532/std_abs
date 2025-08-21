@@ -19,7 +19,7 @@ bool IsPrime(ll n) {
   if (n < 2) return 0;
   if (n % 2 == 0) return n == 2;
   ll d = n - 1, s = 0;
-  while (d % 2 == 0) d >>= 1, ++s;
+  while (d % 2 == 0) d >>= 1, s++;
   for (ll i : chk) if (!check(i, d, s, n)) return 0;
   return 1;
 }
@@ -39,7 +39,7 @@ ll FindFactor(ll n) {
       }
       ll g = __gcd(d, n);
       if (g == n) {
-        l = 1, y = 2, ++t;
+        l = 1, y = 2, t++;
         break;
       }
       if (g != 1) return g;
@@ -49,7 +49,7 @@ ll FindFactor(ll n) {
 map <ll, int> res;
 void PollardRho(ll n) {
   if (n == 1) return;
-  if (IsPrime(n)) return ++res[n], void(0);
+  if (IsPrime(n)) return res[n]++, void(0);
   ll d = FindFactor(n);
   PollardRho(n / d), PollardRho(d);
 }
