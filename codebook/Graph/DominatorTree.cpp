@@ -23,9 +23,8 @@ struct DominatorTree {
   void build(int s) {
     dfs(s);
     for (int i = id - 1; ~i; --i) {
-      for (int u : rg[i]) {
+      for (int u : rg[i])
         sdom[i] = min(sdom[i], sdom[query(u, 0)]);
-      }
       if (i) bucket[sdom[i]].pb(i);
       for (int u : bucket[i]) {
         int p = query(u, 0);
@@ -38,7 +37,7 @@ struct DominatorTree {
       if (dom[i] != sdom[i]) dom[i] = dom[dom[i]];
     }
     for (int i = 1; i < id; ++i)
-        res[rev[i]] = rev[dom[i]];
+      res[rev[i]] = rev[dom[i]];
     res[s] = s;
     for (int i = 0; i < n; ++i) dom[i] = res[i];
   }

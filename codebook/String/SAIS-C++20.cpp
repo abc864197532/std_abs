@@ -1,7 +1,7 @@
 auto sais(const auto &s) {
   const int n = sz(s), z = ranges::max(s) + 1;
   if (n == 1) return vector{0};
-  vector<int> c(z); for (int x : s) ++c[x];
+  vector<int> c(z); for (int x : s) c[x]++;
   partial_sum(all(c), c.begin());
   vector<int> sa(n); auto I = views::iota(0, n);
   vector<bool> t(n, true);

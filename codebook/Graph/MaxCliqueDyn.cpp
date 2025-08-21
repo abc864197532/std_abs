@@ -3,13 +3,13 @@ struct MaxClique { // Maximum Clique
   int ans, sol[N], q, cur[N], d[N], n;
   void init(int _n) {
     n = _n;
-    for (int i = 0; i < n; i++) a[i].reset();
+    for (int i = 0; i < n; ++i) a[i].reset();
   }
   void add_edge(int u, int v) { a[u][v] = a[v][u] = 1; }
   void csort(vector<int> &r, vector<int> &c) {
     int mx = 1, km = max(ans - q + 1, 1), t = 0, m = sz(r);
     cs[1].reset(), cs[2].reset();
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < m; ++i) {
       int p = r[i], k = 1;
       while ((cs[k] & a[p]).count()) k++;
       if (k > mx) mx++, cs[mx + 1].reset();
@@ -18,9 +18,9 @@ struct MaxClique { // Maximum Clique
     }
     c.resize(m);
     if (t) c[t - 1] = 0;
-    for (int k = km; k <= mx; k++)
+    for (int k = km; k <= mx; ++k)
       for (int p = cs[k]._Find_first(); p < N;
-              p = cs[k]._Find_next(p))
+               p = cs[k]._Find_next(p))
         r[t] = p, c[t] = k, t++;
   }
   void dfs(vector<int> &r, vector<int> &c, int l,
@@ -33,7 +33,7 @@ struct MaxClique { // Maximum Clique
       vector<int> nr, nc;
       bitset<N> nmask = mask & a[p];
       for (int i : r)
-        if (a[p][i]) nr.push_back(i);
+        if (a[p][i]) nr.pb(i);
       if (!nr.empty()) {
         if (l < 4) {
           for (int i : nr)
@@ -50,9 +50,9 @@ struct MaxClique { // Maximum Clique
               string(N, '1'))) { // vertex mask
     vector<int> r, c;
     ans = q = 0;
-    for (int i = 0; i < n; i++)
-      if (mask[i]) r.push_back(i);
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
+      if (mask[i]) r.pb(i);
+    for (int i = 0; i < n; ++i)
       d[i] = (a[i] & mask).count();
     sort(r.begin(), r.end(),
       [&](int i, int j) { return d[i] > d[j]; });

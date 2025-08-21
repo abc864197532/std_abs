@@ -51,7 +51,7 @@ struct Matching { // 0-based
     return res;
   }
   void add_edge(int u, int v) {
-    g[u].push_back(v), g[v].push_back(u); }
+    g[u].pb(v), g[v].pb(u); }
   Matching (int _n) : n(_n), tk(0), g(n), fa(n + 1),
     pre(n + 1, n), match(n + 1, n), s(n + 1), t(n) {}
 };

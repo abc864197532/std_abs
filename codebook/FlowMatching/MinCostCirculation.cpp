@@ -23,16 +23,16 @@ struct MinCostCirculation { // 0-base
     }
   }
   void try_edge(Edge &cur) {
-    if (cur.cap > cur.flow) return ++cur.cap, void();
+    if (cur.cap > cur.flow) return cur.cap++, void();
     BellmanFord(cur.to);
     if (dis[cur.from] + cur.cost < 0) {
-      ++cur.flow, --G[cur.to][cur.rev].flow;
+      cur.flow++, G[cur.to][cur.rev].flow--;
       for (int i = cur.from; past[i]; i = past[i]->from) {
         auto &e = *past[i];
-        ++e.flow, --G[e.to][e.rev].flow;
+        e.flow++, G[e.to][e.rev].flow--;
       }
     }
-    ++cur.cap;
+    cur.cap++;
   }
   void solve(int mxlg) {
     for (int b = mxlg; b >= 0; --b) {

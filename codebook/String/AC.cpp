@@ -3,8 +3,8 @@ struct AC { // remember to build_fail!!!
   // fail link tree: fail[i] -> i
   AC () { reset(); }
   int newnode() {
-    fill_n(ch[_id], C, 0); return _id++;
-  }
+    fill_n(ch[_id], C, 0), fill_n(to[_id], C, 0);
+    fail[_id] = cnt[_id] = 0; return _id++; }
   int insert(string s) {
     int now = 0;
     for (char c : s) {
@@ -16,9 +16,8 @@ struct AC { // remember to build_fail!!!
   }
   void build_fail() {
     queue <int> q;
-    for (int i = 0; i < C; ++i) if (ch[0][i]) {
+    for (int i = 0; i < C; ++i) if (ch[0][i])
       q.push(ch[0][i]), to[0][i] = ch[0][i];
-    }
     while (!q.empty()) {
       int v = q.front(); q.pop();
       for (int i = 0; i < C; ++i) {

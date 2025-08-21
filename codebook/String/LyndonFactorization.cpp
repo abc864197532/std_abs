@@ -3,7 +3,7 @@
 // each w[i] strictly smaller than all its suffix
 vector <string> duval(const string &s) {
   vector <string> ans;
-  for (int n = (int)s.size(), i = 0, j, k; i < n; ) {
+  for (int n = sz(s), i = 0, j, k; i < n; ) {
     for (j = i + 1, k = i; j < n && s[k] <= s[j]; j++)
       k = (s[k] < s[j] ? i : k + 1);
     for (; i <= k; i += j - k)

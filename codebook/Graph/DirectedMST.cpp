@@ -12,12 +12,12 @@ vector<int> dmst(vector<edge> &e, int n, int root) {
     return {r.first + pq.second, r.second};
   };
   auto join = [&push, &top](PQ &a, PQ &b) {
-    if (a.first.size() < b.first.size()) swap(a, b);
+    if (sz(a.first) < sz(b.first)) swap(a, b);
     while (!b.first.empty())
       push(a, top(b)), b.first.pop();
   };
   vector<PQ> h(n * 2);
-  for (int i = 0; i < e.size(); ++i)
+  for (int i = 0; i < sz(e); ++i)
     push(h[e[i].v], {e[i].w, i});
   vector<int> a(n * 2), v(n * 2, -1), pa(n * 2, -1), r(n * 2);
   iota(all(a), 0);

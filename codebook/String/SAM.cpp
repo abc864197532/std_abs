@@ -15,7 +15,7 @@ struct SAM {
   }
   void build(string s) {
     int lst = 0;
-    for (int i = 0; i < s.length(); ++i) {
+    for (int i = 0; i < sz(s); ++i) {
       char c = s[i];
       int cur = newnode();
       len[cur] = len[lst] + 1, pos[cur] = i + 1;

@@ -27,7 +27,7 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
       }
     }
     return dis[t] != INF2;
-  } // a5dc32
+  } // df1862
   bool dijkstra() {
     rt.assign(n, -1), dis.assign(n, INF2);
     priority_queue <pair <T2, int>, vector <pair <T2, int>>, greater <pair <T2, int>>> pq;
@@ -50,7 +50,7 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     s = _s, t = _t, pot.assign(n, 0);
     vector <pair <T1, T2>> ans; bool fr = true;
     while ((fr ? SPFA() : SPFA())) {
-      for (int i = 0; i < n; i++)
+      for (int i = 0; i < n; ++i)
         dis[i] += pot[i] - pot[s];
       T1 add = INF1;
       for (int i = t; i != s; i = e[rt[i] ^ 1].v)
@@ -66,8 +66,8 @@ struct MCMF { // T1 -> flow, T2 -> cost, 0-based
     g[u].pb(sz(e)), e.pb({v, f, c});
     g[v].pb(sz(e)), e.pb({u, 0, -c});
   }
-  MCMF (int _n) : n(_n), g(n), e() {} // 337601
+  MCMF (int _n) : n(_n), g(n), e() {}
 //void reset() {
 //  for (int i = 0; i < sz(e); ++i) e[i].f = 0;
 //}
-};
+}; // 383274

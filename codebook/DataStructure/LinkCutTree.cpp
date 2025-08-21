@@ -50,9 +50,9 @@ struct LCT {
   }
   void splay(int i) {
     vector<int> anc;
-    anc.push_back(i);
+    anc.pb(i);
     while (!isrt(anc.back()))
-      anc.push_back(pa[anc.back()]);
+      anc.pb(pa[anc.back()]);
     while (!anc.empty())
       push(anc.back()), anc.pop_back();
     while (!isrt(i)) {

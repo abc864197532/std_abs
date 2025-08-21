@@ -1,5 +1,5 @@
 string rotate(const string &s) {
-  int n = (int)s.size(), i = 0, j = 1;
+  int n = sz(s), i = 0, j = 1;
   string t = s + s;
   while (i < n && j < n) {
     int k = 0;
