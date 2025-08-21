@@ -28,7 +28,7 @@ struct slope_trick_convex {
       vector<T> trash;
       T cur_val = minn, slope = 1, res;
       while (1) {
-        trash.push_back(left.top());
+        trash.pb(left.top());
         left.pop();
         if (left.top() + ground_l <= x) {
           res = cur_val + slope * (l - x);
@@ -45,7 +45,7 @@ struct slope_trick_convex {
       vector<T> trash;
       T cur_val = minn, slope = 1, res;
       while (1) {
-        trash.push_back(right.top());
+        trash.pb(right.top());
         right.pop();
         if (right.top() + ground_r >= x) {
           res = cur_val + slope * (x - r);

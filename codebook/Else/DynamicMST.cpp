@@ -10,18 +10,18 @@ void contract(int l, int r, vector<int> v, vector<int> &x, vector<int> &y) {
       });
   djs.save();
   for (int i = l; i <= r; ++i) djs.merge(st[qr[i].first], ed[qr[i].first]);
-  for (int i = 0; i < (int)v.size(); ++i) {
+  for (int i = 0; i < sz(v); ++i) {
     if (djs.find(st[v[i]]) != djs.find(ed[v[i]])) {
-      x.push_back(v[i]);
+      x.pb(v[i]);
       djs.merge(st[v[i]], ed[v[i]]);
     }
   }
   djs.undo();
   djs.save();
-  for (int i = 0; i < (int)x.size(); ++i) djs.merge(st[x[i]], ed[x[i]]);
-  for (int i = 0; i < (int)v.size(); ++i) {
+  for (int i = 0; i < sz(x); ++i) djs.merge(st[x[i]], ed[x[i]]);
+  for (int i = 0; i < sz(v); ++i) {
     if (djs.find(st[v[i]]) != djs.find(ed[v[i]])) {
-      y.push_back(v[i]);
+      y.pb(v[i]);
       djs.merge(st[v[i]], ed[v[i]]);
     }
   }
@@ -35,7 +35,7 @@ void solve(int l, int r, vector<int> v, long long c) {
       return;
     }
     int minv = qr[l].second;
-    for (int i = 0; i < (int)v.size(); ++i) minv = min(minv, cost[v[i]]);
+    for (int i = 0; i < sz(v); ++i) minv = min(minv, cost[v[i]]);
     printf("%lld\n", c + minv);
     return;
   }
@@ -44,12 +44,12 @@ void solve(int l, int r, vector<int> v, long long c) {
   vector<int> x, y;
   for (int i = m + 1; i <= r; ++i) {
     cnt[qr[i].first]--;
-    if (cnt[qr[i].first] == 0) lv.push_back(qr[i].first);
+    if (cnt[qr[i].first] == 0) lv.pb(qr[i].first);
   }
   contract(l, m, lv, x, y);
   long long lc = c, rc = c;
   djs.save();
-  for (int i = 0; i < (int)x.size(); ++i) {
+  for (int i = 0; i < sz(x); ++i) {
     lc += cost[x[i]];
     djs.merge(st[x[i]], ed[x[i]]);
   }
@@ -59,11 +59,11 @@ void solve(int l, int r, vector<int> v, long long c) {
   for (int i = m + 1; i <= r; ++i) cnt[qr[i].first]++;
   for (int i = l; i <= m; ++i) {
     cnt[qr[i].first]--;
-    if (cnt[qr[i].first] == 0) rv.push_back(qr[i].first);
+    if (cnt[qr[i].first] == 0) rv.pb(qr[i].first);
   }
   contract(m + 1, r, rv, x, y);
   djs.save();
-  for (int i = 0; i < (int)x.size(); ++i) {
+  for (int i = 0; i < sz(x); ++i) {
     rc += cost[x[i]];
     djs.merge(st[x[i]], ed[x[i]]);
   }

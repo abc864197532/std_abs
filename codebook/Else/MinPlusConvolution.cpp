@@ -1,6 +1,6 @@
 // a is convex a[i+1]-a[i] <= a[i+2]-a[i+1]
 vector<int> min_plus_convolution(vector<int> &a, vector<int> &b) {
-  int n = a.size(), m = b.size();
+  int n = sz(a), m = sz(b);
   vector<int> c(n + m - 1, INF);
   auto dc = [&](auto Y, int l, int r, int jl, int jr) {
     if (l > r) return;

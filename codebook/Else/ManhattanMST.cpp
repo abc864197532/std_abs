@@ -2,8 +2,7 @@ void solve(int n) {
   init();
   vector<int> v(n), ds;
   for (int i = 0; i < n; ++i) {
-    v[i] = i;
-    ds.push_back(x[i] - y[i]);
+    v[i] = i, ds.pb(x[i] - y[i]);
   }
   sort(ds.begin(), ds.end());
   ds.resize(unique(ds.begin(), ds.end()) - ds.begin());
