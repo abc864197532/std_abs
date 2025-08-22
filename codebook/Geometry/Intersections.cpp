@@ -47,3 +47,30 @@ vector<Pt> circles_intersect(Cir c1, Cir c2) {// 0acf68
   if (sign(v.x) == 0 && sign(v.y) == 0) return {u};
   return {u - v, u + v};
 }
+// return edge endpoint, at point -> ids are the same
+vector<pii> convex_line_intersect(vector <Pt> &C, Line la) {
+  auto dis = [&](int p)
+  { return (la.b - la.a) ^ (C[p] - la.a); };
+  auto gao = [&](int s) {
+    return cyc_tsearch(sz(C), [&](int i, int j)
+    { return sign(dis(i) - dis(j)) == s; });
+  };
+  int x = gao(1), y = gao(-1), n = sz(C);
+  if (sign(dis(x)) < 0 || sign(dis(y)) > 0) return {};
+  if (sign(dis(x)) == 0 || sign(dis(y)) == 0) {
+    int v = ((sign(dis(x)) == 0 ? x : y) + n - 1) % n;
+    vector <pii> vec;
+    for (int i = 0; i < 3; ++i, v = (v + 1) % n)
+      if (sign(dis(v)) == 0) vec.emplace_back(v, v);
+    return vec;
+  }
+  auto get = [&](int l, int r, int s) {
+    while ((l + 1) % n != r) {
+      int m = ((l + r + (l < r ? 0 : n)) / 2) % n;
+      (sign(dis(m)) == s ? l : r) = m;
+    }
+    if (sign(dis(r)) == 0) return pii(r, r);
+    return pii(l, r);
+  };
+  return {get(x, y, 1), get(y, x, -1)};
+}
