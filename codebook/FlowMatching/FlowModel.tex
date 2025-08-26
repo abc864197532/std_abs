@@ -7,7 +7,7 @@
         \itemsep-0.3em
         \item Construct super source $S$ and sink $T$.
         \item For each edge $(x, y, l, u)$, connect $x \rightarrow y$ with capacity $u - l$.
-        \item For each vertex $v$, denote by $in(v)$ the difference between the sum of incoming lower bounds and the sum of outgoing lower bounds.
+        \item For each vertex $v$, denote by $in(v)$ the difference between the sum of \textbf{incoming} lower bounds and the sum of \textbf{outgoing} lower bounds.
         \item If $in(v) > 0$, connect $S \rightarrow v$ with capacity $in(v)$, otherwise, connect $v \rightarrow T$ with capacity $-in(v)$.
         \begin{itemize}
             \itemsep-0.2em
