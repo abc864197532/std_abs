@@ -24,7 +24,7 @@ struct Polar_Seg {
     return ori(a, o.a, o.b) == 1;
   }
 };
-struct Arc {
+struct Arc { // contain(a, b): circle a in circle b?
 	Cir c; int s; // 0 -> up, 1 -> down
 	bool operator < (const Arc &b) const {
 		if (c.id == b.c.id) return s < b.s;
