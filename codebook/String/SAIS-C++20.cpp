@@ -33,7 +33,7 @@ auto sais(const auto &s) {
   for (auto x = c; int y : nsa | views::reverse)
     y = lms[y], sa[--x[s[y]]] = y;
   return induce(), sa;
-} // 9f768b
+} // 0eb2d2
 struct Suffix {
   // lcp[i] = LCP(sa[i - 1], sa[i])
   int n; vector<int> sa, lcp, rk;

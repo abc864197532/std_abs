@@ -26,7 +26,7 @@ auto circles_border(vector<Cir> c, int id) {
   for (auto &[l, r] : seg)
     l = l + c[id].o, r = r + c[id].o;
   return seg;
-}
+} // 95d3c6
 double circles_union_area(vector<Cir> c) {
   double res = 0;
   for (int i = 0; i < sz(c); ++i) {
@@ -39,4 +39,4 @@ double circles_union_area(vector<Cir> c) {
     }
   }
   return res / 2;
-}
+} // 22d249

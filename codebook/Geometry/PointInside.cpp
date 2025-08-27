@@ -1,6 +1,6 @@
 // get edge index: check (0, a), (0, b) first
 // then after binary search, check (a, b)
-bool point_in_convex(vector<Pt> &C, Pt p, bool strict = true) { // 722991
+bool point_in_convex(vector<Pt> &C, Pt p, bool strict = true) {
   // only works when no three points are collinear
   int a = 1, b = sz(C) - 1, r = !strict;
   if (sz(C) == 0) return false;
@@ -12,9 +12,9 @@ bool point_in_convex(vector<Pt> &C, Pt p, bool strict = true) { // 722991
     (ori(C[0], C[c], p) > 0 ? b : a) = c;
   }
   return ori(C[a], C[b], p) < r;
-}
+} // 722991
 // -1: out, 0: edge, 1: in
-int point_in_poly(vector <Pt> poly, Pt o, int strict) { // 94b56b
+int point_in_poly(vector <Pt> poly, Pt o, int strict) {
   int cnt = 0;
   for (int i = 0; i < sz(poly); ++i) {
     Pt a = poly[i], b = poly[(i + 1) % sz(poly)];
@@ -22,11 +22,11 @@ int point_in_poly(vector <Pt> poly, Pt o, int strict) { // 94b56b
     cnt ^= ((o.y < a.y) - (o.y - b.y)) * ori(o, a, b) > 0;
   }
   return cnt ? 1 : -1;
-}
+} // 94b56b
 // return q's relation with circumcircle of tri(p[0],p[1],p[2])
-bool point_in_cc(array<Pt, 3> p, Pt q) { // cc76d3
+bool point_in_cc(array<Pt, 3> p, Pt q) {
   __int128 det = 0;
   for (int i = 0; i < 3; ++i) 
     det += __int128(abs2(p[i]) - abs2(q)) * ((p[(i + 1) % 3] - q) ^ (p[(i + 2) % 3] - q));
   return det > 0; // in: >0, on: =0, out: <0
-}
+} // cc76d3

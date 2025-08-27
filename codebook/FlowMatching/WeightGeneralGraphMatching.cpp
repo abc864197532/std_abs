@@ -29,14 +29,14 @@ struct WeightGraph { // 1-based
   void set_st(int x, int b) {
     st[x] = b;
     if (x > n) for (int y : flo[x]) set_st(y, b);
-  }
+  } // ae3b3a
   vector<int> split_flo(auto &f, int xr) {
     auto it = find(all(f), xr);
     if (auto pr = it - f.begin(); pr % 2 == 1)
       reverse(1 + all(f)), it = f.end() - pr;
     auto res = vector(f.begin(), it);
     return f.erase(f.begin(), it), res;
-  } // 7bb859
+  }
   void set_match(int u, int v) {
     match[u] = g[u][v].v;
     if (u <= n) return;
@@ -60,7 +60,7 @@ struct WeightGraph { // 1-based
       if (u) u = st[pa[u]];
     }
     return 0;
-  }
+  } // 0569c4
   void add_blossom(int u, int o, int v) {
     int b = int(find(n + 1 + all(st), 0) - begin(st));
     lab[b] = 0, S[b] = 0; match[b] = match[o];
@@ -104,7 +104,7 @@ struct WeightGraph { // 1-based
       else return augment(u, v), augment(v, u), true;
     }
     return false;
-  } // 82ea63
+  } // 61368c
   bool matching() {
     fill(all(S), -1), fill(all(slack), 0);
     q = queue<int>();
@@ -145,7 +145,7 @@ struct WeightGraph { // 1-based
           expand_blossom(b);
     }
     return false;
-  }
+  } // 61b100
   pair<ll, int> solve() {
     fill(all(match), 0);
     REP(u, 0, n) st[u] = u, flo[u].clear();
@@ -162,5 +162,5 @@ struct WeightGraph { // 1-based
     return make_pair(tot_weight, n_matches);
   }
   void set_edge(int u, int v, int w) {
-    g[u][v].w = g[v][u].w = w; } // c78909
-};
+    g[u][v].w = g[v][u].w = w; }
+}; // f1e757

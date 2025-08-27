@@ -1,5 +1,5 @@
 typedef vector<int> Poly;
-Poly Mul(Poly a, Poly b, int bound = N) { // d02e42
+Poly Mul(Poly a, Poly b, int bound = N) {
   int m = sz(a) + sz(b) - 1, n = 1;
   while (n < m) n <<= 1;
   a.resize(n), b.resize(n);
@@ -7,8 +7,8 @@ Poly Mul(Poly a, Poly b, int bound = N) { // d02e42
   for (int i = 0; i < n; ++i) a[i] = mul(a[i], b[i]);
   ntt(a, true), a.resize(min(m, bound));
   return a;
-}
-Poly Inverse(Poly a) { // b137d5
+} // 8e2e8b
+Poly Inverse(Poly a) {
   // O(NlogN), a[0] != 0
   int n = sz(a);
   Poly res(1, Pow(a[0], mod - 2));
@@ -28,7 +28,7 @@ Poly Inverse(Poly a) { // b137d5
   }
   res.resize(n);
   return res;
-}
+} // 4d79c8
 pair <Poly, Poly> Divide(Poly a, Poly b) {
   // a = bQ + R, O(NlogN), b.back() != 0
   int n = sz(a), m = sz(b), k = n - m + 1;
@@ -42,8 +42,8 @@ pair <Poly, Poly> Divide(Poly a, Poly b) {
   for (int i = 0; i < m - 1; ++i)
     R[i] = sub(a[i], res[i]);
   return {Q, R};
-}
-Poly SqrtImpl(Poly a) { // a642f6
+} // 7d15e3
+Poly SqrtImpl(Poly a) {
   if (a.empty()) return {0};
   int z = QuadraticResidue(a[0], mod), n = sz(a);
   if (z == -1) return {-1};
@@ -61,8 +61,8 @@ Poly SqrtImpl(Poly a) { // a642f6
   }
   q.resize(n);
   return q;
-}
-Poly Sqrt(Poly a) { // 0dae9c
+} // 984549
+Poly Sqrt(Poly a) {
   // O(NlogN), return {-1} if not exists
   int n = sz(a), m = 0;
   while (m < n && a[m] == 0) m++;
@@ -74,30 +74,30 @@ Poly Sqrt(Poly a) { // 0dae9c
   for (int i = 0; i < sz(s); ++i)
     res[i + m / 2] = s[i];
   return res;
-}
-Poly Derivative(Poly a) { // 26f29b
+} // d1acd7
+Poly Derivative(Poly a) {
   int n = sz(a);
   Poly res(n - 1);
   for (int i = 0; i < n - 1; ++i)
     res[i] = mul(a[i + 1], i + 1);
   return res;
-}
-Poly Integral(Poly a) { // f18ba1
+} // 001be0
+Poly Integral(Poly a) {
   int n = sz(a);
   Poly res(n + 1);
   for (int i = 0; i < n; ++i)
     res[i + 1] = mul(a[i], Pow(i + 1, mod - 2));
   return res;
-}
-Poly Ln(Poly a) { // 0c1381
+} // 6fc53d
+Poly Ln(Poly a) {
   // O(NlogN), a[0] = 1
   int n = sz(a);
   if (n == 1) return {0};
   Poly d = Derivative(a);
   a.pop_back();
   return Integral(Mul(d, Inverse(a), n - 1));
-}
-Poly Exp(Poly a) { // d2b129
+} // 377d20
+Poly Exp(Poly a) {
   // O(NlogN), a[0] = 0
   int n = sz(a);
   Poly q(1, 1);
@@ -112,8 +112,8 @@ Poly Exp(Poly a) { // d2b129
   }
   q.resize(n);
   return q;
-}
-Poly PolyPow(Poly a, ll k) { // d50135
+} // 525e8f
+Poly PolyPow(Poly a, ll k) {
   int n = sz(a), m = 0;
   Poly ans(n, 0);
   while (m < n && a[m] == 0) m++;
@@ -131,9 +131,9 @@ Poly PolyPow(Poly a, ll k) { // d50135
   for (int i = lead; i < n; ++i)
     ans[i] = mul(b[i - lead], base);
   return ans;
-}
+} // 7d695a
 vector <int> Evaluate(Poly a, vector <int> x) {
-  if (x.empty()) return {}; // e28f67
+  if (x.empty()) return {};
   int n = sz(x);
   vector <Poly> up(n * 2);
   for (int i = 0; i < n; ++i)
@@ -147,9 +147,9 @@ vector <int> Evaluate(Poly a, vector <int> x) {
   Poly y(n);
   for (int i = 0; i < n; ++i) y[i] = down[i + n][0];
   return y;
-}
+} // bff354
 Poly Interpolate(vector <int> x, vector <int> y) {
-  int n = sz(x); // 743f56
+  int n = sz(x);
   vector <Poly> up(n * 2);
   for (int i = 0; i < n; ++i)
     up[i + n] = {sub(0, x[i]), 1};
@@ -168,8 +168,8 @@ Poly Interpolate(vector <int> x, vector <int> y) {
       down[i][j] = add(lhs[j], rhs[j]);
   }
   return down[1];
-}
-Poly TaylorShift(Poly a, int c) { // b59bef
+} // af80e7
+Poly TaylorShift(Poly a, int c) {
   // return sum a_i(x + c)^i;
   // fac[i] = i!, facp[i] = inv(i!)
   int n = sz(a);
@@ -182,7 +182,7 @@ Poly TaylorShift(Poly a, int c) { // b59bef
   a = Mul(a, b, n), reverse(all(a));
   for (int i = 0; i < n; ++i) a[i] = mul(a[i],facp[i]);
   return a;
-}
+} // 3a3763
 vector<int> SamplingShift(vector<int> a, int c, int m){
   // given f(0), f(1), ..., f(n - 1)
   // return f(c), f(c + 1), ..., f(c + m - 1)
@@ -207,4 +207,4 @@ vector<int> SamplingShift(vector<int> a, int c, int m){
   a = Mul(a, b, m);
   for (int i = 0; i < m; ++i) a[i] = mul(a[i], fac[i]);
   return a;
-}
+} // 2e52c1

@@ -19,7 +19,7 @@ ll min_rem(ll n, ll m, ll a, ll b) {
     }
   }
   return b;
-}
+} // ab2d19
 //min value of ax + b (mod m) for x \in [0, n - 1], also return min x to get the value. O(log m)
 //{value, x}
 pair<ll, ll> min_rem_pos(ll n, ll m, ll a, ll b) {
@@ -28,4 +28,4 @@ pair<ll, ll> min_rem_pos(ll n, ll m, ll a, ll b) {
   //ax = (mn - b) (mod m)
   ll x = (extgcd(a, m).first + m) * ((mn - b + m) / g) % (m / g);
   return {mn, x};
-}
+} // 017ca5

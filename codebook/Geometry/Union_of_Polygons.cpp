@@ -37,7 +37,7 @@ auto polys_border(vector<vector<Pt>> poly, int id) {
     }
   }
   return seg;
-}
+} // 704477
 double polys_union_area(vector<vector<Pt>> poly) {
   double res = 0;
   for (int i = 0; i < sz(poly); ++i) {
@@ -45,4 +45,4 @@ double polys_union_area(vector<vector<Pt>> poly) {
     for (auto [l, r] : seg) res += l ^ r;
   }
   return res / 2;
-}
+} // d055fb

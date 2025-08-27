@@ -22,7 +22,7 @@ bool IsPrime(ll n) {
   while (d % 2 == 0) d >>= 1, s++;
   for (ll i : chk) if (!check(i, d, s, n)) return 0;
   return 1;
-}
+} // 5761f3
 const vector<ll> small = {2, 3, 5, 7, 11, 13, 17, 19};
 ll FindFactor(ll n) {
   if (IsPrime(n)) return 1;
@@ -52,4 +52,4 @@ void PollardRho(ll n) {
   if (IsPrime(n)) return res[n]++, void(0);
   ll d = FindFactor(n);
   PollardRho(n / d), PollardRho(d);
-}
+} // 57e9e3

@@ -1,5 +1,5 @@
 // m=0: segment, m=1: ray from l.a to l.b, m=2: line
-bool lines_intersect_check(Line l1, int m1, Line l2, int m2, int strict) { // 56cc8d
+bool lines_intersect_check(Line l1, int m1, Line l2, int m2, int strict) {
   auto on = [&](Line l, int m, Pt p) {
     if (ori(l.a, l.b, p) != 0) return false;
     if (m && abs2(l.a - p) > abs2(l.b - p)) return true;
@@ -21,24 +21,24 @@ bool lines_intersect_check(Line l1, int m1, Line l2, int m2, int strict) { // 56
     if (m1 == 0 && on(l2, m2, l1.b)) return 1;
   }
   return 0;
-}
+} // 56cc8d
 // notice two lines are parallel
-auto lines_intersect(Line a, Line b) { // 726acc
+auto lines_intersect(Line a, Line b) {
   auto abc = (a.b - a.a) ^ (b.a - a.a);
   auto abd = (a.b - a.a) ^ (b.b - a.a);
   return make_pair((b.b * abc - b.a * abd), abc - abd);
-}
+} // 726acc
 // res[0] -> res[1] and l.a -> l.b: same direction
-vector<Pt> circle_line_intersect(Cir c, Line l) { // b7bdce
+vector<Pt> circle_line_intersect(Cir c, Line l) {
   Pt p = l.a + (l.b - l.a) * ((c.o - l.a) * (l.b - l.a)) / abs2(l.b - l.a);
   double s = (l.b - l.a) ^ (c.o - l.a), h2 = c.r * c.r - s * s / abs2(l.b - l.a);
   if (sign(h2) == -1) return {};
   if (sign(h2) == 0) return {p};
   Pt h = (l.b - l.a) / abs(l.b - l.a) * sqrt(h2);
   return {p - h, p + h};
-}
+} // b7bdce
 // covered area of c1: arc from res[0] to res[1], CCW 
-vector<Pt> circles_intersect(Cir c1, Cir c2) {// 0acf68
+vector<Pt> circles_intersect(Cir c1, Cir c2) {
   double d2 = abs2(c1.o - c2.o), d = sqrt(d2);
   if (d < max(c1.r, c2.r) - min(c1.r, c2.r) || d > c1.r + c2.r) return {};
   Pt u = (c1.o + c2.o) / 2 + (c1.o - c2.o) * ((c2.r * c2.r - c1.r * c1.r) / (2 * d2));
@@ -46,7 +46,7 @@ vector<Pt> circles_intersect(Cir c1, Cir c2) {// 0acf68
   Pt v = perp(c2.o - c1.o) * A / (2 * d2);
   if (sign(v.x) == 0 && sign(v.y) == 0) return {u};
   return {u - v, u + v};
-}
+} // 0acf68
 // return edge endpoint, at point -> ids are the same
 vector<pii> convex_line_intersect(vector <Pt> &C, Line la) {
   auto dis = [&](int p)
@@ -73,4 +73,4 @@ vector<pii> convex_line_intersect(vector <Pt> &C, Line la) {
     return pii(l, r);
   };
   return {get(x, y, 1), get(y, x, -1)};
-}
+} // 5ddd35
