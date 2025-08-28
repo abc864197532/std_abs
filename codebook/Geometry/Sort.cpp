@@ -12,15 +12,20 @@ bool cmp_fraction_polar(pair<Pt, ll> o, pair<Pt, ll> s, pair<Pt, ll> t) { // C^3
   // u /= gcd(u.x, u.y) might lower the range to C
   return cmp(u, v);
 } // 2d4450
+struct Seg {
+  Pt a, b; // a.x < b.x
+  bool operator < (const Seg &o) const {
+    if (a == o.a) return ori(o.b, a, b) == 1;
+    if (a.x <= o.a.x) return ori(o.a, a, b) == 1;
+    return ori(a, o.a, o.b) == -1;
+  }
+};
 struct Polar_Seg {
   Pt a, b; // ori(Pt(0, 0), a, b) > 0
   bool operator < (const Polar_Seg &o) const {
-    if (btwangle(Pt(0, 0), a, b, o.a, 0)) {
-      if (a == o.a) return ori(o.b, a, b) == -1;
-      if (b == o.a) return false;
+    if (a == o.a) return(o.b, a, b) == -1;
+    if (btwangle(Pt(0, 0), a, b, o.a, 0))
       return ori(o.a, a, b) == -1;
-    }
-    if (b == o.a) return false;
     return ori(a, o.a, o.b) == 1;
   }
 };
