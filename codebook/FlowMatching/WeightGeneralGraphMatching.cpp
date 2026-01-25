@@ -1,8 +1,9 @@
 #define REP(i, l, r) for (int i=(l); i<=(r); ++i)
-struct WeightGraph { // 1-based
-  static const int inf = INT_MAX;
-  struct edge { int u, v, w; }; int n, nx;
-  vector<int> lab; vector<vector<edge>> g;
+template <typename T>// maximum weight perfect matching
+struct WeightGraph { // 1-based, all edge weight >= 0
+  static const T INF = numeric_limits<T>::max() / 2;
+  struct edge { int u, v; T w; }; int n, nx;
+  vector<T> lab; vector<vector<edge>> g;
   vector<int> slack, match, st, pa, S, vis;
   vector<vector<int>> flo, flo_from; queue<int> q;
   WeightGraph(int n_) : n(n_), nx(n * 2), lab(nx + 1),
@@ -11,7 +12,7 @@ struct WeightGraph { // 1-based
     match = st = pa = S = vis = slack;
     REP(u, 1, n) REP(v, 1, n) g[u][v] = {u, v, 0};
   }
-  int ED(edge e) {
+  T ED(edge e) {
     return lab[e.u] + lab[e.v] - g[e.u][e.v].w * 2; }
   void update_slack(int u, int x, int &s) {
     if (!s || ED(g[u][x]) < ED(g[s][x])) s = u; }
@@ -28,7 +29,7 @@ struct WeightGraph { // 1-based
   void set_st(int x, int b) {
     st[x] = b;
     if (x > n) for (int y : flo[x]) set_st(y, b);
-  } // ae3b3a
+  } // 9907a2
   vector<int> split_flo(auto &f, int xr) {
     auto it = find(all(f), xr);
     if (auto pr = it - f.begin(); pr % 2 == 1)
@@ -121,7 +122,7 @@ struct WeightGraph { // 1-based
             else if (on_found_edge(g[u][v])) return true;
           }
       }
-      int d = inf;
+      T d = INF;
       REP(b, n + 1, nx) if (st[b] == b && S[b] == 1)
         d = min(d, lab[b] / 2);
       REP(x, 1, nx)
@@ -144,22 +145,22 @@ struct WeightGraph { // 1-based
           expand_blossom(b);
     }
     return false;
-  } // 61b100
-  pair<ll, int> solve() {
+  } // 626caa
+  pair<T, int> solve() {
     fill(all(match), 0);
     REP(u, 0, n) st[u] = u, flo[u].clear();
-    int w_max = 0;
+    T w_max = 0;
     REP(u, 1, n) REP(v, 1, n) {
       flo_from[u][v] = (u == v ? u : 0);
       w_max = max(w_max, g[u][v].w);
     }
     REP(u, 1, n) lab[u] = w_max;
-    int n_matches = 0; ll tot_weight = 0;
+    int n_matches = 0; T tot_weight = 0;
     while (matching()) ++n_matches;
     REP(u, 1, n) if (match[u] && match[u] < u)
       tot_weight += g[u][match[u]].w;
     return make_pair(tot_weight, n_matches);
   }
-  void set_edge(int u, int v, int w) {
+  void add_edge(int u, int v, T w) {
     g[u][v].w = g[v][u].w = w; }
-}; // f1e757
+}; // 02b740
