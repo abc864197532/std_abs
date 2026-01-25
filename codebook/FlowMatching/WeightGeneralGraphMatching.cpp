@@ -1,4 +1,3 @@
-#define pb emplace_back
 #define REP(i, l, r) for (int i=(l); i<=(r); ++i)
 struct WeightGraph { // 1-based
   static const int inf = INT_MAX;
