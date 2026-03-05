@@ -208,3 +208,35 @@ vector<int> SamplingShift(vector<int> a, int c, int m){
   for (int i = 0; i < m; ++i) a[i] = mul(a[i], fac[i]);
   return a;
 } // 2e52c1
+Poly power_proj(Poly w, Poly f, int m) {
+  // return sum_j w_j[x^j]f^i for i=0,1,...,m
+  int n = 1;
+  while (n < sz(f)) n <<= 1;
+  f.resize(n), w.resize(n), reverse(all(w));
+  int k = 1, n2 = 2 * n, n4 = 4 * n;
+  Poly _P(n2), _Q(n2);
+  for (int i = 0; i < n; ++i)
+    _P[i] = w[i], _Q[i] = sub(0, f[i]);
+  while (n > 1) {
+    Poly R(n2);
+    for (int i = 0; i < n2; ++i)
+      R[i] = (i & 1 ? sub(0, _Q[i]) : _Q[i]);
+    Poly PQ = Mul(_P, R), QQ = Mul(_Q, R);
+    PQ.resize(n4), QQ.resize(n4);
+    for (int i = 0, j = n2; i < n2; ++i, ++j) {
+      PQ[j] = add(PQ[j], _P[i]);
+      QQ[j] = add(QQ[j], add(_Q[i], R[i]));
+    }
+    fill(all(_P), 0), fill(all(_Q), 0);
+    for (int j = 0; j < 2 * k; ++j)
+      for (int i = 0; i < n / 2; ++i) {
+        _P[n * j + i] = PQ[2 * n * j + 2 * i + 1];
+        _Q[n * j + i] = QQ[2 * n * j + 2 * i + 0];
+      }
+    n /= 2, k *= 2;
+  }
+  Poly p(k);
+  for (int i = 0; i < k; ++i) p[i] = _P[2 * i];
+  reverse(all(p)), p.resize(m + 1);
+  return p;
+} // d0c3ec
