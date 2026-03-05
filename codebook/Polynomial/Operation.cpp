@@ -208,7 +208,7 @@ vector<int> SamplingShift(vector<int> a, int c, int m){
   for (int i = 0; i < m; ++i) a[i] = mul(a[i], fac[i]);
   return a;
 } // 2e52c1
-Poly power_proj(Poly w, Poly f, int m) {
+Poly power_proj(vector<int> w, Poly f, int m) {
   // return sum_j w_j[x^j]f^i for i=0,1,...,m
   int n = 1;
   while (n < sz(f)) n <<= 1;
@@ -239,4 +239,4 @@ Poly power_proj(Poly w, Poly f, int m) {
   for (int i = 0; i < k; ++i) p[i] = _P[2 * i];
   reverse(all(p)), p.resize(m + 1);
   return p;
-} // d0c3ec
+} // 1409fd
